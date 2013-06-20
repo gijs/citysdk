@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title><%= title %> | CitySDK API</title>
+    <meta charset="utf-8">
+    <meta name="viewport"content="width=device-width,initial-scale=1">
+    <link href="img/favicon.ico" rel="shortcut icon" type=image/x-icon>
+    <link rel="stylesheet" href="style.css">
+    <script src="jquery-1.9.1.min.js"></script>
+    <script src="highlight.min.js"></script>
+    <!--[if lt IE 9]><script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->    
+    <% if map %>
+      <link rel="stylesheet" href="leaflet/leaflet.css" />
+      <script src="spin.min.js"></script>
+      <script src="leaflet/leaflet.js"></script>
+      <script src="jquery-migrate-1.2.1.min.js"></script>
+    <% end %>
+  </head>
+  <body>
+	
+	<script type="text/javascript">
+    $(document).ready(function () {
+      hljs.initHighlightingOnLoad();
+		});
+	</script>
+	
+    <div class="full-width-header">
+      <div class="container">
+        <header class="header clearfix">
+          &nbsp;
+        </header>
+      </div>
+    </div>
+    
+    <div class="full-width-content">
+      <div class="container">
+        <nav class="menu">
+          <ul>
+            <li><a href="/">Home</a></li>
+            <!-- <li><a href="concept">Concept</a></li> -->
+            <li><a href="read">Read</a></li>
+            <li><a href="write">Write</a></li>
+            <li><a href="match">Match</a></li>
+            <!-- <li><a href="cms">CMS</a></li> -->
+            <!-- <li><a href="apps">Apps</a></li> -->
+            <li><a href="map">Viewer</a></li>
+          </ul>
+        </nav>
+      </div>
+    </div>
+    <% if map %>
+      <%= map %>
+    <% else %>
+      <div  id="maincontent" class="full-width-content">      
+        <div class="container">
+          <div class="info">
+            <article class="hero clearfix">
+              <% if info %>
+                <div class="col_66">
+                  <%= text %>
+                </div>
+                <div class="col_33">
+                  <%= info %>
+                </div>
+              <% else %>
+                <div class="col_100">
+                  <%= text %>
+                </div>
+              <% end %>
+            </article>
+          </div>
+        </div>
+      </div>
+      <div class="full-width-footer">
+        <div class="container">
+          <footer class="footer clearfix">
+              CitySDK - <a href='http://waag.org'>Waag Society</a> 2013
+              <img class = "logo" src="/img/logos.jpg" />
+          </footer>
+        </div>
+      </div>
+    <% end %>
+  </body>
+</html>

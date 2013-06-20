@@ -1,0 +1,20 @@
+<div class="info">
+  <% @selected = 'all' if @selected.nil? %>
+  <div class = "pageheader">
+    <span class = "layeredit">CitySDK Layers</span>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;category:
+    <%= Layer.category_select(@selected,true) %>
+    <span class="editlinks">
+      <% if @oid %>
+        <a href='/layer/new'>new layer..</a>
+      <% else %>
+        <a href='/login'>sign in..</a>
+      <% end %>
+    </span>
+  </div id="layerList">
+  
+  <% @layers.each do |l| %>
+    <%= @layer = l; erb :layer %> 
+  <% end %>
+</div>
+

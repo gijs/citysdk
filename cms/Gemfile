@@ -1,0 +1,16 @@
+source "https://rubygems.org"
+
+gem "sinatra", :require => "sinatra/base"
+gem "sequel"
+gem "sinatra-sequel"
+gem "rgeo"
+gem "rgeo-geojson"
+gem "i18n"
+gem "active_support"
+gem "pg"
+gem "logger"
+gem "faraday"
+gem "passenger"
+gem "sinatra-session"
+gem 'charlock_holmes'
+gem 'eventmachine'

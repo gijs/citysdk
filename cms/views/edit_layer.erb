@@ -1,0 +1,37 @@
+<div class="info">
+  <%= erb :layer_errors %> 
+
+  <div class = "pageheader">
+    <span class = "layeredit">Layer: <%= @layer.name %></span>
+    <% if @oid==0 or @oid ==  @layer.owner_id %>
+      <span class="editlinks">
+      </span>
+    <% end %>
+  </div>
+
+  <form name="input" action="/layer/edit/<%= @layer.id %>" method="post">
+    <div class="code">
+      <h4>Organization</h4>
+      <div><input class='layer' type="text" size="100" name="organization", value="<%= @layer.organization %>"/></div>
+    </div>
+
+    <div class="code">
+      <h4>Category</h4>
+      <div ><span class='flex'><%= @categories %>&nbsp;.&nbsp;</span><span class='flexinput'><input class='layer' type="text" size="100" name="category", value="<%= @layer.category %>"/></span></div>
+    </div>
+
+    <div class="code">
+      <h4>Description</h4>
+      <textarea name="description"><%= @layer.description %></textarea>
+    </div>
+    <div class="code">
+      <h4>Datasources</h4>
+      <% @layer.data_sources.each_with_index do |s,i| %>
+        <div><input class='layer' type="text" size="100" name="data_sources[<%= i %>]", value="<%= @layer.data_sources[i] %>"/></div>
+      <% end %>
+      <div><input class='layer' type="text" size="100" name="data_sources_x", value=""/></div>
+    </div>
+    <input class='submitb' type="submit" value="save"/>
+  </form>
+</div>
+

@@ -1,0 +1,12 @@
+{
+  "paths": {
+    "tiles": "/data/tileserver/europe",
+    "projects": "/home/bert/tiles",
+    "tilemill": "/usr/share/tilemill"
+  },
+  "paths_bert": {
+    "tiles": "/Users/bert/Downloads/tiles",
+    "projects": "/Users/bert/dev/checkouts/citysdk.git/tiles",
+    "tilemill": "/Applications/TileMill.app/Contents/Resources"
+  }
+}

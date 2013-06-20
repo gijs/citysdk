@@ -1,0 +1,2 @@
+2013/05/27 11:54:02 [error] 2091#0: *4 "/Users/tom/Develop/citysdk/api/services/public/index.html" is not found (2: No such file or directory), client: 127.0.0.1, server: _, request: "HEAD / HTTP/1.1", host: "0.0.0.0"
+2013/05/27 11:54:29 [error] 2091#0: *5 open() "/Users/tom/Develop/citysdk/api/services/public/ns_avt" failed (2: No such file or directory), client: 127.0.0.1, server: _, request: "POST /ns_avt HTTP/1.1", host: "localhost:3002"

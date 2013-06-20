@@ -1,0 +1,59 @@
+<div class="info">
+  
+  <%= erb :owner_errors %> 
+
+  <div class = "pageheader">
+    <% if @owner.id.nil? %>
+      <span class = "layeredit">New account:</span>
+    <% else %>
+      <span class = "layeredit">Editing: <%= @owner.email %></span>
+    <% end %>
+    <span class="editlinks">
+      <a href='/logout'>sign out</a>&nbsp;
+    </span>
+  </div>
+
+  <% if @owner.id.nil? %>
+    <form name="input" action="/profile/create" method="post">
+  <% else %>
+    <form name="input" action="/profile/<%= @owner.id %>" method="post">
+  <% end %>
+
+    <div class="code">
+      <h4>Email</h4>
+      <div><input class='layer' type="text" size="100" name="email", value="<%= @owner.email %>"/></div>
+    </div>
+
+    <div class="code">
+      <h4>Password</h4>
+      <div><input class='layer' type="password" size="100" name="password", placeholder='password'/></div>
+    </div>
+
+    <div class="code">
+      <h4>Password confirmation</h4>
+      <div><input class='layer' type="password" size="100" name="passwordc", placeholder='password confirm'/></div>
+    </div>
+
+    <div class="code">
+      <h4>Organization</h4>
+      <div><input class='layer' type="text" size="100" name="organization", value="<%= @owner.organization %>"/></div>
+    </div>
+
+    <div class="code">
+      <h4>Web</h4>
+      <div><input class='layer' type="text" size="100" name="www", value="<%= @owner.www %>"/></div>
+    </div>
+
+    <div class="code">
+      <h4>Layer domain(s)</h4>
+      <% if @oid == 0 %>
+        <div><input class='layer' type="text" size="100" name="domains", value="<%= @owner.domains %>"/></div>
+      <% else %>
+        <div><%= @owner.domains %></div>
+      <% end %>
+    </div>
+
+    <input class='submitb' type="submit" value="save changes"/>
+  </form>
+</div>
+

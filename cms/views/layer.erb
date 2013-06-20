@@ -1,0 +1,41 @@
+<div class="code">
+  <span class = "layerheader"><%= @layer.name %></span>
+  <% if @oid and (@oid==0 or @oid.to_i ==  @layer.owner_id) %>
+    <% edit = "document.location='/layer/edit/#{@layer.id}'" %>
+    <span class = "editlinks">
+      <a href='#' onclick="delUrl('/layer/<%= @layer.id %>', {'delete_layer' : 'true', 'category': '<%= @selected %>'})">delete..</a> &nbsp;/&nbsp;
+      <a href='/layer/<%= @layer.id %>/edit'>edit..</a> &nbsp;/&nbsp;
+      <a href='/layer/<%= @layer.id %>/data'>data..</a>
+    </span>
+  <% end %>
+  
+  <table border="0">
+    <tr>
+      <td>category:</td>
+      <td><%= @layer.category %></td>
+    </tr>
+    <tr>
+      <td class='data'>description:</td>
+      <td class='form'><%= @layer.description %></td>
+    </tr>
+    <tr>
+      <td>organization:</td>
+      <td><%= @layer.organization %></td>
+    </tr>
+    <tr>
+      <td>maintainer:</td>
+      <td><%= @layer.owner.email %></td>
+    </tr>
+    <tr>
+      <td>source:</td>
+      <td>
+        <% if @layer.data_sources %>
+          <% @layer.data_sources.each do |s| %>
+            <%= s %><br/>
+          <% end %>
+        <% end %>
+      </td>
+    </tr>
+  </table>
+
+</div> 

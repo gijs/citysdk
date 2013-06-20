@@ -1,0 +1,580 @@
+ <div id="maincontent" class="full-width-content">
+   <div class="container">
+     <div id="input">           
+       <table>   
+         <tr>
+           <td class="minimize server">
+             http://api.citysdk.waag.org/
+           </td>
+           <td class="fill">
+             <input id="url" type="text" />
+           </td>
+           <td class="minimize">
+             <div id="busy"></div>
+           </div>
+           <td class="minimize">
+             <button id="showDropdown" type="button" class="button_down"></button>
+           </td>
+         </tr>   
+         <tr class="hidden" id="before_history"></tr>
+         <tr class="hidden" id="before_examples"></tr>
+       </table>
+     </div>       
+   </div>
+   <div id="output">
+      <div id="map"></div>
+      <div id="floatbox">
+        <code id="nodedata">Enter a CitySDK URL or choose an example URL from the drop-down list to view CitySDK API data.</code>
+        <div id="latlong_small" class="latlong">
+          Map center: <span class="cntrLatLon"></span>
+          <button id="showLatLong" type="button" class="button_up"></button>
+        </div>
+        <div id="latlong_large" class="latlong hidden">
+          Map center:
+          <table>
+            <tr><td><img src="img/latlong/latlong.png" /></td><td class="cntrLatLon"></td></tr>
+            <tr><td>WKT</td><td class="cntrWkt"></td></tr>
+            <tr><td><img src="img/latlong/postgres.png" /></td><td class="cntrPostGis"></td></tr>
+            <tr><td><img src="img/latlong/citysdk.png" /></td><td class="cntrCdk"></td></tr>                              
+          </table>
+          Bounding box:
+          <table>
+            <tr><td><img src="img/latlong/latlong.png" /></td><td class="bbLatLon"></td></tr>
+            <tr><td>WKT</td><td class="bbWkt"></td></tr>
+            <tr><td><img src="img/latlong/postgres.png" /></td><td class="bbPostGis"></td></tr>
+            <tr><td><img src="img/latlong/citysdk.png" /></td><td class="bbCdk"></td></tr>
+          </table>            
+          <button id="hideLatLong" type="button" class="button_down"></button>
+        </div>          
+      </div>
+     </div>
+   </div>
+
+ </div> 
+
+<script>
+  $(document).ready(function() {
+    
+    var spinnerOpts = {
+      lines: 12, // The number of lines to draw
+      length: 4, // The length of each line
+      width: 1, // The line thickness
+      radius: 3, // The radius of the inner circle
+      corners: 1, // Corner roundness (0..1)
+      rotate: 0, // The rotation offset
+      direction: 1, // 1: clockwise, -1: counterclockwise
+      color: '#111', // #rgb or #rrggbb
+      speed: 1, // Rounds per second
+      trail: 60, // Afterglow percentage
+      shadow: false, // Whether to render a shadow
+      hwaccel: false, // Whether to use hardware acceleration
+      className: 'spinner', // The CSS class to assign to the spinner
+      zIndex: 2e9, // The z-index (defaults to 2000000000)   
+      left:5,
+      top: 0
+      };
+    var spinner = new Spinner(spinnerOpts)
+    
+    var map = L.map('map');
+
+    var disableHashChange = false;
+    var latLongLargeShown = false;
+    var urlHistory = []; // Keep list of used URLs to show in drop down menu.
+    var currentURL = "";
+
+    // ================================================================================
+    // Leaflet map initialization 
+    // ================================================================================
+
+    //var tileUrl = 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
+    var tileUrl = 'http://test-api.citysdk.waag.org:8888/v2/citysdk/{z}/{x}/{y}.png';
+
+    var osmAttrib = 'Map data © OpenStreetMap contributors';  
+    
+    // Base maps ===============
+
+    var tileLayer = new L.TileLayer(tileUrl, {
+      minZoom: 1, maxZoom: 16,
+      opacity: 1,
+      attribution: osmAttrib
+    }).addTo(map);
+
+    var lineStyle = {
+      color: "#CE2027",
+      weight: 3,
+      opacity: 0.90
+    };
+
+    var pointStyle = {
+      radius: 5,
+      //fillColor: "#ed7cff",
+      //color: "#000000",
+      weight: 1,
+      opacity: 1,
+      fillOpacity: 0.9
+    };
+
+    function onFeatureClick(e) {
+      feature = e.target.feature;
+      setNodeData(feature.properties);
+    }
+
+    function onEachFeature(feature, layer) {        
+      layer.on('click', onFeatureClick);
+    }
+
+    var cdkLayer = new L.geoJson(null, {
+      style: lineStyle,
+      onEachFeature: onEachFeature,
+      pointToLayer: function (feature, latlng) {
+        return L.circleMarker(latlng, pointStyle);
+      }
+    }).addTo(map);      
+
+    var Crosshair = L.Control.extend({
+      options: {
+        position: 'topleft'
+      },
+      onAdd: function (map) {
+        var container = L.DomUtil.create('div', 'hidden crosshair');
+        return container;
+      }
+    });
+    map.addControl(new Crosshair());
+
+    map.setView(new L.LatLng(52.37274, 4.90312), 13);
+          
+    map.on("move", function(e) {
+      printGeoStrings();
+    });
+    
+    window.onresize = function() {
+      var point = getMapCenterPoint();
+      $(".leaflet-control.crosshair").css({
+        "top": (point.x - $(".leaflet-control.crosshair").height() / 2) + "px",
+        "left": point.y + "px"
+      });
+    };
+    
+    function getMapCenterPoint() {
+      return new L.Point(
+        $("#map").height() / 2,
+        ($("#map").width() - $("#floatbox").width() - 20) / 2
+      );
+    }
+    
+    function printGeoStrings() {
+      if (!latLongLargeShown) {
+        $("#latlong_small .cntrLatLon").html(getGeoString());
+      } else {
+        var geoStrings = getGeoStrings();
+
+        $("#latlong_large .cntrLatLon").html(geoStrings.cntr.latlon);
+        $("#latlong_large .cntrWkt").html(geoStrings.cntr.wkt);
+        $("#latlong_large .cntrPostGis").html(geoStrings.cntr.postgis);
+        $("#latlong_large .cntrCdk").html(geoStrings.cntr.cdk);                    
+
+        $("#latlong_large .bbLatLon").html(geoStrings.bb.latlon);
+        $("#latlong_large .bbWkt").html(geoStrings.bb.wkt);
+        $("#latlong_large .bbPostGis").html(geoStrings.bb.postgis);
+        $("#latlong_large .bbCdk").html(geoStrings.bb.cdk);  
+      }
+    }
+    
+    function getGeoString() {
+      var cntr = map.getCenter();        
+
+      var cntrLat = cntr.lat.toFixed(4);
+      var cntrLon = cntr.lng.toFixed(4);
+
+      return cntrLat + ", " + cntrLon;
+    }
+
+    function getGeoStrings() {
+      //var cntr = map.unproject(getMapCenterPoint());
+      var cntr = map.getCenter();
+
+      var cntrLat = cntr.lat.toFixed(4);
+      var cntrLon = cntr.lng.toFixed(4);
+
+      var bounds = map.getBounds();
+
+      var bbNwLat = bounds.getNorthWest().lat.toFixed(4);
+      var bbNwLon = bounds.getNorthWest().lng.toFixed(4);
+
+      var bbSeLat = bounds.getSouthEast().lat.toFixed(4);
+      var bbSeLon = bounds.getSouthEast().lng.toFixed(4);
+
+      return {
+        "cntr": {
+          "latlon": cntrLat + ", " + cntrLon,
+          "wkt": "POINT(" + cntrLon + " " + cntrLat + ")",
+          "postgis": "ST_SetSRID(ST_MakePoint(" + cntrLon + ", " + cntrLat + "), 4326)",
+          "cdk": "lat=" + cntrLat + "&lon=" + cntrLon,
+          
+        },
+        "bb": {
+          "latlon": bbNwLat + ", " + bbNwLon + ", " + bbSeLat + ", " + bbSeLon,
+          "wkt": "POLYGON((" + 
+              bbNwLon + " " + bbNwLat + "," + 
+              bbSeLon + " " + bbNwLat + "," + 
+              bbSeLon + " " + bbSeLat + "," + 
+              bbNwLon + " " + bbSeLat + "," + 
+              bbNwLon + " " + bbNwLat + 
+            "))",
+          "postgis": "ST_SetSRID(ST_MakeBox2D(ST_Point(" + bbNwLon + ", " + bbNwLat + "), ST_Point(" + bbSeLon + ", " + bbSeLat + ")), 4326)",
+          "cdk": "bbox=" + bbNwLat + "," + bbNwLon + "," + bbSeLat + "," + bbSeLon
+        }
+      };
+    }
+
+    // ================================================================================
+    // CitySDK API data
+    // ================================================================================
+    
+    function loadCitySDKData(url, is_example) {
+      hideDropdown();
+              
+      if (!url) {
+        return;
+      }
+
+      // Sometimes you want to refresh to (real-time) data
+      // by resubmitting same url... 
+      // Turn check for new url off for now!
+      // if (!url || url == currentURL) {
+      //   return;
+      // }        
+      //currentURL = url;
+      
+      var historyUrl = url;
+      
+      disableHashChange = true;
+      window.location.hash = url;
+    
+      spinner.spin(document.getElementById('busy'))
+      
+      var http = 'http://';
+      var server = 'api.citysdk.waag.org/';
+
+      if (url.substring(0, http.length) !== http) {
+        url = http + server + url;
+      }
+      url += (url.split('?')[1] ? '&':'?') + 'geom';
+      if( url.indexOf("per_page") == -1 ) {
+        url += '&per_page=100';
+      }
+      
+      cdkLayer.clearLayers();
+                            
+      // TODO: also reject if request times out!
+      $.getJSON(url, function(data) {                 
+        // If data is returned, and data.results.length > 0,
+        // add URL to urlHistory
+        if ((data.results.length > 0) &! is_example) {
+          addHistory(historyUrl);            
+          setDropdownHistory();
+        }
+             
+         for (var i = 0; i < data.results.length; i++) {            
+           var node = data.results[i];            
+         
+           if(node.geom) {
+             var geom = node.geom
+             delete node["geom"];
+             var feature = {
+               type: "Feature",
+               properties: node,
+               geometry: geom
+             };
+           } else if(node.bbox) {
+             var geom = node.bbox
+             delete node["bbox"];
+             var feature = {
+               type: "Feature",
+               properties: node,
+               geometry: geom
+             };
+             
+           } else {
+             continue;
+           }          
+           cdkLayer.addData(feature);          
+         }
+         formatResult(data);
+          
+         spinner.stop();
+             
+         /*
+         We want to fit all the data on the map.
+         Normally, map.fitBounds(cdkLayer.getBounds())
+         would do. But the floatbox is obscuring part
+         of the map.
+         We must calculate the bounds of the data
+         and resize the width to include floatbox width
+         */
+         
+         var dataBounds = cdkLayer.getBounds();
+         var southWest = dataBounds.getSouthWest();
+         var northEast = dataBounds.getNorthEast();
+         // TODO: Dit is dus NIET goed. Ik moet hier nog 'ns even goed over na gaan denken. Nu naar bed. Daag!
+         
+         var lngScale = $("#map").width() / (($("#map").width() - ($("#floatbox").width() + 30)));
+          
+         map.fitBounds([
+             [southWest.lat, southWest.lng],
+             [northEast.lat, (northEast.lng - southWest.lng) * lngScale + southWest.lng]
+         ]);
+             
+       }).fail(function(e) { 
+         if(e.responseText)
+		   {
+		   		var data = $.parseJSON(e.responseText);
+               	formatResult(data)
+             }
+		   else
+		   {
+				$('#nodedata').html("unknown error (maybe server is unavailable / maybe the requested was not formatted correctly)")
+		   }
+		   spinner.stop() 
+     });
+
+    }
+    
+    $("#url").keyup(function(event) {
+      if(event.keyCode == 13){
+        var url = $("#url").val(); 
+        loadCitySDKData(url, false);
+      }
+    });      
+    
+    function formatResult(result) {
+      setNodeData(result);
+    }
+    
+    function setNodeData(json) {
+      $('#nodedata').html(JSON.stringify(json, undefined, 2)); 
+      $('#nodedata').each(function(i, e) {hljs.highlightBlock(e)});
+    }
+
+    // ================================================================================
+    // Load #hash url on page load
+    // ================================================================================
+
+    window.onhashchange = function() {
+      if (!disableHashChange) {
+        var hash = window.location.hash;
+        if (hash.length > 1) {
+          var url = hash.substring(1);
+          $("#url").val(url);
+          loadCitySDKData(url, false);
+        }
+      }
+      disableHashChange = false;
+    }
+
+    // Call functions on page load:
+    window.onhashchange();
+    window.onresize();
+    
+    // ================================================================================
+    // Combobox functions
+    // ================================================================================
+    
+    $('td.server').click(function() {
+      $('#url').focus();
+    });
+    
+    $("#showDropdown").click(function() {
+      var n = $("tr.dropdown.hidden").length;
+      if (n > 0) {
+        showDropdown();
+      } else {
+        hideDropdown();
+      }
+    });      
+  
+    $("#input table").on("click", "tr.dropdown", function(event){
+      var url = $(this).attr("data-url");
+      var is_example = $(this).attr("data-example");
+      hideDropdown();
+      $("#url").val(url);        
+      loadCitySDKData(url, is_example === "true");
+    });
+    
+    $("#showLatLong").click(function() {
+      latLongLargeShown = true;
+      $("#latlong_small").addClass("hidden");
+      $("#latlong_large").removeClass("hidden");        
+      $("code#nodedata").addClass("small");
+      printGeoStrings();
+    });
+    
+    $("#hideLatLong").click(function() {
+      latLongLargeShown = false;
+      $("#latlong_large").addClass("hidden");
+      $("#latlong_small").removeClass("hidden");        
+      $("code#nodedata").removeClass("small");
+      printGeoStrings();
+    });      
+    
+    $(document).mouseup(function (e) {
+      var container = $("tr.dropdown");
+      if (!$("#showDropdown").is(e.target) && container.has(e.target).length === 0) {
+        hideDropdown();
+      }
+    });
+    
+    function showDropdown() {
+      $(".dropdown").removeClass("hidden");
+      setButtonType("#showDropdown", "up");
+    } 
+    
+    function hideDropdown() {
+      $(".dropdown").addClass("hidden");
+      setButtonType("#showDropdown", "down");
+    }      
+    
+    function addDropdownExamples() {
+    
+      var examples = [
+        {
+          "url": "admr.nl.amsterdam/nodes?osm::tourism=museum",
+          "title": "Museums in Amsterdam"
+        },
+        {
+          "url": "nodes?311.helsinki::status=open",
+          "title": "Open service requests in Helsinki"
+        },
+        {
+          "url": "nodes?lat=52.090774&lon=5.121281&radius=10000&per_page=1000&osm::highway=motorway",
+          "title": "Highways in a 10km radius around Utrecht"
+        },
+        {
+          "url": "nodes?name=stedenroute&layer=osm",
+          "title": "Routes named \"Stedenroute\""
+        },
+        {
+          "url": "admr.nl.zoetermeer/nodes?osm::railway=station",
+          "title": "Railway stations in Zoetermeer"
+        },         
+        {
+          "url": "nodes?per_page=250&layer=ns&bbox=53.579461,4.487915,52.069377,7.146606",
+          "title": "NS stations in the upper half of the Netherlands "
+        },          
+        {
+          "url": "admr.nl.zwolle/regions?admr::admn_level=4&layer=cbs&per_page=50",
+          "title": "Statistical data of all neighbourhoods in Zwolle"
+        },
+        {
+          "url": "admr.nl.groningen/regions?admr::admn_level=4&layer=rain",
+          "title": "Rain forecast per neighbourhood in Groningen"
+        },
+        {
+          "url": "admr.nl.amsterdam/ptstops?name=Leidseplein&layer=gtfs",
+          "title": "Public transport stops in Amsterdam named 'Leidseplein'..."
+        },
+        {
+          "url": "gtfs.stop.060671/select/ptlines",
+          "title": "...and public transport lines that call at one of these stops"
+        },
+        {
+          "url": "routes?layer=divv.traffic",
+          "title": "Real time traffic flow on main roads in Amsterdam"
+        },
+        {
+          "url": "admr.it.roma/nodes?osm::religion",
+          "title": "Religion in Rome"
+        },
+        {
+          "url": "routes?contains=n726817991,n726817955,n726816865",
+          "title": "Routes containing specific set of nodes"
+        },
+        {
+          "url": "r326516/select/nodes?osm::railway=tram_stop|halt&data_op=or",
+          "title": "Tram stops on Utrecht-IJsselstein tram route"
+        }
+      ];
+      
+      $.each(examples.slice(0).reverse(), function() {
+        var tr = "<tr class=\"example hidden dropdown\" data-example=\"true\" data-url=\"" + this.url + "\"><td colspan=\"5\">" + this.title + "</td></tr>";
+        //$('#input table').append($(tr));
+        $(tr).insertAfter($('#before_examples'));
+      });
+      
+    } 
+  
+    function addHistory(url) {
+      var index = urlHistory.indexOf(url);
+      if (index >= 0) {
+        urlHistory.splice(index, 1);  
+      }
+      urlHistory.push(url);
+      
+      if (urlHistory.length > 10) {
+        urlHistory.shift();          
+      }
+    }
+    
+    function setDropdownHistory() {
+      $('tr.history').remove();
+      $.each(urlHistory.slice(0, -1), function(index) {
+        var cls = "history hidden dropdown";
+        if (index == 0) {
+          cls += " last_history";
+        }
+        var tr = "<tr class=\"" + cls + "\" data-url=\"" + this + "\"><td class=\"minimize server\">http://api.citysdk.waag.org/</td><td class=\"fill\" colspan=\"4\"><span class=\"url\">" + this + "</span></td></tr>";
+        $(tr).insertAfter($('#before_history'));          
+      });      
+    }
+    addDropdownExamples();      
+  });  
+  
+  function setButtonType(selector, type) {
+    if (type === "up") {
+      $(selector).removeClass("button_down"); 
+      $(selector).addClass("button_up");           
+    } else { // type === "down"
+      $(selector).removeClass("button_up"); 
+      $(selector).addClass("button_down"); 
+    }      
+  }    
+   
+  
+	$.ajaxTransport("+*", function( options, originalOptions, jqXHR ) {                                   
+    if($.browser.msie && window.XDomainRequest) {
+      var xdr;
+      return {
+        send: function( headers, completeCallback ) {
+          // Use Microsoft XDR
+          xdr = new XDomainRequest();
+          r = Math.round(Math.random() * 1000)
+	        xdr.open("get", options.url + "&ienocache=" + r);
+	        xdr.onload = function() {
+  	        if (this.contentType.match(/\/xml/)){
+              var dom = new ActiveXObject("Microsoft.XMLDOM");
+  	          dom.async = false;
+  	          dom.loadXML(this.responseText);
+  	          completeCallback(200, "success", [dom]);
+            } else {
+              completeCallback(200, "success", [this.responseText]);
+            }
+          };
+          xdr.onprogress = function() {
+          };
+          xdr.ontimeout = function() {
+	          completeCallback(408, "error", ["The request timed out."]);
+	        };
+          xdr.onerror = function(a,b) {
+				    completeCallback(404, "error", ["The requested resource could not be found."]);
+          };
+	        xdr.send();
+        },
+	      abort: function() {
+	        if(xdr)xdr.abort();
+        }
+      };
+    }
+  });
+  
+</script>

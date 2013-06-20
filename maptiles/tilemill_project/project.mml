@@ -1,0 +1,785 @@
+{
+  "bounds": [
+    -12.6013,
+    33.8112,
+    46.4612,
+    68.5664
+  ],
+  "center": [
+    4.7021,
+    52.4125,
+    7
+  ],
+  "format": "png",
+  "interactivity": false,
+  "minzoom": 4,
+  "maxzoom": 17,
+  "srs": "+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +wktext +no_defs +over",
+  "Stylesheet": [
+    "palette.mss",
+    "base.mss",
+    "roads.mss",
+    "labels.mss"
+  ],
+  "Layer": [
+    {
+      "Datasource": {
+        "dbname": "citysdk",
+        "extent": "-90,0,90,180",
+        "file": "http://mapbox-geodata.s3.amazonaws.com/natural-earth-1.3.0/physical/10m-land.zip",
+        "host": "localhost",
+        "id": "land",
+        "password": "postgres",
+        "port": "5432",
+        "project": "foss4g-2011",
+        "srs": "+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0.0 +k=1.0 +units=m +nadgrids=@null +wktext +no_defs +over",
+        "user": "postgres"
+      },
+      "class": "shp",
+      "geometry": "polygon",
+      "id": "land",
+      "name": "land",
+      "srs": "+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0.0 +k=1.0 +units=m +nadgrids=@null +wktext +no_defs +over",
+      "srs-name": "900913"
+    },
+    {
+      "Datasource": {
+        "file": "http://tilemill-data.s3.amazonaws.com/osm/coastline-good.zip"
+      },
+      "class": "shp",
+      "geometry": "polygon",
+      "id": "processed_p",
+      "name": "processed_p",
+      "srs": "+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0.0 +k=1.0 +units=m +nadgrids=@null +wktext +no_defs +over",
+      "srs-name": "900913"
+    },
+    {
+      "Datasource": {
+        "file": "http://tilemill-data.s3.amazonaws.com/osm/shoreline_300.zip"
+      },
+      "class": "shp",
+      "geometry": "polygon",
+      "id": "shoreline_300",
+      "name": "shoreline_300",
+      "srs": "+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0.0 +k=1.0 +units=m +nadgrids=@null +wktext +no_defs +over",
+      "srs-name": "900913"
+    },
+    {
+      "Datasource": {
+        "dbname": "citysdk",
+        "extent": "-90,0,90,180",
+        "geometry_field": "way",
+        "host": "localhost",
+        "id": "landuse_gen0",
+        "key_field": "",
+        "password": "postgres",
+        "port": "5432",
+        "project": "osm-bright-imposm",
+        "srs": "+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs",
+        "table": "( SELECT way, way_area AS area, COALESCE(landuse, leisure, \"natural\", highway, amenity, tourism) AS type\n  FROM osm.planet_osm_polygon\n  WHERE way_area > 8.05808312050545e-06 --100000\n  ORDER BY way_area DESC\n) AS data",
+        "type": "postgis",
+        "user": "postgres",
+        "extent_cache": "auto"
+      },
+      "class": "",
+      "geometry": "multipolygon",
+      "id": "landuse_gen0",
+      "name": "landuse_gen0",
+      "srs": "+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs",
+      "srs-name": "WGS84",
+      "extent": [
+        -1.4512820000000002,
+        49.869933,
+        8.276517,
+        58.27992449999999
+      ],
+      "advanced": {}
+    },
+    {
+      "Datasource": {
+        "dbname": "citysdk",
+        "extent": "-90,0,90,180",
+        "geometry_field": "way",
+        "host": "localhost",
+        "id": "landuse_gen1",
+        "key_field": "",
+        "password": "postgres",
+        "port": "5432",
+        "project": "osm-bright-imposm",
+        "srs": "+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs",
+        "table": "( SELECT way, way_area AS area, COALESCE(landuse, leisure, \"natural\", highway, amenity, tourism) AS type\n  FROM osm.planet_osm_polygon\n  WHERE way_area > 8.06970349653216e-07 --10000\n  ORDER BY way_area DESC\n) AS data",
+        "type": "postgis",
+        "user": "postgres",
+        "extent_cache": "auto"
+      },
+      "class": "",
+      "geometry": "multipolygon",
+      "id": "landuse_gen1",
+      "name": "landuse_gen1",
+      "srs": "+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs",
+      "srs-name": "WGS84",
+      "extent": [
+        -90,
+        0,
+        90,
+        180
+      ],
+      "advanced": {}
+    },
+    {
+      "Datasource": {
+        "dbname": "citysdk",
+        "extent": "-90,0,90,180",
+        "geometry_field": "way",
+        "host": "localhost",
+        "id": "landuse",
+        "key_field": "",
+        "password": "postgres",
+        "port": "5432",
+        "project": "osm-bright-imposm",
+        "srs": "+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs",
+        "table": "( SELECT way, way_area AS area, COALESCE(landuse, leisure, \"natural\", highway, amenity, tourism) AS type\n  FROM osm.planet_osm_polygon\n  ORDER BY way_area DESC\n) AS data",
+        "type": "postgis",
+        "user": "postgres",
+        "extent_cache": "auto"
+      },
+      "class": "",
+      "geometry": "polygon",
+      "id": "landuse",
+      "name": "landuse",
+      "srs": "+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs",
+      "srs-name": "WGS84",
+      "extent": [
+        -90,
+        0,
+        90,
+        180
+      ],
+      "advanced": {}
+    },
+    {
+      "Datasource": {
+        "dbname": "citysdk",
+        "extent": "-90,0,90,180",
+        "geometry_field": "way",
+        "host": "localhost",
+        "id": "waterway",
+        "key_field": "",
+        "password": "postgres",
+        "port": "5432",
+        "project": "foss4g-2011",
+        "srs": "+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs",
+        "table": "( SELECT way, waterway AS type\n  FROM osm.planet_osm_line\n  WHERE waterway IN ('river', 'canal')\n) AS data",
+        "type": "postgis",
+        "user": "postgres",
+        "extent_cache": "auto"
+      },
+      "class": "",
+      "geometry": "linestring",
+      "id": "waterway_low",
+      "name": "waterway_low",
+      "srs": "+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs",
+      "srs-name": "WGS84",
+      "extent": [
+        -90,
+        0,
+        90,
+        180
+      ],
+      "advanced": {}
+    },
+    {
+      "Datasource": {
+        "dbname": "citysdk",
+        "extent": "-90,0,90,180",
+        "geometry_field": "way",
+        "host": "localhost",
+        "key_field": "",
+        "password": "postgres",
+        "port": "5432",
+        "table": "( SELECT way, waterway AS type\n  FROM osm.planet_osm_line\n  WHERE waterway IN ('river', 'canal', 'stream')\n) AS data",
+        "type": "postgis",
+        "user": "postgres"
+      },
+      "class": "",
+      "geometry": "linestring",
+      "id": "waterway_med",
+      "name": "waterway_med",
+      "srs": "+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs",
+      "srs-name": "WGS84"
+    },
+    {
+      "Datasource": {
+        "dbname": "citysdk",
+        "extent": "-90,0,90,180",
+        "geometry_field": "way",
+        "host": "localhost",
+        "key_field": "",
+        "password": "postgres",
+        "port": "5432",
+        "table": "( SELECT way, waterway AS type\n  FROM osm.planet_osm_line\n  WHERE waterway IN ('river', 'canal', 'stream', 'ditch', 'drain')\n) AS data",
+        "type": "postgis",
+        "user": "postgres"
+      },
+      "class": "",
+      "geometry": "linestring",
+      "id": "waterway_high",
+      "name": "waterway_high",
+      "srs": "+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs",
+      "srs-name": "WGS84"
+    },
+    {
+      "Datasource": {
+        "dbname": "citysdk",
+        "extent": "-90,0,90,180",
+        "geometry_field": "way",
+        "host": "localhost",
+        "id": "water_gen0",
+        "key_field": "",
+        "password": "postgres",
+        "port": "5432",
+        "project": "foss4g-2011",
+        "srs": "+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs",
+        "table": "( SELECT way, \"natural\" AS type, way_area AS area\n  FROM osm.planet_osm_polygon\n  WHERE (\"natural\" IN ('water', 'pond')\n    OR waterway IN ('basin', 'canal', 'mill_pond', 'pond', 'riverbank', 'stream'))\n    AND way_area > 8.06970349653216e-07 --10000\n) AS data",
+        "type": "postgis",
+        "user": "postgres",
+        "extent_cache": "auto"
+      },
+      "class": "",
+      "geometry": "polygon",
+      "id": "water_gen0",
+      "name": "water_gen0",
+      "srs": "+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs",
+      "srs-name": "WGS84",
+      "extent": [
+        -90,
+        0,
+        90,
+        180
+      ],
+      "advanced": {}
+    },
+    {
+      "Datasource": {
+        "dbname": "citysdk",
+        "extent": "-90,0,90,180",
+        "geometry_field": "way",
+        "host": "localhost",
+        "id": "water_gen1",
+        "key_field": "",
+        "password": "postgres",
+        "port": "5432",
+        "project": "foss4g-2011",
+        "srs": "+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs",
+        "table": "( SELECT way, \"natural\" AS type, way_area AS area\n  FROM osm.planet_osm_polygon\n  WHERE (\"natural\" IN ('water', 'pond')\n    OR waterway IN ('basin', 'canal', 'mill_pond', 'pond', 'riverbank', 'stream'))\n    AND way_area > 8.05808312382796e-08 --1000\n) AS data",
+        "type": "postgis",
+        "user": "postgres",
+        "extent_cache": "auto"
+      },
+      "class": "",
+      "geometry": "polygon",
+      "id": "water_gen1",
+      "name": "water_gen1",
+      "srs": "+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs",
+      "srs-name": "WGS84",
+      "extent": [
+        -90,
+        0,
+        90,
+        180
+      ],
+      "advanced": {}
+    },
+    {
+      "Datasource": {
+        "dbname": "citysdk",
+        "extent": "-90,0,90,180",
+        "geometry_field": "way",
+        "host": "localhost",
+        "id": "water",
+        "key_field": "",
+        "password": "postgres",
+        "port": "5432",
+        "project": "foss4g-2011",
+        "srs": "+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs",
+        "table": "( SELECT way, way_area AS area\n  FROM osm.planet_osm_polygon\n  WHERE \"natural\" IN ('water', 'pond')\n    OR waterway IN ('basin', 'canal', 'mill_pond', 'pond', 'riverbank', 'stream')\n) AS data",
+        "type": "postgis",
+        "user": "postgres"
+      },
+      "class": "",
+      "geometry": "polygon",
+      "id": "water",
+      "name": "water",
+      "srs": "+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs",
+      "srs-name": "WGS84"
+    },
+    {
+      "Datasource": {
+        "dbname": "citysdk",
+        "extent": "-90,0,90,180",
+        "geometry_field": "way",
+        "host": "localhost",
+        "id": "landuse_overlays",
+        "key_field": "",
+        "password": "postgres",
+        "port": "5432",
+        "project": "osm-bright-imposm",
+        "srs": "+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs",
+        "table": "( SELECT way, way_area AS area, COALESCE(leisure) AS type\n  FROM osm.planet_osm_polygon\n  WHERE leisure = 'nature_reserve'\n  ORDER BY way_area DESC\n) AS data",
+        "type": "postgis",
+        "user": "postgres"
+      },
+      "class": "",
+      "geometry": "polygon",
+      "id": "landuse_overlays",
+      "name": "landuse_overlays",
+      "srs": "+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs",
+      "srs-name": "WGS84"
+    },
+    {
+      "Datasource": {
+        "dbname": "citysdk",
+        "extent": "-90,0,90,180",
+        "geometry_field": "way",
+        "host": "localhost",
+        "key_field": "",
+        "password": "postgres",
+        "port": "5432",
+        "table": "( SELECT way, \"building\" AS type\n  FROM osm.planet_osm_polygon\n  WHERE building NOT IN ('0','false', 'no')\n  ORDER BY ST_YMin(ST_Envelope(way)) DESC\n) AS data",
+        "type": "postgis",
+        "user": "postgres",
+        "extent_cache": "auto"
+      },
+      "class": "",
+      "geometry": "polygon",
+      "id": "buildings",
+      "name": "buildings",
+      "srs": "+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs",
+      "srs-name": "WGS84",
+      "extent": [
+        -90,
+        0,
+        90,
+        180
+      ],
+      "advanced": {}
+    },
+    {
+      "Datasource": {
+        "dbname": "citysdk",
+        "extent": "-90,0,90,180",
+        "geometry_field": "way",
+        "host": "localhost",
+        "id": "aeroway",
+        "key_field": "",
+        "password": "postgres",
+        "port": "5432",
+        "project": "foss4g-2011",
+        "srs": "+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs",
+        "table": "( SELECT way, aeroway AS type\n  FROM osm.planet_osm_line\n  WHERE aeroway IN ('apron', 'runway', 'taxiway')\n) AS data",
+        "type": "postgis",
+        "user": "postgres"
+      },
+      "class": "",
+      "geometry": "linestring",
+      "id": "aeroway",
+      "name": "aeroway",
+      "srs": "+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs",
+      "srs-name": "WGS84"
+    },
+    {
+      "Datasource": {
+        "dbname": "citysdk",
+        "extent": "-90,0,90,180",
+        "geometry_field": "way",
+        "host": "localhost",
+        "id": "tunnel",
+        "key_field": "",
+        "password": "postgres",
+        "port": "5432",
+        "project": "osm-bright-master",
+        "srs": null,
+        "table": "( SELECT way, COALESCE(highway, railway) AS type, 0 AS bridge, access, render, layer, 1 as tunnel,\n  CASE\n    WHEN highway IN ('motorway', 'trunk') THEN 'motorway'\n    WHEN highway IN ('primary', 'secondary') THEN 'mainroad'\n    WHEN highway IN ('motorway_link', 'trunk_link', 'primary_link', 'secondary_link', 'tertiary', 'tertiary_link', 'residential', 'unclassified', 'road', 'living_street') THEN 'minorroad'\n    WHEN highway IN ('service', 'track') THEN 'service'\n    WHEN highway IN ('path', 'cycleway', 'footway', 'pedestrian', 'steps', 'bridleway') THEN 'noauto'\n    WHEN railway IN ('light_rail', 'subway', 'narrow_gauge', 'rail', 'tram') THEN 'railway'\n    ELSE 'other' END AS stylegroup\n  FROM (\n    SELECT *, '1_outline' AS render FROM osm.planet_osm_line\n    WHERE tunnel NOT IN ('', '0', 'no')\n    UNION ALL\n    SELECT *, '2_line' AS render FROM osm.planet_osm_line\n    WHERE tunnel NOT IN ('', '0', 'no')\n    UNION ALL\n    SELECT *, '3_inline' AS render FROM osm.planet_osm_line\n    WHERE tunnel NOT IN ('', '0', 'no')\n  ) AS tunnels\n  ORDER BY layer ASC, render ASC\n) AS data",
+        "type": "postgis",
+        "user": "postgres"
+      },
+      "class": "",
+      "geometry": "linestring",
+      "id": "tunnel",
+      "name": "tunnel",
+      "srs": "+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs",
+      "srs-name": "WGS84"
+    },
+    {
+      "Datasource": {
+        "dbname": "citysdk",
+        "extent": "-90,0,90,180",
+        "geometry_field": "way",
+        "host": "localhost",
+        "id": "turning_circle_case",
+        "key_field": "",
+        "password": "postgres",
+        "port": "5432",
+        "project": "osm-bright-master",
+        "srs": null,
+        "table": "( SELECT way \n  FROM osm.planet_osm_point \n  WHERE highway = 'turning_circle'\n) AS data",
+        "type": "postgis",
+        "user": "postgres"
+      },
+      "class": "",
+      "geometry": "point",
+      "id": "turning_circle_case",
+      "name": "turning_circle_case",
+      "srs": "+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs",
+      "srs-name": "WGS84"
+    },
+    {
+      "Datasource": {
+        "dbname": "citysdk",
+        "extent": "-90,0,90,180",
+        "geometry_field": "way",
+        "host": "localhost",
+        "id": "roads_high",
+        "key_field": "",
+        "password": "postgres",
+        "port": "5432",
+        "project": "osm-bright-master",
+        "srs": null,
+        "table": "( SELECT way, COALESCE(highway, railway) AS type, 0 AS tunnel, 0 AS bridge, access, 'fill' AS render,\n  CASE\n    WHEN highway IN ('motorway', 'trunk') THEN 'motorway'\n    WHEN highway IN ('primary', 'secondary') THEN 'mainroad'\n    WHEN highway IN ('motorway_link', 'trunk_link', 'primary_link', 'secondary_link', 'tertiary', 'tertiary_link', 'residential', 'unclassified', 'road', 'living_street') THEN 'minorroad'\n    WHEN highway IN ('service', 'track') THEN 'service'\n    WHEN highway IN ('path', 'cycleway', 'footway', 'pedestrian', 'steps', 'bridleway') THEN 'noauto'\n    WHEN railway IN ('light_rail', 'subway', 'narrow_gauge', 'rail', 'tram') THEN 'railway'\n    ELSE 'other' END AS stylegroup\n  FROM osm.planet_osm_line\n  WHERE (highway IS NOT NULL OR railway IS NOT NULL)\n    AND (tunnel IS NULL OR tunnel = 'no')\n    AND (bridge IS NULL OR bridge = 'no')\n  ORDER BY z_order\n) AS data",
+        "type": "postgis",
+        "user": "postgres"
+      },
+      "class": "",
+      "geometry": "linestring",
+      "id": "roads_high",
+      "name": "roads_high",
+      "srs": "+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs",
+      "srs-name": "WGS84"
+    },
+    {
+      "Datasource": {
+        "dbname": "citysdk",
+        "extent": "-90,0,90,180",
+        "geometry_field": "way",
+        "host": "localhost",
+        "key_field": "",
+        "password": "postgres",
+        "port": "5432",
+        "table": "( SELECT way, highway AS type\n  FROM osm.planet_osm_roads\n  WHERE highway IN ('motorway', 'trunk', 'primary', 'secondary', 'motorway_link', 'trunk_link')\n) AS data",
+        "type": "postgis",
+        "user": "postgres"
+      },
+      "class": "",
+      "geometry": "linestring",
+      "id": "roads_med",
+      "name": "roads_med",
+      "srs": "+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs",
+      "srs-name": "WGS84"
+    },
+    {
+      "Datasource": {
+        "dbname": "citysdk",
+        "extent": "-90,0,90,180",
+        "geometry_field": "way",
+        "host": "localhost",
+        "key_field": "",
+        "password": "postgres",
+        "port": "5432",
+        "table": "( SELECT way, highway AS type, bridge, tunnel\n    FROM osm.planet_osm_roads\n    WHERE highway IN ('motorway', 'trunk')\n) AS data",
+        "type": "postgis",
+        "user": "postgres",
+        "id": "roads_low",
+        "project": "citysdk",
+        "srs": "+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs"
+      },
+      "class": "",
+      "geometry": "linestring",
+      "id": "roads_low",
+      "name": "roads_low",
+      "srs": "+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs",
+      "srs-name": "WGS84",
+      "status": "on"
+    },
+    {
+      "Datasource": {
+        "dbname": "citysdk",
+        "extent": "-90,0,90,180",
+        "geometry_field": "way",
+        "host": "localhost",
+        "key_field": "",
+        "password": "postgres",
+        "port": "5432",
+        "table": "( SELECT way \n  FROM osm.planet_osm_point\n  WHERE highway = 'turning_circle'\n) AS data",
+        "type": "postgis",
+        "user": "postgres"
+      },
+      "class": "",
+      "geometry": "point",
+      "id": "turning_circle_fill",
+      "name": "turning_circle_fill",
+      "srs": "+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs",
+      "srs-name": "WGS84"
+    },
+    {
+      "Datasource": {
+        "dbname": "citysdk",
+        "extent": "-90,0,90,180",
+        "geometry_field": "way",
+        "host": "localhost",
+        "id": "bridge",
+        "key_field": "",
+        "password": "postgres",
+        "port": "5432",
+        "project": "osm-bright-master",
+        "srs": null,
+        "table": "( SELECT way, COALESCE(highway, railway) AS type, 1 AS bridge, access, render, layer, 0 as tunnel,\n  CASE\n    WHEN highway IN ('motorway', 'trunk') THEN 'motorway'\n    WHEN highway IN ('primary', 'secondary') THEN 'mainroad'\n    WHEN highway IN ('motorway_link', 'trunk_link', 'primary_link', 'secondary_link', 'tertiary', 'tertiary_link', 'residential', 'unclassified', 'road', 'living_street') THEN 'minorroad'\n    WHEN highway IN ('service', 'track') THEN 'service'\n    WHEN highway IN ('path', 'cycleway', 'footway', 'pedestrian', 'steps', 'bridleway') THEN 'noauto'\n    WHEN railway IN ('light_rail', 'subway', 'narrow_gauge', 'rail', 'tram') THEN 'railway'\n    ELSE 'other' END AS stylegroup\n  FROM (\n    SELECT *, '1_outline' AS render FROM osm.planet_osm_line\n    WHERE bridge NOT IN ('', '0', 'no')\n    UNION ALL\n    SELECT *, '2_line' AS render FROM osm.planet_osm_line\n    WHERE bridge NOT IN ('', '0', 'no')\n    UNION ALL\n    SELECT *, '3_inline' AS render FROM osm.planet_osm_line\n    WHERE bridge NOT IN ('', '0', 'no')\n  ) AS bridges\n  ORDER BY layer ASC, render ASC\n) AS data",
+        "type": "postgis",
+        "user": "postgres"
+      },
+      "class": "",
+      "geometry": "linestring",
+      "id": "bridge",
+      "name": "bridge",
+      "srs": "+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs",
+      "srs-name": "WGS84"
+    },
+    {
+      "Datasource": {
+        "dbname": "citysdk",
+        "extent": "-90,0,90,180",
+        "geometry_field": "way",
+        "host": "localhost",
+        "id": "admin",
+        "key_field": "",
+        "password": "postgres",
+        "port": "5432",
+        "project": "osm-bright-imposm",
+        "table": "( SELECT way, admin_level::int\n  FROM osm.planet_osm_line\n  WHERE boundary = 'administrative'\n    AND admin_level IN ('2','3','4')\n) AS data",
+        "type": "postgis",
+        "user": "postgres",
+        "extent_cache": "auto"
+      },
+      "class": "",
+      "geometry": "linestring",
+      "id": "admin",
+      "name": "admin",
+      "srs": "+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs",
+      "srs-name": "WGS84",
+      "extent": [
+        -90,
+        0,
+        90,
+        85.051
+      ],
+      "advanced": {}
+    },
+    {
+      "Datasource": {
+        "dbname": "citysdk",
+        "extent": "-90,0,90,180",
+        "file": "http://mapbox-geodata.s3.amazonaws.com/natural-earth-1.4.0/cultural/10m-populated-places-simple.zip",
+        "host": "localhost",
+        "password": "postgres",
+        "port": "5432",
+        "user": "postgres",
+        "id": "ne_places",
+        "project": "citysdk",
+        "srs": ""
+      },
+      "class": "",
+      "geometry": "point",
+      "id": "ne_places",
+      "name": "ne_places",
+      "srs": "",
+      "srs-name": "autodetect"
+    },
+    {
+      "Datasource": {
+        "dbname": "citysdk",
+        "extent": "-90,0,90,180",
+        "geometry_field": "way",
+        "host": "localhost",
+        "id": "place",
+        "key_field": "",
+        "password": "postgres",
+        "port": "5432",
+        "project": "citysdk",
+        "srs": "+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs",
+        "table": "(  SELECT way, place AS type, name, z_order, \n   CASE WHEN population ~ E'^\\\\d+$' THEN population::int            \n   ELSE 0\n   END AS population\n  FROM osm.planet_osm_point\n  WHERE place in ('country', 'state', 'city', 'town', 'village', 'hamlet', 'suburb', 'neighbourhood', 'locality') \n  ORDER BY \n   CASE WHEN population ~ E'^\\\\d+$' THEN population::int            \n   ELSE 0\n   END  \n  DESC NULLS LAST\n) AS data",
+        "type": "postgis",
+        "user": "postgres",
+        "extent_cache": "auto"
+      },
+      "class": "",
+      "geometry": "point",
+      "id": "place",
+      "name": "place",
+      "srs": "+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs",
+      "srs-name": "WGS84",
+      "extent": [
+        -90,
+        0,
+        90,
+        85.051
+      ],
+      "advanced": {}
+    },
+    {
+      "Datasource": {
+        "dbname": "citysdk",
+        "extent": "-90,0,90,180",
+        "geometry_field": "way",
+        "host": "localhost",
+        "id": "landuse_label",
+        "key_field": "",
+        "password": "postgres",
+        "port": "5432",
+        "project": "foss4g-2011",
+        "srs": "+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs",
+        "table": "( SELECT COALESCE(landuse, leisure, \"natural\", highway, amenity, tourism) AS type,\n    name, way_area AS area,\n    ST_PointOnSurface(way) AS way\n  FROM osm.planet_osm_polygon\n  WHERE name IS NOT NULL\n    AND way && !bbox!\n    AND ST_IsValid(way)\n\n  UNION ALL\n\n  SELECT 'building' AS type, name, way_area AS area,\n    ST_PointOnSurface(way) AS way\n  FROM osm.planet_osm_polygon\n  WHERE name IS NOT NULL\n    AND building NOT IN ('', 'no', '0', 'false')\n    AND way && !bbox!\n    AND ST_IsValid(way)\n  ORDER BY area DESC\n) AS data",
+        "type": "postgis",
+        "user": "postgres"
+      },
+      "class": "",
+      "geometry": "point",
+      "id": "area_label",
+      "name": "area_label",
+      "srs": "+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs",
+      "srs-name": "WGS84"
+    },
+    {
+      "Datasource": {
+        "dbname": "citysdk",
+        "extent": "-90,0,90,180",
+        "geometry_field": "way",
+        "host": "localhost",
+        "id": "motorway_label",
+        "key_field": "",
+        "password": "postgres",
+        "port": "5432",
+        "project": "foss4g-2011",
+        "srs": "+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs",
+        "table": "( SELECT way, highway AS type, name, ref, oneway, CHAR_LENGTH(ref) AS reflen\n    FROM osm.planet_osm_line\n    WHERE highway IN ('motorway', 'trunk')\n      AND (name IS NOT NULL OR ref IS NOT NULL)\n) AS data",
+        "type": "postgis",
+        "user": "postgres"
+      },
+      "class": "",
+      "geometry": "linestring",
+      "id": "motorway_label",
+      "name": "motorway_label",
+      "srs": "+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs",
+      "srs-name": "WGS84"
+    },
+    {
+      "Datasource": {
+        "dbname": "citysdk",
+        "extent": "-90,0,90,180",
+        "geometry_field": "way",
+        "host": "localhost",
+        "id": "mainroad_label",
+        "key_field": "",
+        "password": "postgres",
+        "port": "5432",
+        "project": "foss4g-2011",
+        "srs": "+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs",
+        "table": "( SELECT way, highway AS type, name, oneway\n  FROM osm.planet_osm_line\n  WHERE (name IS NOT NULL OR oneway IN ('yes', 'true', '1', '-1'))\n    AND highway IN ('primary', 'secondary', 'tertiary')\n) AS data",
+        "type": "postgis",
+        "user": "postgres"
+      },
+      "class": "",
+      "geometry": "linestring",
+      "id": "mainroad_label",
+      "name": "mainroad_label",
+      "srs": "+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs",
+      "srs-name": "WGS84"
+    },
+    {
+      "Datasource": {
+        "dbname": "citysdk",
+        "extent": "-90,0,90,180",
+        "geometry_field": "way",
+        "host": "localhost",
+        "id": "minorroad_label",
+        "key_field": "",
+        "password": "postgres",
+        "port": "5432",
+        "project": "foss4g-2011",
+        "srs": "+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs",
+        "table": "( SELECT way, highway AS type, name, oneway\n  FROM osm.planet_osm_line\n  WHERE (name IS NOT NULL OR oneway IN ('yes', 'true', '1', '-1'))\n    AND highway IN ('residential', 'unclassified', 'road', 'living_street', 'unknown')\n) AS data",
+        "type": "postgis",
+        "user": "postgres"
+      },
+      "class": "",
+      "geometry": "linestring",
+      "id": "minorroad_label",
+      "name": "minorroad_label",
+      "srs": "+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs",
+      "srs-name": "WGS84"
+    },
+    {
+      "Datasource": {
+        "dbname": "citysdk",
+        "extent": "-90,0,90,180",
+        "geometry_field": "way",
+        "host": "localhost",
+        "id": "waterway_label",
+        "key_field": "",
+        "password": "postgres",
+        "port": "5432",
+        "project": "CitySDK",
+        "srs": "+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs",
+        "table": "( SELECT way, waterway AS type, name\n  FROM osm.planet_osm_line\n  WHERE waterway IN ('canal', 'river', 'stream') \n    AND name IS NOT NULL\n) AS data",
+        "type": "postgis",
+        "user": "postgres",
+        "extent_cache": "auto"
+      },
+      "class": "",
+      "geometry": "linestring",
+      "id": "waterway_label",
+      "name": "waterway_label",
+      "srs": "+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs",
+      "srs-name": "WGS84",
+      "extent": [
+        -90,
+        0,
+        90,
+        85.051
+      ],
+      "advanced": {}
+    },
+    {
+      "extent": [
+        -32.5039009,
+        31.1903488,
+        180,
+        70.4856845
+      ],
+      "Datasource": {
+        "type": "postgis",
+        "table": "(SELECT cdk_id, name, (data -> 'admn_level')::int AS admn_level, geom FROM nodes JOIN node_data ON nodes.id = node_data.node_id\nWHERE data ? 'admn_level' AND\nnodes.layer_id = 2) AS data",
+        "key_field": "",
+        "geometry_field": "geom",
+        "extent_cache": "auto",
+        "extent": "-32.5039009,31.1903488,180,70.4856845",
+        "host": "localhost",
+        "dbname": "citysdk",
+        "user": "postgres",
+        "password": "postgres",
+        "id": "admr_regions",
+        "project": "CitySDK",
+        "srs": "+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs"
+      },
+      "id": "admr_regions",
+      "class": "",
+      "srs-name": "WGS84",
+      "srs": "+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs",
+      "advanced": {},
+      "name": "admr_regions"
+    }
+  ],
+  "scale": 1,
+  "metatile": 2,
+  "attribution": "Data © OpenStreetMap (and) contributors, CC-BY-SA",
+  "description": "",
+  "name": "CitySDK"
+}

@@ -1,0 +1,20 @@
+PREFIX ah: <http://purl.org/artsholland/1.0/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX dc: <http://purl.org/dc/terms/>
+PREFIX time: <http://www.w3.org/2006/time#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+
+SELECT DISTINCT ?e ?p ?time ?title WHERE {	
+	?e a ah:Event ;
+		time:hasBeginning ?time ;	
+		ah:venue <%s> ;
+		ah:production ?p .
+	
+	?p dc:title ?title . 
+	
+	FILTER ( lang(?title) = "nl" )
+	
+	FILTER(?time >= "%s"^^xsd:dateTime) .
+	FILTER(?time <= "%s"^^xsd:dateTime) .
+} ORDER BY ?time

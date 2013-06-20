@@ -1,0 +1,69 @@
+#!/usr/bin/env ruby
+
+require 'dalli'
+require 'dante'
+require 'net/http'
+require 'uri'
+require 'json'
+
+def divv_run
+
+  Signal.trap("TERM") do
+    $stderr.puts "User Interrupt.."
+    exit!
+  end
+
+  url = 'http://www.trafficlink-online.nl/trafficlinkdata/wegdata/TrajectSensorsNH.GeoJSON'
+
+  $layer = 'divv.traffic'
+
+  # TODO: GLOBAL!!!
+  $memcache = Dalli::Client.new('localhost:11211', :failover => false, :expires_in => 200)
+
+  loop do 
+
+    # TODO: use asynchronous http client?
+    # http://rubylearning.com/blog/2010/10/01/an-introduction-to-eventmachine-and-how-to-avoid-callback-spaghetti/
+
+    begin
+      resp = Net::HTTP.get_response(URI.parse(url))
+      data = resp.body
+      new_locs = 0
+      result = JSON.parse(data)
+
+      result['features'].each do |feature|
+
+        properties = feature['properties']
+
+        location = properties['LOCATION']
+
+        cdk_id = $layer + "." + location.downcase.strip
+          .gsub(/\W+/,'.')
+          .gsub(/((\.$)|(^\.))/, '')
+
+        velocity = properties['VELOCITY']
+        length = properties['LENGTH']
+        traveltime = properties['TRAVELTIME']
+        traveltime_freeflow = properties['TRAVELTIME_FF']
+
+        data = {"location" => location, "velocity" => velocity, "length" => length, "traveltime" => traveltime, "traveltime_freeflow" => traveltime_freeflow}            
+        key = "#{$layer}!!#{cdk_id}"
+        $memcache.set(key, data)
+      end
+
+      $memcache.set("divvdaemon", Time.now) 
+
+    rescue Exception => e
+      puts "#{Time.now.strftime('%b %-d %H:%M')} -- failed: #{e.message}."
+    end      
+
+    sleep(200)
+    
+  end  
+
+end
+
+
+Dante.run('divvdaemon') do |opts|
+  divv_run
+end

@@ -1,0 +1,155 @@
+<!--
+ 	<Code designed and written by Laurens Schuurkamp @ Waag Society 1013, any suggestions laurens@waag.org
+	The code is not perfect at all, so please feel free compliment for improvements.
+	I learn from you, you learn from me, we learn......
+-->
+
+
+<!DOCTYPE HTML>
+<html lang="en">
+  <head>
+    <title>CitySDK webGL Globe</title>
+    <meta charset="utf-8">
+  </head>
+  <body>
+  <div id="container"></div>
+  <div id="d3graphs"></div>	
+  <div id="canvasWrapper">
+	<div id="jQueryMenu">
+		<div class="ui-widget">
+			<div class="ui-state-highlight ui-corner-all" style="margin-top: 0px; height: 60px; padding: 0 .7em;">
+
+			</div>
+		</div>
+		<div id="accordion"></div>
+
+		<div class="ui-widget">
+			<div class="ui-state-highlight ui-corner-all" style="margin-top:2px; height: 60px; padding: 0.7em; font-size:1em; ">
+				<span style="top:30px; padding_left:0em;">Waag society &#169 2013</span>
+			</div>
+		</div>
+		
+		</div>	
+        	
+  </div>
+  <div id="feedback"></div>	
+  <div id="progressbar"></div>
+  <div id="slider"></div>
+	
+
+  <link href="css/style_globe.css" rel="stylesheet" type="text/css">
+  <link href="css/tooltip.css" rel="stylesheet" type="text/css">
+  <link href="css/style_d3.css" rel="stylesheet" type="text/css">	
+
+
+  <link href="css/gui/jquery-ui-1.10.3.custom.css" rel="stylesheet">
+  <script src="js/jquery/jquery-1.9.1.js"></script>
+  <script src="js/jquery/jquery-ui-1.10.3.custom.js"></script>
+  <script src="js/jquery/jquery.multi-open-accordion-1.5.3.js"></script>
+	
+  
+  <script type="text/javascript" src="js/libs/Detector.js"></script>
+  <script type="text/javascript" src="js/libs/stats.min.js"></script>
+  <script type="text/javascript" src="js/libs/Tween.js"></script>
+  <script type="text/javascript" src="js/libs/dat.gui.min.js"></script>
+  <script type="text/javascript" src="js/Three/build_r58/three.min.js"></script>
+	
+
+    
+  <script type="text/javascript" src="js/waag/globe_waag.js"></script>
+  <script type="text/javascript" src="js/waag/canvas_menu.js"></script>
+  <script type="text/javascript" src="js/waag/repository.js"></script>
+  <script type="text/javascript" src="js/waag/processing.js"></script>
+  <script type="text/javascript" src="js/waag/tooltip.js"></script>
+  <script type="text/javascript" src="js/waag/d3_graphs.js"></script>
+
+  <script type="text/javascript" src="js/d3/d3.v3.min.js"></script>
+  <!-- <script type="text/javascript" src="js/jquery/jquery-1.7.2.min.js"></script> -->
+  <script type="text/javascript" src="js/easel/easeljs-0.6.0.min.js"></script>
+  <!--<script type="text/javascript" src="js/easel/soundjs-0.4.0.min.js"></script> -->
+
+
+	
+   <script type="x-shader/x-vertex" id="vertexshader">
+			uniform float amplitude;
+			attribute float size;
+			attribute vec3 customColor;
+			varying vec3 vColor;
+
+			void main() {
+				vColor = customColor;
+				vec4 mvPosition = modelViewMatrix * vec4( position, 1.0 );
+				gl_PointSize = size * ( 100.0 / length( mvPosition.xyz ) );
+				gl_Position = projectionMatrix * mvPosition;
+			}
+
+	</script>
+
+	<script type="x-shader/x-fragment" id="fragmentshader">
+			uniform vec3 color;
+			uniform sampler2D texture;
+			varying vec3 vColor;
+			void main() {
+				gl_FragColor = vec4( color * vColor, 1.0 );
+				gl_FragColor = gl_FragColor * texture2D( texture, gl_PointCoord );
+			}
+ 	</script>
+
+	<script type="x-shader/x-vertex" id="ribbonVertexShader">
+
+		uniform float ratio;
+
+		attribute vec3 position2;
+		attribute vec3 customColor;
+
+		varying vec3 vColor;
+
+		void main() {
+
+			vColor = customColor;
+
+			vec3 newPosition = mix( position, position2, ratio );
+			gl_Position = projectionMatrix * modelViewMatrix * vec4( newPosition, 1.0 );
+
+		}
+
+	</script>
+
+	<script type="x-shader/x-fragment" id="ribbonFragmentShader">
+
+		uniform vec3 color;
+		varying vec3 vColor;
+
+		void main() {
+
+			gl_FragColor = vec4( color * vColor, 1.0 );
+
+		}
+
+	</script>
+
+	<script type="text/javascript">
+  	var globe;
+	var debug=false;
+	$(document).bind("ready", function() {
+		if(!Detector.webgl){
+	      Detector.addGetWebGLMessage();
+	
+	    } else {
+		  console.log("start init globe");
+		  var container = document.getElementById('container');
+	      globe = new WAAG.Globe(container);
+		  initOverlay();
+		  globe.animate();
+		
+		  
+		}
+		
+		
+	});
+
+  </script>
+
+  </body>
+
+</html>

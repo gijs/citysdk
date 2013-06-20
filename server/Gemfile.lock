@@ -1,0 +1,69 @@
+GEM
+  remote: https://rubygems.org/
+  specs:
+    active_support (3.0.0)
+      activesupport (= 3.0.0)
+    activesupport (3.0.0)
+    amatch (0.2.11)
+      tins (~> 0.3)
+    base62 (0.1.4)
+    daemon_controller (1.1.1)
+    dalli (2.6.2)
+    faraday (0.8.5)
+      multipart-post (~> 1.1)
+    fastthread (1.0.7)
+    i18n (0.6.1)
+    logger (1.2.8)
+    multipart-post (1.1.5)
+    passenger (3.0.19)
+      daemon_controller (>= 1.0.0)
+      fastthread (>= 1.0.1)
+      rack
+      rake (>= 0.8.1)
+    pg (0.14.1)
+    rack (1.5.0)
+    rack-protection (1.3.2)
+      rack
+    rack-test (0.6.2)
+      rack (>= 1.0)
+    racksh (1.0.0)
+      rack (>= 1.0)
+      rack-test (>= 0.5)
+    rake (10.0.3)
+    rgeo (0.3.20)
+    rgeo-geojson (0.2.3)
+      rgeo (>= 0.3.7)
+    sequel (3.43.0)
+    sinatra (1.3.4)
+      rack (~> 1.4)
+      rack-protection (~> 1.3)
+      tilt (~> 1.3, >= 1.3.3)
+    sinatra-sequel (0.9.0)
+      sequel (>= 3.2.0)
+      sinatra (>= 0.9.4)
+    stringex (1.5.1)
+    tilt (1.3.3)
+    tins (0.7.2)
+    yajl-ruby (1.1.0)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  active_support
+  amatch
+  base62
+  dalli
+  faraday
+  i18n
+  logger
+  passenger
+  pg
+  racksh
+  rgeo
+  rgeo-geojson
+  sequel
+  sinatra
+  sinatra-sequel
+  stringex
+  yajl-ruby

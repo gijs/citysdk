@@ -1,0 +1,21 @@
+<div class="info">
+  <div class = "pageheader">
+    <span class = "layeredit">Maintainers..</span>
+    <span class="editlinks">
+      <a href='/profile/new'>new account..</a>
+    </span>
+  </div>
+  
+  <ul>
+    <% if @oid == 0 %>
+      <% @owners.each do |o| %>
+      <li>
+        <a class = "ownerlink" href = "/profile/<%= o.id %>"> <%= o.organization %>, <%= o.email %></a>
+      </li>
+      <% end %>
+    <% end %>
+  </ul>
+</div>
+
+
+

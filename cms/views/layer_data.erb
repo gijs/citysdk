@@ -1,0 +1,98 @@
+<div class="info">
+  <%= erb :layer_errors %> 
+  
+
+  <div class = "pageheader">
+    <span class = "layeredit">Layer: <%= @layer.name %></span>
+    <% if @oid==0 or @oid ==  @layer.owner_id %>
+      <span class="editlinks">
+        <a href='#' onclick="delUrl('/layer/<%= @layer.id %>')">clear all data</a>
+      </span>
+    <% end %>
+  </div>
+
+  <div class="code">
+    <h4>Statistics<span class="codecomment">Information on current data in the layer. </span></h4>
+    <div id='stats'>
+      <img src="/css/img/progress.gif">
+    </div>
+  </div>
+
+
+  <h1>Experimental!! Your mileage etc.</h1>
+  <div class="code">
+    <h4>File Upload<span class="codecomment">Upload a CSV, JSON or XML file. </span></h4>
+      <div id='csvupl'>
+        <% @upl = "csvUpload(#{@layer.id},'#csvupl');" %>
+        <span class='flex'>one-off file upload:&nbsp;&nbsp;</span>
+        <span class='flexinput'>
+          <input name='csv' type='file'/>
+          <input class='nostretch' type='button' value="upload" onclick="<%= @upl %>"/>&nbsp;&nbsp;&nbsp;
+        </span >
+	    </div>
+  </div>
+
+  <div class="code">
+    <h4>Periodic update<span class="codecomment">Download data periodically. Configuration above. </span></h4>
+      <div id='csvupl2'>
+        <span class='flex'><%= @period %> update url:&nbsp;&nbsp;</span>
+        <span class='flexinput'>
+            <input class='layer' type="text" id="update_url" name="update_url" value=""/>
+        </span>
+        <input class='uurlb nostretch' type='button' value="configure.."  disabled onclick="alert('to implement')"/>
+        <input class='uurlb submitb' type="submit" value="save changes" disabled/>
+	    </div>
+  </div>
+
+
+    <div class="code">
+      <h4>Webservice <span class="codecomment">Sends the layer data to a web service upon request. Should return the (enhanced) data object.</span></h4>
+      <form id="ws" action="/layer/<%= @layer.id %>/webservice" method="post">
+        <div class='webservice'>
+          <span class='flex'>url:&nbsp;&nbsp;</span>
+          <span class='flexinput'>
+            <input class='layer' type="text" id="wsurl" name="wsurl", value="<%= @layer.webservice %>" onchange=""/>
+          </span>
+        </div>
+        <div class='webservice'>
+          <span class='flex'>cache for (sec):&nbsp;&nbsp;</span>
+          <span class='flexinput'>
+              <input class='layer' type="text" name="update_rate", value="<%= @layer.update_rate %>"/>
+          </span>
+        </div>
+        <input class='submitb' type="submit" value="save changes"/>
+      </form>
+    </div>
+
+
+
+</div>
+
+<script type="text/javascript" charset="utf-8">
+
+$(function() { 
+
+    $('#stats').load("/get_layer_stats/<%= @layer.name %>")
+  
+  
+    $("#update_url").keyup(function() {
+      var s = $("#update_url").val();
+	    if( /(http|https):\/\/.+\..+/.test(s) ) {
+	      $(".uurlb").enable(true);
+	    } else {
+	      $(".uurlb").enable(false);
+	    }
+    })
+    
+    
+    $('#ws').submit(function() { 
+        $(this).ajaxSubmit(); 
+        return false; 
+    });
+
+}); 
+
+
+
+</script>
+

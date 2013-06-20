@@ -1,0 +1,1074 @@
+{
+    "parkeerlocaties": [
+        {
+            "parkeerlocatie": {
+                "Locatie": {"type":"Point","coordinates":[4.901786,52.3673221]}, 
+                "adres": "Valkenburgerstraat 238", 
+                "postcode": "1011ND", 
+                "title": "P1 Parking Waterlooplein", 
+                "type": "Parkeergarage", 
+                "url": "http://www.p1.nl/parkeren/p1-parking-waterlooplein/", 
+                "woonplaats": "Amsterdam"
+            }
+        }, 
+        {
+            "parkeerlocatie": {
+                "Locatie": {"type":"Point","coordinates":[4.9032801,52.3824545]}, 
+                "adres": "Buiksloterweg 3", 
+                "postcode": "1031CC", 
+                "title": "Tolhuisplein", 
+                "type": "Fietspunt", 
+                "url": "http://www.amsterdam.nl/parkeren-verkeer/fiets-0/fietspuntstallingen/tolhuisplein/", 
+                "woonplaats": "Amsterdam"
+            }
+        }, 
+        {
+            "parkeerlocatie": {
+                "Locatie": {"type":"Point","coordinates":[4.895627,52.3742607]}, 
+                "adres": "Beursplein 5", 
+                "postcode": "1012JW", 
+                "title": "Beursplein", 
+                "type": "Fietspunt", 
+                "url": "http://www.amsterdam.nl/parkeren-verkeer/fiets-0/fietspuntstallingen/beursplein/", 
+                "woonplaats": "Amsterdam"
+            }
+        }, 
+        {
+            "parkeerlocatie": {
+                "Locatie": {"type":"Point","coordinates":[4.8948664,52.3690102]}, 
+                "adres": "Binnengasthuisstraat 9", 
+                "postcode": "1012ZA", 
+                "title": "BG-terrein", 
+                "type": "Fietspunt", 
+                "url": "http://www.amsterdam.nl/parkeren-verkeer/fiets-0/fietspuntstallingen/bg-terrein/", 
+                "woonplaats": "Amsterdam"
+            }
+        }, 
+        {
+            "parkeerlocatie": {
+                "Locatie": {"type":"Point","coordinates":[4.8834467,52.3622034]}, 
+                "adres": "Weteringschans 4 A", 
+                "postcode": "1017SG", 
+                "title": "Paradiso", 
+                "type": "Fietspunt", 
+                "url": "http://www.amsterdam.nl/parkeren-verkeer/fiets-0/fietspuntstallingen/paradiso/", 
+                "woonplaats": "Amsterdam"
+            }
+        }, 
+        {
+            "parkeerlocatie": {
+                "Locatie": {"type":"Point","coordinates":[4.935887,52.3651022]}, 
+                "adres": "Timorplein 23", 
+                "postcode": "1094CC", 
+                "title": "Timorplein", 
+                "type": "Fietspunt", 
+                "url": "http://www.amsterdam.nl/parkeren-verkeer/fiets-0/fietspuntstallingen/timorplein/", 
+                "woonplaats": "Amsterdam"
+            }
+        }, 
+        {
+            "parkeerlocatie": {
+                "Locatie": {"type":"Point","coordinates":[4.8719467,52.3398642]}, 
+                "adres": "Zuidplein 5", 
+                "postcode": "1077XV", 
+                "title": "Station Zuid", 
+                "type": "Fietspunt", 
+                "url": "http://www.amsterdam.nl/parkeren-verkeer/fiets-0/fietspuntstallingen/station_zuid/", 
+                "woonplaats": "Amsterdam"
+            }
+        }, 
+        {
+            "parkeerlocatie": {
+                "Locatie": {"type":"Point","coordinates":[4.8903486,52.3319501]}, 
+                "adres": "Europaboulevard 4", 
+                "postcode": "1083AD", 
+                "title": "Station Rai", 
+                "type": "Fietspunt", 
+                "url": "http://www.amsterdam.nl/parkeren-verkeer/fiets-0/fietspuntstallingen/station_rai/", 
+                "woonplaats": "Amsterdam"
+            }
+        }, 
+        {
+            "parkeerlocatie": {
+                "Locatie": {"type":"Point","coordinates":[4.9617141,52.370829]}, 
+                "adres": "Zuiderzeeweg 46 a", 
+                "postcode": "1095KJ", 
+                "title": "P+R Zeeburg", 
+                "type": "P+R", 
+                "url": "http://www.amsterdam.nl/penrzeeburg", 
+                "woonplaats": "Amsterdam"
+            }
+        }, 
+        {
+            "parkeerlocatie": {
+                "Locatie": {"type":"Point","coordinates":[4.9861747,52.311704]}, 
+                "adres": "Loosdrechtdreef 4", 
+                "postcode": "1108AZ", 
+                "title": "P+R Gaasperplas", 
+                "type": "P+R", 
+                "url": "http://www.amsterdam.nl/penrgaasperplas", 
+                "woonplaats": "Amsterdam"
+            }
+        }, 
+        {
+            "parkeerlocatie": {
+                "Locatie": {"type":"Point","coordinates":[4.8411274,52.3545559]}, 
+                "adres": "Koningin Wilhelminaplein 13", 
+                "postcode": "1062HH", 
+                "title": "P+R World Fashion Centre", 
+                "type": "P+R", 
+                "url": "http://www.amsterdam.nl/penrworldfashioncentre", 
+                "woonplaats": "Amsterdam"
+            }
+        }, 
+        {
+            "parkeerlocatie": {
+                "Locatie": {"type":"Point","coordinates":[4.8425155,52.3795377]}, 
+                "adres": "Leeuwendalersweg 23 b", 
+                "postcode": "1055JE", 
+                "title": "P+R Bos en Lommer", 
+                "type": "P+R", 
+                "url": "http://www.amsterdam.nl/penrbosenlommer", 
+                "woonplaats": "Amsterdam"
+            }
+        }, 
+        {
+            "parkeerlocatie": {
+                "Locatie": {"type":"Point","coordinates":[4.8384427,52.3900451]}, 
+                "adres": "Piarcoplein 1", 
+                "postcode": "1043DW", 
+                "title": "P+R Sloterdijk", 
+                "type": "P+R", 
+                "url": "http://www.amsterdam.nl/penrsloterdijk", 
+                "woonplaats": "Amsterdam"
+            }
+        }, 
+        {
+            "parkeerlocatie": {
+                "Locatie": {"type":"Point","coordinates":[4.8539215,52.3440266]}, 
+                "adres": "Olympisch Stadion 44", 
+                "postcode": "1076DE", 
+                "title": "P+R Olympisch Stadion", 
+                "type": "P+R", 
+                "url": "http://www.amsterdam.nl/penrolympischstadion", 
+                "woonplaats": "Amsterdam"
+            }
+        }, 
+        {
+            "parkeerlocatie": {
+                "Locatie": {"type":"Point","coordinates":[4.9405734,52.3137551]}, 
+                "adres": "Burgemeester Stramanweg 130", 
+                "postcode": "1101EP", 
+                "title": "P+R ArenA", 
+                "type": "P+R", 
+                "url": "http://www.amsterdam.nl/penrarena", 
+                "woonplaats": "Amsterdam"
+            }
+        }, 
+        {
+            "parkeerlocatie": {
+                "Locatie": {"type":"Point","coordinates":[4.9626452,52.3191979]}, 
+                "adres": "Bijlmerdreef 700", 
+                "postcode": "1103DS", 
+                "title": "Amsterdamse Poort (P21 t/m 24)", 
+                "type": "Parkeergarage", 
+                "url": "http://www.q-park.nl/language/nl-nl/nl/parkeren-bij-q-park/per-stad/qparkparkinglocatorvw1074/parkingdetail/parkingid/604", 
+                "woonplaats": "Amsterdam"
+            }
+        }, 
+        {
+            "parkeerlocatie": {
+                "Locatie": {"type":"Point","coordinates":[4.9467136,52.315264]}, 
+                "adres": "Fraijlemaborg 131", 
+                "postcode": "1102CV", 
+                "title": "P 18 (HES, ROC)", 
+                "type": "Parkeergarage", 
+                "url": "http://www.amsterdam.nl/parkeergebouwen/onze_garages/amsterdam_arenapoort/p18-hes_roc", 
+                "woonplaats": "Amsterdam"
+            }
+        }, 
+        {
+            "parkeerlocatie": {
+                "Locatie": {"type":"Point","coordinates":[4.9405734,52.3137551]}, 
+                "postcode": "1101EP", 
+                "title": "Transferium ArenA", 
+                "type": "Parkeergarage", 
+                "url": "http://www.amsterdam.nl/parkeergebouwen/onze_garages/amsterdam_arenapoort/p1-arena", 
+                "woonplaats": "Amsterdam"
+            }
+        }, 
+        {
+            "parkeerlocatie": {
+                "Locatie": {"type":"Point","coordinates":[4.9409531,52.3080762]}, 
+                "adres": "Herikerbergweg 288", 
+                "postcode": "1101CT", 
+                "title": "P 10 (Plaza ArenA)", 
+                "type": "Parkeergarage", 
+                "url": "http://www.amsterdam.nl/parkeergebouwen/onze_garages/amsterdam_arenapoort/p10-plaza_arena", 
+                "woonplaats": "Amsterdam"
+            }
+        }, 
+        {
+            "parkeerlocatie": {
+                "Locatie": {"type":"Point","coordinates":[4.9413266,52.3103066]}, 
+                "adres": "De entree 228", 
+                "postcode": "1101EE", 
+                "title": "P 3 (Mikado)", 
+                "type": "Parkeergarage", 
+                "url": "http://www.amsterdam.nl/parkeergebouwen/onze_garages/amsterdam_arenapoort/p3-mikado", 
+                "woonplaats": "Amsterdam"
+            }
+        }, 
+        {
+            "parkeerlocatie": {
+                "Locatie": {"type":"Point","coordinates":[4.8919875,52.3396746]}, 
+                "adres": "Europaboulevard 1", 
+                "postcode": "1078RV", 
+                "title": "RAI Parking", 
+                "type": "Parkeergarage", 
+                "url": "http://www.rai.nl/nl/rai/parking/Paginas/default.aspx", 
+                "woonplaats": "Amsterdam"
+            }
+        }, 
+        {
+            "parkeerlocatie": {
+                "Locatie": {"type":"Point","coordinates":[4.8889116,52.3357396]}, 
+                "adres": "Barbara Strozzilaan 342", 
+                "postcode": "1083HN", 
+                "title": "Qpark Eurocenter", 
+                "type": "Parkeergarage", 
+                "url": "http://www.q-park.nl/language/nl-nl/nl/parkeren-bij-q-park/per-stad/qparkparkinglocatorvw1094/parkingdetail/parkingid/607", 
+                "woonplaats": "Amsterdam"
+            }
+        }, 
+        {
+            "parkeerlocatie": {
+                "Locatie": {"type":"Point","coordinates":[4.8720292,52.3378064]}, 
+                "adres": "Claude Debussylaan 42", 
+                "postcode": "1082MD", 
+                "title": "Qpark Mahler", 
+                "type": "Parkeergarage", 
+                "url": "http://www.q-park.nl/language/nl-nl/nl/parkeren-bij-q-park/per-stad/qparkparkinglocatorvw1094/parkingdetail/parkingid/610", 
+                "woonplaats": "Amsterdam"
+            }
+        }, 
+        {
+            "parkeerlocatie": {
+                "Locatie": {"type":"Point","coordinates":[4.8539215,52.3440266]}, 
+                "adres": "Olympisch Stadion 44", 
+                "postcode": "1076DE", 
+                "title": "Olympisch Stadion", 
+                "type": "Parkeergarage", 
+                "url": "http://www.p1.nl/parkeren/parkeergarage-olympisch-stadion/", 
+                "woonplaats": "Amsterdam"
+            }
+        }, 
+        {
+            "parkeerlocatie": {
+                "Locatie": {"type":"Point","coordinates":[4.8392024,52.3539411]}, 
+                "adres": "Carnapstraat", 
+                "postcode": "1062", 
+                "title": "Qpark Oranjekwartier", 
+                "type": "Parkeergarage", 
+                "url": "http://www.q-park.nl/language/nl-nl/nl/parkeren-bij-q-park/per-stad/qparkparkinglocatorvw1094/parkingdetail/parkingid/1587", 
+                "woonplaats": "Amsterdam"
+            }
+        }, 
+        {
+            "parkeerlocatie": {
+                "Locatie": {"type":"Point","coordinates":[4.9392268,52.399304]}, 
+                "adres": "Buikslotermeerplein 237", 
+                "postcode": "1025 XB", 
+                "title": "Bomengarage Boven &#039;t IJ (P2)", 
+                "type": "Parkeergarage", 
+                "url": "http://www.amsterdam.nl/parkeergebouwen/onze_garages/amsterdam_noord/p2-bomengarage", 
+                "woonplaats": "Amsterdam"
+            }
+        }, 
+        {
+            "parkeerlocatie": {
+                "Locatie": {"type":"Point","coordinates":[4.8643313,52.3846887]}, 
+                "adres": "Van Bleiswijkstraat 8", 
+                "postcode": "1051DG", 
+                "title": "Qpark Westerpark ", 
+                "type": "Parkeergarage", 
+                "url": "http://www.q-park.nl/language/nl-nl/nl/parkeren-bij-q-park/per-stad/qparkparkinglocatorvw1094/parkingdetail/parkingid/613", 
+                "woonplaats": "Amsterdam"
+            }
+        }, 
+        {
+            "parkeerlocatie": {
+                "Locatie": {"type":"Point","coordinates":[4.8766781,52.3699218]}, 
+                "adres": "Marnixstraat 250", 
+                "postcode": "1016TL", 
+                "title": "Qpark Europarking", 
+                "type": "Parkeergarage", 
+                "url": "http://www.q-park.nl/language/nl-nl/nl/parkeren-bij-q-park/per-stad/qparkparkinglocatorvw1094/parkingdetail/parkingid/608", 
+                "woonplaats": "Amsterdam"
+            }
+        }, 
+        {
+            "parkeerlocatie": {
+                "Locatie": {"type":"Point","coordinates":[4.8802363,52.3621738]}, 
+                "adres": "Tesselschadestraat 1", 
+                "postcode": "1054ET", 
+                "title": "Qpark Byzantium", 
+                "type": "Parkeergarage", 
+                "url": "http://www.q-park.nl/language/nl-nl/nl/parkeren-bij-q-park/per-stad/qparkparkinglocatorvw1094/parkingdetail/parkingid/605", 
+                "woonplaats": "Amsterdam"
+            }
+        }, 
+        {
+            "parkeerlocatie": {
+                "Locatie": {"type":"Point","coordinates":[4.9173751,52.3773883]}, 
+                "adres": "Piet Heinkade 59", 
+                "postcode": "1019GM", 
+                "title": "Piet Heingarage", 
+                "type": "Parkeergarage", 
+                "url": "http://www.amsterdam.nl/parkeergebouwen/onze_garages/amsterdam_centrum/piet_heingarage/", 
+                "woonplaats": "Amsterdam"
+            }
+        }, 
+        {
+            "parkeerlocatie": {
+                "Locatie": {"type":"Point","coordinates":[4.9085744,52.3764981]}, 
+                "adres": "Oosterdoksstraat 150", 
+                "postcode": "1011AD", 
+                "title": "Oosterdok Parking", 
+                "type": "Parkeergarage", 
+                "url": "http://www.apcoa.nl/nl/zoek-een-parkeergarage/details/name/PARKEERGARAGE%20OOSTERDOK/apcoa/706/city/AMSTERDAM.html?no_cache=1", 
+                "woonplaats": "Amsterdam"
+            }
+        }, 
+        {
+            "parkeerlocatie": {
+                "Locatie": {"type":"Point","coordinates":[4.9047456,52.3742653]}, 
+                "adres": "Prins Hendrikkade 120", 
+                "postcode": "1011AM", 
+                "title": "Prins Hendrikkade", 
+                "type": "Parkeergarage", 
+                "url": "http://www.amsterdam.nl/parkeren", 
+                "woonplaats": "Amsterdam"
+            }
+        }, 
+        {
+            "parkeerlocatie": {
+                "Locatie": {"type":"Point","coordinates":[4.9086179,52.3696328]}, 
+                "adres": "Anne Frankstraat 220", 
+                "postcode": "1011 MP", 
+                "title": "Markenhoven", 
+                "type": "Parkeergarage", 
+                "url": "http://www.amsterdam.nl/parkeergebouwen/onze_garages/amsterdam_centrum/markenhoven", 
+                "woonplaats": "Amsterdam"
+            }
+        }, 
+        {
+            "parkeerlocatie": {
+                "Locatie": {"type":"Point","coordinates":[4.901786,52.3673221]}, 
+                "adres": "Valkenburgerstraat 238", 
+                "postcode": "1011ND", 
+                "title": "(P1) Parking Waterlooplein", 
+                "type": "Parkeergarage", 
+                "url": "http://www.p1.nl/parkeren/p1-parking-waterlooplein/", 
+                "woonplaats": "Amsterdam"
+            }
+        }, 
+        {
+            "parkeerlocatie": {
+                "Locatie": {"type":"Point","coordinates":[4.9018035,52.3670615]}, 
+                "adres": "Waterlooplein 28", 
+                "postcode": "1011PG", 
+                "title": "Stadhuis - MuziektheaterAdres", 
+                "type": "Parkeergarage", 
+                "url": "http://www.amsterdam.nl/parkeergebouwen/onze_garages/amsterdam_centrum/item_337225", 
+                "woonplaats": "Amsterdam"
+            }
+        }, 
+        {
+            "parkeerlocatie": {
+                "Locatie": {"type":"Point","coordinates":[4.8922646,52.3666901]}, 
+                "adres": "Singel 540", 
+                "postcode": "1017AZ", 
+                "title": "Geelvinck", 
+                "type": "Parkeergarage", 
+                "url": "http://www.apcoa.nl/nl/zoek-een-parkeergarage/details/name/PARKEERGARAGE%20GEELVINCK/apcoa/704/city/AMSTERDAM.html?no_cache=1", 
+                "woonplaats": "Amsterdam"
+            }
+        }, 
+        {
+            "parkeerlocatie": {
+                "Locatie": {"type":"Point","coordinates":[4.895613,52.3742684]}, 
+                "adres": "Beursplein 15", 
+                "postcode": "1012JW", 
+                "title": "Qpark De Bijenkorf", 
+                "type": "Parkeergarage", 
+                "url": "http://www.q-park.nl/language/nl-nl/nl/parkeren-bij-q-park/per-stad/qparkparkinglocatorvw1094/parkingdetail/parkingid/609", 
+                "woonplaats": "Amsterdam"
+            }
+        }, 
+        {
+            "parkeerlocatie": {
+                "Locatie": {"type":"Point","coordinates":[4.8945939,52.376361]}, 
+                "adres": "Nieuwezijds Kolk 18", 
+                "postcode": "1012PV", 
+                "title": "Qpark De Kolk", 
+                "type": "Parkeergarage", 
+                "url": "http://www.q-park.nl/language/nl-nl/nl/parkeren-bij-q-park/per-stad/qparkparkinglocatorvw1094/parkingdetail/parkingid/1691", 
+                "woonplaats": "Amsterdam"
+            }
+        }, 
+        {
+            "parkeerlocatie": {
+                "Locatie": {"type":"Point","coordinates":[4.896243,52.3785602]}, 
+                "adres": "Prins Hendrikkade 20 a", 
+                "postcode": "1012TL", 
+                "title": "(P1) Parking Amsterdam Centre", 
+                "type": "Parkeergarage", 
+                "url": "http://www.p1.nl/parkeren/p1-parking-amsterdam-centre/", 
+                "woonplaats": "Amsterdam"
+            }
+        }, 
+        {
+            "parkeerlocatie": {
+                "Locatie": {"type":"Point","coordinates":[4.8927011,52.3577665]}, 
+                "adres": "Eerste Van der Helststraat 6", 
+                "postcode": "1072NV", 
+                "title": "Heinekenplein", 
+                "type": "Parkeergarage", 
+                "url": "http://www.apcoa.nl/nl/zoek-een-parkeergarage/details/name/PARKEERGARAGE%20HEINEKENPLEIN/apcoa/705/city/AMSTERDAM.html?no_cache=1", 
+                "woonplaats": "Amsterdam"
+            }
+        }, 
+        {
+            "parkeerlocatie": {
+                "Locatie": {"type":"Point","coordinates":[4.8794388,52.3572251]}, 
+                "adres": "Van Baerlestraat 33 B", 
+                "postcode": "1071AP", 
+                "title": "Qpark Museumplein", 
+                "type": "Parkeergarage", 
+                "url": "http://www.q-park.nl/language/nl-nl/nl/parkeren-bij-q-park/per-stad/qparkparkinglocatorvw1094/parkingdetail/parkingid/611", 
+                "woonplaats": "Amsterdam"
+            }
+        }, 
+        {
+            "parkeerlocatie": {
+                "Locatie": {"type":"Point","coordinates":[4.9391214,52.3109975]}, 
+                "adres": "De entree 7", 
+                "postcode": "1101BH", 
+                "title": "P 4 (Villa ArenA)", 
+                "type": "Parkeergarage", 
+                "url": "http://www.amsterdam.nl/parkeergebouwen/onze_garages/amsterdam_arenapoort/p4-villa_arena", 
+                "woonplaats": "Amsterdam"
+            }
+        }, 
+        {
+            "parkeerlocatie": {
+                "Locatie": {"type":"Point","coordinates":[4.9391214,52.3109975]}, 
+                "adres": "De entree 7", 
+                "postcode": "1101BH", 
+                "title": "P5-Villa ArenA", 
+                "type": "Parkeergarage", 
+                "url": "http://www.amsterdam.nl/parkeergebouwen/onze_garages/amsterdam_arenapoort/p5-villa_arena", 
+                "woonplaats": "Amsterdam"
+            }
+        }, 
+        {
+            "parkeerlocatie": {
+                "Locatie": {"type":"Point","coordinates":[4.9455507,52.3116886]}, 
+                "adres": "De corridor 15", 
+                "postcode": "1101BC", 
+                "title": "P 6 (Path\u00e9 ArenA)", 
+                "type": "Parkeergarage", 
+                "url": "http://www.amsterdam.nl/parkeergebouwen/onze_garages/amsterdam_arenapoort/p6-pathe_arena", 
+                "woonplaats": "Amsterdam"
+            }
+        }, 
+        {
+            "parkeerlocatie": {
+                "Locatie": {"type":"Point","coordinates":[4.8750552,52.3360136]}, 
+                "adres": "Leo Smitstraat 4", 
+                "postcode": "1082 MP", 
+                "title": "Qpark Symphony", 
+                "type": "Parkeergarage", 
+                "url": "http://www.q-park.nl/nl/parkeren-bij-q-park/per-stad/amsterdam/symphony", 
+                "woonplaats": "Amsterdam"
+            }
+        }, 
+        {
+            "parkeerlocatie": {
+                "Locatie": {"type":"Point","coordinates":[4.8958764,52.3752124]}, 
+                "adres": "damrak", 
+                "title": "Test-taxi, komt deze midden op het damrak?", 
+                "type": "Taxistandplaats", 
+                "woonplaats": "Amsterdam"
+            }
+        }, 
+        {
+            "parkeerlocatie": {
+                "Locatie": {"type":"Point","coordinates":[4.8796004,52.3646516]}, 
+                "adres": "leidsekade", 
+                "title": "Test-taxi 2, midden op Leidsekade?", 
+                "type": "Taxistandplaats", 
+                "woonplaats": "Amsterdam"
+            }
+        }, 
+        {
+            "parkeerlocatie": {
+                "Locatie": {"type":"Point","coordinates":[4.85435575227,52.3791555554]}, 
+                "adres": "Merlijnstraat", 
+                "title": "Merlijnstraat", 
+                "type": "Taxistandplaats", 
+                "woonplaats": "Amsterdam"
+            }
+        }, 
+        {
+            "parkeerlocatie": {
+                "Locatie": {"type":"Point","coordinates":[4.9014742,52.3638177]}, 
+                "adres": "Amstel", 
+                "title": "Amstel", 
+                "type": "Taxistandplaats", 
+                "woonplaats": "Amsterdam"
+            }
+        }, 
+        {
+            "parkeerlocatie": {
+                "Locatie": {"type":"Point","coordinates":[4.9015078,52.3779804]}, 
+                "adres": "Stationsplein 5", 
+                "title": "Centraal Station", 
+                "type": "Taxistandplaats", 
+                "woonplaats": "Amsterdam"
+            }
+        }, 
+        {
+            "parkeerlocatie": {
+                "Locatie": {"type":"Point","coordinates":[4.8958764,52.3752124]}, 
+                "adres": "Damrak", 
+                "title": "Damrak", 
+                "type": "Taxistandplaats", 
+                "woonplaats": "Amsterdam"
+            }
+        }, 
+        {
+            "parkeerlocatie": {
+                "Locatie": {"type":"Point","coordinates":[4.87797796707,52.3688589507]}, 
+                "adres": "Elandsgracht", 
+                "title": "Elandsgracht/Marnixstraat", 
+                "type": "Taxistandplaats", 
+                "woonplaats": "Amsterdam"
+            }
+        }, 
+        {
+            "parkeerlocatie": {
+                "Locatie": {"type":"Point","coordinates":[4.8996358,52.3604546]}, 
+                "adres": "Frederiksplein", 
+                "title": "Frederiksplein", 
+                "type": "Taxistandplaats", 
+                "woonplaats": "Amsterdam"
+            }
+        }, 
+        {
+            "parkeerlocatie": {
+                "Locatie": {"type":"Point","coordinates":[4.883149,52.3846773]}, 
+                "adres": "Haarlemmerplein", 
+                "title": "Haarlemmerplein", 
+                "type": "Taxistandplaats", 
+                "woonplaats": "Amsterdam"
+            }
+        }, 
+        {
+            "parkeerlocatie": {
+                "Locatie": {"type":"Point","coordinates":[4.8941961,52.3777974]}, 
+                "adres": "Kattengat", 
+                "title": "Kattengat/Renaissancehotel", 
+                "type": "Taxistandplaats", 
+                "woonplaats": "Amsterdam"
+            }
+        }, 
+        {
+            "parkeerlocatie": {
+                "Locatie": {"type":"Point","coordinates":[4.8796004,52.3646516]}, 
+                "adres": "Leidsekade", 
+                "title": "Leidsekade (American Hotel)", 
+                "type": "Taxistandplaats", 
+                "woonplaats": "Amsterdam"
+            }
+        }, 
+        {
+            "parkeerlocatie": {
+                "Locatie": {"type":"Point","coordinates":[4.8832525,52.3631306]}, 
+                "adres": "Kleine Gartmanplantsoen", 
+                "title": "Leidseplein/Kleine Gartmanplantsoen", 
+                "type": "Taxistandplaats", 
+                "woonplaats": "Amsterdam"
+            }
+        }, 
+        {
+            "parkeerlocatie": {
+                "Locatie": {"type":"Point","coordinates":[4.8907505,52.3733925]}, 
+                "adres": "Nieuwezijds Voorburgwal", 
+                "title": "Nieuwezijds Voorburgwal (Food Plaza)", 
+                "type": "Taxistandplaats", 
+                "woonplaats": "Amsterdam"
+            }
+        }, 
+        {
+            "parkeerlocatie": {
+                "Locatie": {"type":"Point","coordinates":[4.8937101,52.3766]}, 
+                "adres": "Nieuwezijds Voorburgwal 50", 
+                "title": "Nieuwezijds Voorburgwal 50", 
+                "type": "Taxistandplaats", 
+                "woonplaats": "Amsterdam"
+            }
+        }, 
+        {
+            "parkeerlocatie": {
+                "Locatie": {"type":"Point","coordinates":[4.8924257,52.3757244]}, 
+                "adres": "Nieuwezijds Voorburgwal 96", 
+                "title": "Nieuwezijds Voorburgwal 96-121 (na 19u)", 
+                "type": "Taxistandplaats", 
+                "woonplaats": "Amsterdam"
+            }
+        }, 
+        {
+            "parkeerlocatie": {
+                "Locatie": {"type":"Point","coordinates":[4.8999749,52.3727503]}, 
+                "adres": "Nieuwmarkt", 
+                "title": "Nieuwmarkt", 
+                "type": "Taxistandplaats", 
+                "woonplaats": "Amsterdam"
+            }
+        }, 
+        {
+            "parkeerlocatie": {
+                "Locatie": {"type":"Point","coordinates":[4.8896742,52.3733321]}, 
+                "adres": "Spuistraat ", 
+                "title": "Spuistraat (Paleisstraat)", 
+                "type": "Taxistandplaats", 
+                "woonplaats": "Amsterdam"
+            }
+        }, 
+        {
+            "parkeerlocatie": {
+                "Locatie": {"type":"Point","coordinates":[4.8896742,52.3733321]}, 
+                "adres": "Spuistraat ", 
+                "title": "Spuistraat (Spui)", 
+                "type": "Taxistandplaats", 
+                "woonplaats": "Amsterdam"
+            }
+        }, 
+        {
+            "parkeerlocatie": {
+                "Locatie": {"type":"Point","coordinates":[4.9022812,52.3680781]}, 
+                "adres": "Waterlooplein", 
+                "title": "Stadhuis/Waterlooplein", 
+                "type": "Taxistandplaats", 
+                "woonplaats": "Amsterdam"
+            }
+        }, 
+        {
+            "parkeerlocatie": {
+                "Locatie": {"type":"Point","coordinates":[4.8843905,52.3747902]}, 
+                "adres": "Westermarkt", 
+                "title": "Westermarkt", 
+                "type": "Taxistandplaats", 
+                "woonplaats": "Amsterdam"
+            }
+        }, 
+        {
+            "parkeerlocatie": {
+                "Locatie": {"type":"Point","coordinates":[4.8515989,52.3692005]}, 
+                "adres": "Mercatorplein", 
+                "title": "Mercatorplein", 
+                "type": "Taxistandplaats", 
+                "woonplaats": "Amsterdam"
+            }
+        }, 
+        {
+            "parkeerlocatie": {
+                "Locatie": {"type":"Point","coordinates":[4.8325971,52.3805217]}, 
+                "adres": "Burgemeester De Fockstraat", 
+                "title": "Burg. De Fockstraat", 
+                "type": "Taxistandplaats", 
+                "woonplaats": "Amsterdam"
+            }
+        }, 
+        {
+            "parkeerlocatie": {
+                "Locatie": {"type":"Point","coordinates":[4.8951679,52.3702157]}, 
+                "adres": "Lodewijk van Deijsselstraat", 
+                "title": "Lodewijk van Deijsselstraat", 
+                "type": "Taxistandplaats", 
+                "woonplaats": "Amsterdam"
+            }
+        }, 
+        {
+            "parkeerlocatie": {
+                "Locatie": {"type":"Point","coordinates":[4.9383004,52.3986489]}, 
+                "adres": "Buikslotermeerplein", 
+                "title": "Buikslotermeerplein", 
+                "type": "Taxistandplaats", 
+                "woonplaats": "Amsterdam"
+            }
+        }, 
+        {
+            "parkeerlocatie": {
+                "Locatie": {"type":"Point","coordinates":[4.879801,52.356429]}, 
+                "adres": "Mosplein", 
+                "title": "Mosplein", 
+                "type": "Taxistandplaats", 
+                "woonplaats": "Amsterdam"
+            }
+        }, 
+        {
+            "parkeerlocatie": {
+                "Locatie": {"type":"Point","coordinates":[4.9186686,52.3467004]}, 
+                "adres": "Julianaplein 1", 
+                "title": "Amstelstation", 
+                "type": "Taxistandplaats", 
+                "woonplaats": "Amsterdam"
+            }
+        }, 
+        {
+            "parkeerlocatie": {
+                "Locatie": {"type":"Point","coordinates":[4.9255946,52.3595012]}, 
+                "adres": "Lineausstraat", 
+                "title": "Lineausstraat/Tropenmuseum", 
+                "type": "Taxistandplaats", 
+                "woonplaats": "Amsterdam"
+            }
+        }, 
+        {
+            "parkeerlocatie": {
+                "Locatie": {"type":"Point","coordinates":[4.9402534,52.3477996]}, 
+                "adres": "Middenweg", 
+                "title": "Linneauskade/Middenweg", 
+                "type": "Taxistandplaats", 
+                "woonplaats": "Amsterdam"
+            }
+        }, 
+        {
+            "parkeerlocatie": {
+                "Locatie": {"type":"Point","coordinates":[4.9160049,52.3592456]}, 
+                "adres": "s Gravesandeplein", 
+                "title": "s Gravesandeplein/ OLVG", 
+                "type": "Taxistandplaats", 
+                "woonplaats": "Amsterdam"
+            }
+        }, 
+        {
+            "parkeerlocatie": {
+                "Locatie": {"type":"Point","coordinates":[4.8060822,52.3584964]}, 
+                "adres": "Osdorpplein", 
+                "title": "Tussenmeer/Osdorpplein", 
+                "type": "Taxistandplaats", 
+                "woonplaats": "Amsterdam"
+            }
+        }, 
+        {
+            "parkeerlocatie": {
+                "Locatie": {"type":"Point","coordinates":[4.86285733995,52.3645269068]}, 
+                "adres": "J.P. Heijestraat", 
+                "title": "J.P. Heijestraat", 
+                "type": "Taxistandplaats", 
+                "woonplaats": "Amsterdam"
+            }
+        }, 
+        {
+            "parkeerlocatie": {
+                "Locatie": {"type":"Point","coordinates":[4.8574018,52.3401416]}, 
+                "adres": "Amstelveenseweg", 
+                "title": "Amstelveenseweg/Bernhard Kochstraat", 
+                "type": "Taxistandplaats", 
+                "woonplaats": "Amsterdam"
+            }
+        }, 
+        {
+            "parkeerlocatie": {
+                "Locatie": {"type":"Point","coordinates":[4.8757314,52.350609]}, 
+                "adres": "Apollolaan", 
+                "title": "Apollolaan/J.M. Coenenstraat", 
+                "type": "Taxistandplaats", 
+                "woonplaats": "Amsterdam"
+            }
+        }, 
+        {
+            "parkeerlocatie": {
+                "Locatie": {"type":"Point","coordinates":[4.8734306,52.3513838]}, 
+                "adres": "Breitnerstraat", 
+                "title": "Breitnerstraat/Apollolaan/Hilton Hotel", 
+                "type": "Taxistandplaats", 
+                "woonplaats": "Amsterdam"
+            }
+        }, 
+        {
+            "parkeerlocatie": {
+                "Locatie": {"type":"Point","coordinates":[4.8726498,52.3460987]}, 
+                "adres": "Minervalaan", 
+                "title": "Apollolaan, hoek Minervalaan", 
+                "type": "Taxistandplaats", 
+                "woonplaats": "Amsterdam"
+            }
+        }, 
+        {
+            "parkeerlocatie": {
+                "Locatie": {"type":"Point","coordinates":[4.871385,52.3535585]}, 
+                "adres": "De Laraissestraat", 
+                "title": "De Laraissestraat/Concertgebouw", 
+                "type": "Taxistandplaats", 
+                "woonplaats": "Amsterdam"
+            }
+        }, 
+        {
+            "parkeerlocatie": {
+                "Locatie": {"type":"Point","coordinates":[4.89032149295,52.3549756953]}, 
+                "adres": "Ferdinand Bolstraat/", 
+                "title": "Ferdinand Bolstraat/Albert Cuypstraat", 
+                "type": "Taxistandplaats", 
+                "woonplaats": "Amsterdam"
+            }
+        }, 
+        {
+            "parkeerlocatie": {
+                "Locatie": {"type":"Point","coordinates":[4.8674053,52.348651]}, 
+                "adres": "Olympiaplein", 
+                "title": "Olympiaplein", 
+                "type": "Taxistandplaats", 
+                "woonplaats": "Amsterdam"
+            }
+        }, 
+        {
+            "parkeerlocatie": {
+                "Locatie": {"type":"Point","coordinates":[4.8962407,52.3544198]}, 
+                "adres": "Sarphatipark", 
+                "title": "Sarphatipark", 
+                "type": "Taxistandplaats", 
+                "woonplaats": "Amsterdam"
+            }
+        }, 
+        {
+            "parkeerlocatie": {
+                "Locatie": {"type":"Point","coordinates":[4.8518029,52.3581744]}, 
+                "adres": "Surinameplein", 
+                "title": "Surinameplein", 
+                "type": "Taxistandplaats", 
+                "woonplaats": "Amsterdam"
+            }
+        }, 
+        {
+            "parkeerlocatie": {
+                "Locatie": {"type":"Point","coordinates":[4.8494463,52.3544081]}, 
+                "adres": "Warmondstraat", 
+                "title": "Warmondstraat/Hoofddorpplein", 
+                "type": "Taxistandplaats", 
+                "woonplaats": "Amsterdam"
+            }
+        }, 
+        {
+            "parkeerlocatie": {
+                "Locatie": {"type":"Point","coordinates":[4.8273956,52.3591934]}, 
+                "adres": "Comeniusstraat", 
+                "title": "Comeniusstraat", 
+                "type": "Taxistandplaats", 
+                "woonplaats": "Amsterdam"
+            }
+        }, 
+        {
+            "parkeerlocatie": {
+                "Locatie": {"type":"Point","coordinates":[4.8391892,52.3551564]}, 
+                "adres": "Koningin Wilhelminaplein", 
+                "title": "Kon. Wilhelminaplein/WFC", 
+                "type": "Taxistandplaats", 
+                "woonplaats": "Amsterdam"
+            }
+        }, 
+        {
+            "parkeerlocatie": {
+                "Locatie": {"type":"Point","coordinates":[4.8245779,52.3466391]}, 
+                "adres": "Louwesweg", 
+                "title": "Louwesweg/Slotervaart Ziekenhuis", 
+                "type": "Taxistandplaats", 
+                "woonplaats": "Amsterdam"
+            }
+        }, 
+        {
+            "parkeerlocatie": {
+                "Locatie": {"type":"Point","coordinates":[4.8363326,52.3576621]}, 
+                "adres": "Lelylaan 25", 
+                "title": "Station Lelylaan", 
+                "type": "Taxistandplaats", 
+                "woonplaats": "Amsterdam"
+            }
+        }, 
+        {
+            "parkeerlocatie": {
+                "Locatie": {"type":"Point","coordinates":[4.8375589,52.3890523]}, 
+                "adres": "Orlyplein 105", 
+                "title": "Station Sloterdijk", 
+                "type": "Taxistandplaats", 
+                "woonplaats": "Amsterdam"
+            }
+        }, 
+        {
+            "parkeerlocatie": {
+                "Locatie": {"type":"Point","coordinates":[4.9393283,52.3637749]}, 
+                "adres": "Javaplein", 
+                "title": "Javaplein", 
+                "type": "Taxistandplaats", 
+                "woonplaats": "Amsterdam"
+            }
+        }, 
+        {
+            "parkeerlocatie": {
+                "Locatie": {"type":"Point","coordinates":[4.9349134,52.3743947]}, 
+                "adres": "Oostelijke Handelskade", 
+                "title": "Oostelijke Handelskade/PTA", 
+                "type": "Taxistandplaats", 
+                "woonplaats": "Amsterdam"
+            }
+        }, 
+        {
+            "parkeerlocatie": {
+                "Locatie": {"type":"Point","coordinates":[4.9349134,52.3743947]}, 
+                "adres": "Oostelijke Handelskade", 
+                "title": "Oostelijke Handelskade/Panama", 
+                "type": "Taxistandplaats", 
+                "woonplaats": "Amsterdam"
+            }
+        }, 
+        {
+            "parkeerlocatie": {
+                "Locatie": {"type":"Point","coordinates":[4.8598158,52.3345709]}, 
+                "adres": "De Boelelaan 1117", 
+                "title": "De Boelelaan/VU Ziekenhuis", 
+                "type": "Taxistandplaats", 
+                "woonplaats": "Amsterdam"
+            }
+        }, 
+        {
+            "parkeerlocatie": {
+                "Locatie": {"type":"Point","coordinates":[4.8773369,52.3311155]}, 
+                "adres": "Gelderlandplein", 
+                "title": "Gelderlandplein", 
+                "type": "Taxistandplaats", 
+                "woonplaats": "Amsterdam"
+            }
+        }, 
+        {
+            "parkeerlocatie": {
+                "Locatie": {"type":"Point","coordinates":[4.8919875,52.3396746]}, 
+                "adres": "Europaboulevard 6", 
+                "title": "Station RAI", 
+                "type": "Taxistandplaats", 
+                "woonplaats": "Amsterdam"
+            }
+        }, 
+        {
+            "parkeerlocatie": {
+                "Locatie": {"type":"Point","coordinates":[4.8738727,52.3367235]}, 
+                "adres": "Gustav Mahlerlaan 24", 
+                "title": "Station Zuid/WTC", 
+                "type": "Taxistandplaats", 
+                "woonplaats": "Amsterdam"
+            }
+        }, 
+        {
+            "parkeerlocatie": {
+                "Locatie": {"type":"Point","coordinates":[4.9082796,52.3466977]}, 
+                "adres": "Vrijheidslaan", 
+                "title": "Vrijheidslaan/Victorieplein", 
+                "type": "Taxistandplaats", 
+                "woonplaats": "Amsterdam"
+            }
+        }, 
+        {
+            "parkeerlocatie": {
+                "Locatie": {"type":"Point","coordinates":[4.8689642,52.33666]}, 
+                "adres": "Gustav Mahlerlaan", 
+                "title": "Gustav Mahlerlaan nabij VUmc", 
+                "type": "Taxistandplaats", 
+                "woonplaats": "Amsterdam"
+            }
+        }, 
+        {
+            "parkeerlocatie": {
+                "Locatie": {"type":"Point","coordinates":[4.8729171,52.34078]}, 
+                "adres": "Strawinskylaan", 
+                "title": "Strawinskylaan", 
+                "type": "Taxistandplaats", 
+                "woonplaats": "Amsterdam"
+            }
+        }, 
+        {
+            "parkeerlocatie": {
+                "Locatie": {"type":"Point","coordinates":[4.8951679,52.3702157]}, 
+                "adres": "Europalaan 22", 
+                "title": "RAI", 
+                "type": "Taxistandplaats", 
+                "woonplaats": "Amsterdam"
+            }
+        }, 
+        {
+            "parkeerlocatie": {
+                "Locatie": {"type":"Point","coordinates":[4.9444323,52.3114083]}, 
+                "adres": "Corridor", 
+                "title": "Corridor", 
+                "type": "Taxistandplaats", 
+                "woonplaats": "Amsterdam"
+            }
+        }, 
+        {
+            "parkeerlocatie": {
+                "Locatie": {"type":"Point","coordinates":[4.9536143,52.2949642]}, 
+                "adres": "Meijbergdreef", 
+                "title": "Meijbergdreef/AMC", 
+                "type": "Taxistandplaats", 
+                "woonplaats": "Amsterdam"
+            }
+        }, 
+        {
+            "parkeerlocatie": {
+                "Locatie": {"type":"Point","coordinates":[4.9481911,52.312919]}, 
+                "adres": "Hoekenrodeplein", 
+                "title": "Hoekenrodeplein/ Zuidelijk zijde", 
+                "type": "Taxistandplaats", 
+                "woonplaats": "Amsterdam"
+            }
+        }, 
+        {
+            "parkeerlocatie": {
+                "Locatie": {"type":"Point","coordinates":[4.9481911,52.312919]}, 
+                "adres": "Hoekenrodeplein", 
+                "title": "Hoekenrodeplein/ Noordelijke zijde", 
+                "type": "Taxistandplaats", 
+                "woonplaats": "Amsterdam"
+            }
+        }, 
+        {
+            "parkeerlocatie": {
+                "Locatie": {"type":"Point","coordinates":[4.9397102,52.3110689]}, 
+                "adres": "Entree", 
+                "title": "Entree", 
+                "type": "Taxistandplaats", 
+                "woonplaats": "Amsterdam"
+            }
+        }, 
+        {
+            "parkeerlocatie": {
+                "Locatie": {"type":"Point","coordinates":[4.9390174,52.3145448]}, 
+                "adres": "de Passage", 
+                "title": "de Passage", 
+                "type": "Taxistandplaats", 
+                "woonplaats": "Amsterdam"
+            }
+        }, 
+        {
+            "parkeerlocatie": {
+                "Locatie": {"type":"Point","coordinates":[4.9366432,52.3238784]}, 
+                "adres": "Stationsplein 1", 
+                "title": "Station Duivendrecht", 
+                "type": "Taxistandplaats", 
+                "woonplaats": "Duivendrecht"
+            }
+        }
+    ]
+}

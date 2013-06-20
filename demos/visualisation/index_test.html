@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<style>
+body {
+  font: 10px sans-serif;
+}
+
+</style>
+<body>
+
+<div id="container" style="height: 300px;">jhv3gfriubsr;kneliruhfgslkndivuhdgnv;odkfneibv;lknmdvkubh </div>	
+<link href="css/style_d3.css" rel="stylesheet" type="text/css">	
+<script type="text/javascript" src="js/d3/d3.v3.min.js"></script>
+<script>
+
+var margin = {top: 20, right: 20, bottom: 30, left: 50},
+    width = 960 - margin.left - margin.right,
+    height = 500 - margin.top - margin.bottom;
+
+var parseDate = d3.time.format("%Y-%m-%d").parse;
+
+var x = d3.time.scale()
+     .range([0, width]);
+
+var y = d3.scale.linear()
+    .range([height, 0]);
+
+var xAxis = d3.svg.axis()
+    .scale(x)
+    .orient("bottom");
+
+var yAxis = d3.svg.axis()
+    .scale(y)
+    .orient("left");
+
+var line = d3.svg.line()
+    .x(function(d) { return x(d.date); })
+    .y(function(d) { return y(d.deaths_max); });
+
+var svg = d3.select("body").append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+  .append("g")
+    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+d3.json("data/data_drones.json", function(error, data) {
+  	
+	data.strike.forEach(function(d) {
+	var dateSliced = d.date.slice(0, 10);	
+	var dateFormatted=parseDate(dateSliced);
+    d.date = dateFormatted;	
+	
+	var value = d.deaths_max.match(/\d+/g);
+	if (value == null) {
+	    d.deaths_max=0;
+	}
+
+	d.deaths_max = +d.deaths_max;
+  });
+
+  x.domain(d3.extent(data.strike, function(d) { return d.date; }));
+  //y.domain(d3.extent(data.strike, function(d) { return d.deaths_max; }));
+  y.domain([0, d3.max(data.strike, function(d) { return d.deaths_max; })]);
+  svg.append("g")
+      .attr("class", "x axis")
+      .attr("transform", "translate(0," + height + ")")
+      .call(xAxis);
+
+  // svg.append("g")
+  //       .attr("class", "y axis")
+  //       .call(yAxis)
+  //     .append("text")
+  //       .attr("transform", "rotate(-90)")
+  //       .attr("y", 6)
+  //       .attr("dy", ".71em")
+  //       .style("text-anchor", "end")
+  //       .text("Price ($)");
+
+ svg.append("path")
+     .datum(data.strike)
+     .attr("class", "line")
+     .attr("d", line);
+   
+svg.append("g")
+      .attr("class", "y axis")
+      .call(yAxis)
+    .append("text")
+      .attr("transform", "rotate(-90)")
+      .attr("y", 6)
+      .attr("dy", ".71em")
+	  .style("text-anchor", "end")
+      .text("deaths");
+  
+svg.selectAll(".bar")
+	.data(data.strike)
+    .enter().append("rect")
+      .attr("class", "bar")
+      .attr("x", function(d) { return x(d.date); })
+	  .attr("width", 0.5)
+      .attr("y", function(d) { return y(d.deaths_max); })
+      .attr("height", function(d) { return height - y(d.deaths_max); });
+
+svg.selectAll(".dot")
+      .data(data.strike)
+    .enter().append("circle")
+      .attr("class", "dot")
+      .attr("r", 1.5)
+      .attr("cx", function(d) { return x(d.date); })
+      .attr("cy", function(d) { return y(d.deaths_max); });	
+		
+
+
+});
+
+</script>
+</body>

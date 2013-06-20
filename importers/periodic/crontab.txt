@@ -1,0 +1,12 @@
+# every hour
+32 * * * * /bin/bash /var/www/citysdk/shared/periodic/hourly.sh 
+
+# every day, 8 mins. past 3 
+8 3 * * * /bin/bash /var/www/citysdk/shared/periodic/daily.sh 
+
+#every week, monday, 38 mins. past 3
+38 3 * * 1 /bin/bash /var/www/citysdk/shared/periodic/weekly.sh
+
+#every month, 2nd, 8 mins. past 4
+8 4 2 * * /bin/bash /var/www/citysdk/shared/periodic/monthly.sh
+

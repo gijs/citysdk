@@ -1,0 +1,14 @@
+<% if @layer.errors.full_messages.length > 0 %>
+  <div class='errormsg'>
+    <% if @layer.errors.full_messages.length == 1 %>
+      There was an issue saving the layer:
+    <% else %>
+      There were some issues saving the layer:
+    <% end %>
+    <ul>
+      <% @layer.errors.full_messages.each do |l| %>
+        <li><%= l %></li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>

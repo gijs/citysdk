@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Tram 26</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css" />
+  <script src="jquery-1.9.0.min.js"></script>
+</head>
+<body>
+  <h1><!--<img src="tram.png" />-->Tram 26</h1>
+  <h2>Amsterdam CS</h2>
+  <h3><span id="secondsCS"></span></h3>
+  <h4><span id="timeCS"></span></h4>
+  <h2>IJburg</h2>
+  <h3><span id="secondsIJburg"></span></h3>
+  <h4><span id="timeIJburg"></span></h4>
+  
+  <script>
+    var endpoint = "http://api.citysdk.waag.org/";
+    var nowCommand = "/select/now";
+
+    var ptstopCS = "gtfs.stop.082361";
+    var ptstopIJburg = "gtfs.stop.082371";
+        
+    var urlCS = endpoint + ptstopCS + nowCommand;
+    var urlIJburg = endpoint + ptstopIJburg + nowCommand;
+    
+    var nextTramTimeCS;
+    var nextTramTimeIJburg;
+    
+    $(document).ready(function() {
+      
+      $.ajaxSetup({
+          timeout: 3000
+       });
+      
+      function pad(num, size) {
+          var s = "000000000" + num;
+          return s.substr(s.length-size);
+      }
+      
+      function getSecondsSinceMidnight() {
+        var now = new Date(),
+          then = new Date(
+            now.getFullYear(),
+            now.getMonth(),
+            now.getDate(),
+            0,0,0);
+        return Math.round((now.getTime() - then.getTime()) / 1000);
+      }
+      
+      function timeToSeconds(time) {
+        time = time.split(/:/);
+        return time[0] * 3600 + time[1] * 60 + time[2] * 1;
+      }
+            
+      var timerUpdateTimeCSEnabled = false;
+      var timerUpdateTimeIJburgEnabled = false;
+      
+      var timerGetTimes = setInterval(function(){getTramTimes()}, 40 * 1000);
+      var timerUpdateTime = setInterval(function(){updateTime()}, 1000);
+      
+      getTramTimes(); 
+
+      function getTramTimes() {
+        getTramTime(urlCS, function(nextTramTime) {
+          nextTramTimeCS = nextTramTime;
+          if (!timerUpdateTimeCSEnabled) {
+            timerUpdateTimeCSEnabled = true;
+          }  
+        });
+        
+        getTramTime(urlIJburg, function(nextTramTime) {
+          nextTramTimeIJburg = nextTramTime;
+          if (!timerUpdateTimeIJburgEnabled) {
+            timerUpdateTimeIJburgEnabled = true;
+          }  
+        });             
+      }
+      
+      function getTramTime(url, callback) {
+        $.getJSON(url, function(data) {
+          var tramTimes = data.results[0].times;
+          for (var i = 0; i < tramTimes.length; i++) {
+            var tramTime = tramTimes[i].substring(0, 8);
+            var secondsSinceMidnight = getSecondsSinceMidnight()
+            if (timeToSeconds(tramTime) > secondsSinceMidnight) {
+              callback(tramTime);
+              break;
+            }
+          }
+        });      
+      }
+      
+      function updateTime() {
+        var secondsCS = timeToSeconds(nextTramTimeCS) - getSecondsSinceMidnight();
+        var minutesCS = ((secondsCS - (secondsCS % 60)) / 60) + ":" + pad(secondsCS % 60, 2);
+        
+        var secondsIJburg = timeToSeconds(nextTramTimeIJburg) - getSecondsSinceMidnight();
+        var minutesIJburg = ((secondsIJburg - (secondsIJburg % 60)) / 60) + ":" + pad(secondsIJburg % 60, 2);
+        
+        if (timerUpdateTimeCSEnabled) {
+          $('#timeCS').html(nextTramTimeCS);
+          $('#secondsCS').html(minutesCS);
+          if (secondsCS <= 0) {
+            timerUpdateTimeCSEnabled = false;
+            getTramTimes();            
+          }  
+        }
+
+        if (timerUpdateTimeIJburgEnabled) {          
+          $('#timeIJburg').html(nextTramTimeIJburg);
+          $('#secondsIJburg').html(minutesIJburg);
+          if (secondsIJburg <= 0) {
+            timerUpdateTimeIJburgEnabled = false;
+            getTramTimes();
+          }
+        }
+
+      }
+      
+    });
+  </script>
+</body>
+</html>

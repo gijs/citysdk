@@ -1,0 +1,32 @@
+.svg{
+    position: absolute;
+	top:0;
+}
+
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #999;
+  shape-rendering: crispEdges;
+}
+.axis text{
+	fill: steelblue;
+	font-size:10px;
+}
+
+
+.bar {
+  fill: #ccc;
+}
+
+.line {
+  fill: none;
+  stroke: #999;
+  stroke-width: 0.25px;
+}
+
+.dot {
+  fill: red;
+  stroke: #ccc;
+  stroke-width: 0.25px;
+}

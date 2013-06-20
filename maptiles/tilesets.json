@@ -1,0 +1,11 @@
+{
+  "base": "citysdk",
+  "name": "citysdk",
+  "minzoom": 4,
+  "maxzoom": 17,
+  "tilesets": {
+    "citysdk": {
+      "bbox": "-11.8982,33.8111,46.4612,71.8887"
+    }
+  }
+}

@@ -1,0 +1,16 @@
+* {margin:0; padding:0}
+/*body {font:11px/1.5 Verdana, Arial, Helvetica, sans-serif; text-align:left;} */
+#text {margin:50px auto; width:500px;}
+.hotspot {color:#000; padding-bottom:1px; border-bottom:1px dotted #000; cursor:pointer}
+
+#tt {
+	position:absolute; 
+	display:block; 
+	background:url(images/tt_left.gif) top left no-repeat; 
+	-moz-box-shadow: 3px 3px 4px #333;
+	-webkit-box-shadow: 3px 3px 4px #333;
+	box-shadow: 3px 3px 4px #333;
+	}
+#tttop {display:block; height:5px; margin-left:5px; background:url(images/tt_top.gif) top right no-repeat; overflow:hidden}
+#ttcont {display:block; padding:2px 12px 3px 7px; margin-left:5px; background:#000; color:#fff}
+#ttbot {display:block; height:5px; margin-left:5px; background:url(images/tt_bottom.gif) top right no-repeat; overflow:hidden}
