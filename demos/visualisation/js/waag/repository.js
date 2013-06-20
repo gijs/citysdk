@@ -25,7 +25,7 @@ var llRotterdam={city:"rotterdam", admr:"admr.nl.rotterdam", lat:51.925214, lng:
 var llUtrecht={city:"utrecht", admr:"admr.nl.utrecht", lat:52.09451, lng:5.120868, d:20};
 var llDenHaag={city:"sgravenhage", admr:"admr.nl.sgravenhage", lat:52.08481, lng:4.32024, d:20};
 // 
-var llDroneAttacks={city:"None", admr:"admr.afg.droneattacks", lat:33.54109, lng:70.210922 , d:850}; //}
+var llDroneAttacks={city:"None", admr:"admr.afg.droneattacks", lat:33.54109, lng:70.210922 , d:1000}; //}
 
 
 //var sdkData={layer:"some_layer", results:["0", "1", ......]}
@@ -39,15 +39,15 @@ function initRepository(){
 	dataLayer={
 		label:"Live public transport",
 		layers:[
-			{label:"Amsterdam", subs:["tram", "bus", "subway", "ferry"], ll:llAmsterdam, apiCall:llAmsterdam.admr+"/ptlines?geom", regions:false, layer:"amsterdam_pt_live", properties:{static:false, dotSize:0.1, lines:true, shape:false, stacked:false}},
-			{label:"Utrecht", subs:["tram", "bus", "subway", "ferry"], ll:llUtrecht, apiCall:llUtrecht.admr+"/ptlines?geom", regions:false, layer:"utrecht_pt_live", properties:{static:false, dotSize:0.1, lines:true, shape:false, stacked:false}},
-			{label:"Den Haag", subs:["tram", "bus", "subway", "ferry"], ll:llDenHaag, apiCall:llDenHaag.admr+"/ptlines?geom", regions:false, layer:"sgravenhage_pt_live", properties:{static:false, dotSize:0.1, lines:true, shape:false, stacked:false}},
-			{label:"Rotterdam", subs:["tram", "bus", "subway", "ferry"], ll:llRotterdam, apiCall:llRotterdam.admr+"/ptlines?geom", regions:false, layer:"rotterdam_pt_live", properties:{static:false, dotSize:0.1, lines:true, shape:false, stacked:false}},
-			{label:"Eindhoven", subs:["tram", "bus", "subway", "ferry"], ll:llEindhoven, apiCall:llRotterdam.admr+"/ptlines?geom", regions:false, layer:"eindhoven_pt_live", properties:{static:false, dotSize:0.1, lines:true, shape:false, stacked:false}},
-			{label:"Tampere", subs:["tram", "bus", "subway", "ferry"], ll:llTampere, apiCall:llTampere.admr+"/ptlines?geom", regions:false, layer:"tampere_pt_live", properties:{static:false, dotSize:0.1, lines:true, shape:false, stacked:false}},
-			{label:"Helsinki", subs:["tram", "bus", "subway", "ferry"], ll:llHelsinki, apiCall:llHelsinki.admr+"/ptlines?geom", regions:false, layer:"helsinki_pt_live", properties:{static:false, dotSize:0.1, lines:true, shape:false, stacked:false}},
-			{label:"Manchester", subs:["tram", "bus", "subway", "ferry"], ll:llManchester, apiCall:llManchester.admr+"/ptlines?geom", regions:false, layer:"manchester_pt_live", properties:{static:false, dotSize:0.1, lines:true, shape:false, stacked:false}},
-			 {label:"Istanbul", subs:["tram", "bus", "subway", "ferry"], ll:llIstanbul, apiCall:llIstanbul.admr+"/ptlines?geom", regions:false, layer:"istanbul_pt_live", properties:{static:false, dotSize:0.1, lines:true, shape:false, stacked:false}}
+			{label:"Amsterdam", subs:["tram", "bus", "subway", "ferry"], ll:llAmsterdam, apiCall:llAmsterdam.admr+"/ptlines?geom", regions:false, layer:"amsterdam_pt_live", properties:{static:false, dotSize:0.25, lines:true, shape:false, stacked:false}},
+			{label:"Utrecht", subs:["tram", "bus", "subway", "ferry"], ll:llUtrecht, apiCall:llUtrecht.admr+"/ptlines?geom", regions:false, layer:"utrecht_pt_live", properties:{static:false, dotSize:0.25, lines:true, shape:false, stacked:false}},
+			{label:"Den Haag", subs:["tram", "bus", "subway", "ferry"], ll:llDenHaag, apiCall:llDenHaag.admr+"/ptlines?geom", regions:false, layer:"sgravenhage_pt_live", properties:{static:false, dotSize:0.25, lines:true, shape:false, stacked:false}},
+			{label:"Rotterdam", subs:["tram", "bus", "subway", "ferry"], ll:llRotterdam, apiCall:llRotterdam.admr+"/ptlines?geom", regions:false, layer:"rotterdam_pt_live", properties:{static:false, dotSize:0.25, lines:true, shape:false, stacked:false}},
+			//{label:"Eindhoven", subs:["tram", "bus", "subway", "ferry"], ll:llEindhoven, apiCall:llRotterdam.admr+"/ptlines?geom", regions:false, layer:"eindhoven_pt_live", properties:{static:false, dotSize:0.25, lines:true, shape:false, stacked:false}},
+			{label:"Tampere", subs:["tram", "bus", "subway", "ferry"], ll:llTampere, apiCall:llTampere.admr+"/ptlines?geom", regions:false, layer:"tampere_pt_live", properties:{static:false, dotSize:0.25, lines:true, shape:false, stacked:false}},
+			{label:"Helsinki", subs:["tram", "bus", "subway", "ferry"], ll:llHelsinki, apiCall:llHelsinki.admr+"/ptlines?geom", regions:false, layer:"helsinki_pt_live", properties:{static:false, dotSize:0.25, lines:true, shape:false, stacked:false}},
+			//{label:"Manchester", subs:["tram", "bus", "subway", "ferry"], ll:llManchester, apiCall:llManchester.admr+"/ptlines?geom", regions:false, layer:"manchester_pt_live", properties:{static:false, dotSize:0.1, lines:true, shape:false, stacked:false}},
+			 {label:"Istanbul", subs:["tram", "bus", "subway", "ferry"], ll:llIstanbul, apiCall:llIstanbul.admr+"/ptlines?geom", regions:false, layer:"istanbul_pt_live", properties:{static:false, dotSize:0.25, lines:true, shape:false, stacked:false}}
 			]
 		 
 	};
@@ -58,7 +58,7 @@ function initRepository(){
 		dataLayer={
 		label:"Realtime traffic flow",
 		layers:[
-			{label:"Amsterdam", subs:[], ll:llAmsterdam, apiCall:"nodes?layer=divv.traffic&geom", regions:false, layer:"trafic_flow_adam", properties:{static:false, dotSize:0.25, lines:true, shape:false, stacked:false}} 
+			{label:"Amsterdam", subs:[], ll:llAmsterdam, apiCall:"nodes?layer=divv.traffic&geom", regions:false, layer:"trafic_flow_adam", properties:{static:false, dotSize:0.5, lines:true, shape:false, stacked:false}} 
 		]
 		 
 	};
@@ -82,12 +82,12 @@ function initRepository(){
 
 	//ptlines
 		dataLayer={
-		label:"Public transport routes and stops",
+		label:"Public transport (static)",
 		layers:[
 			{label:"Amsterdam", subs:['lines', 'stops'], ll:llAmsterdam, apiCall:llAmsterdam.admr+"/ptlines?geom", regions:false, layer:"amsterdam_ptlines", properties:{static:true, dotSize:0.25, lines:true, shape:false, stacked:false}},
 			{label:"Rotterdam", subs:['lines', 'stops'], ll:llRotterdam, apiCall:llRotterdam.admr+"/ptlines?geom", regions:false, layer:"rotterdam_ptlines", properties:{static:true, dotSize:0.25, lines:true, shape:false, stacked:false}},
-			{label:"Eindhoven", subs:['lines', 'stops'], ll:llEindhoven, apiCall:llEindhoven.admr+"/ptlines?geom", regions:false, layer:"eindhoven_ptlines", properties:{static:true, dotSize:0.25, lines:true, shape:false, stacked:false}},
-			{label:"Manchester", subs:['lines', 'stops'], ll:llManchester, apiCall:llManchester.admr+"/ptlines?geom", regions:false, layer:"manchester_ptlines", properties:{static:true, dotSize:0.25, lines:true, shape:false, stacked:false}},
+			//{label:"Eindhoven", subs:['lines', 'stops'], ll:llEindhoven, apiCall:llEindhoven.admr+"/ptlines?geom", regions:false, layer:"eindhoven_ptlines", properties:{static:true, dotSize:0.25, lines:true, shape:false, stacked:false}},
+			{label:"Manchester", subs:[], ll:llManchester, apiCall:llManchester.admr+"/ptlines?geom", regions:false, layer:"manchester_ptlines", properties:{static:true, dotSize:0.25, lines:false, shape:false, stacked:false}},
 			{label:"Helsinki", subs:['lines', 'stops'], ll:llHelsinki, apiCall:llHelsinki.admr+"/ptlines?geom", regions:false, layer:"helsinki_ptlines", properties:{static:true, dotSize:0.25, lines:true, shape:false, stacked:false}},
 			{label:"Tampere", subs:['lines', 'stops'], ll:llTampere, apiCall:llTampere.admr+"/ptlines?geom", regions:false, layer:"tampere_ptlines", properties:{static:true, dotSize:0.25, lines:true, shape:false, stacked:false}},
 			{label:"Istanbul", subs:['lines', 'stops'], ll:llIstanbul, apiCall:llIstanbul.admr+"/ptlines?geom", regions:false, layer:"istanbul_ptlines", properties:{static:true, dotSize:0.25, lines:true, shape:false, stacked:false}},
@@ -111,14 +111,14 @@ function initRepository(){
 		
 		dataLayers.push(dataLayer);
 		
-	dataLayer={
-		label:"Misc (external api's)",
-		layers:[
-			{label:"U.S. Drone attacks", subs:[], ll:llDroneAttacks, apiCall:"http://api.dronestre.am/data", regions:false, layer:"drone_attacks", properties:{static:true, dotSize:50, lines:false, shape:false, stacked:false}}
-		]
-		
-	};
-	dataLayers.push(dataLayer);	
+	// dataLayer={
+	// 				label:"Misc (external api's)",
+	// 				layers:[
+	// 					{label:"U.S. Drone attacks", subs:[], ll:llDroneAttacks, apiCall:"http://api.dronestre.am/data", regions:false, layer:"drone_attacks", properties:{static:true, dotSize:50, lines:false, shape:false, stacked:false}}
+	// 				]
+	// 				
+	// 			};
+	// 			dataLayers.push(dataLayer);	
 
 	initJQueryMenu(dataLayers);
 	
@@ -197,6 +197,8 @@ function animateRecorderData(frame){
 
 function getApiData(dataLayer){
 
+	d3.select("svg").remove();
+	
 	for(var i in dataLayer.geoRepository){
 		console.log("adding loaded memory data");
 		globe.addLoadedData(dataLayer);		
@@ -341,6 +343,8 @@ function getData(uri, page, dataLayer, resultsArray){
 			}
 			
 			globe.addData(resultsArray, dataLayer);
+			
+			
 
 	});
 
@@ -348,21 +352,21 @@ function getData(uri, page, dataLayer, resultsArray){
 
 function getExternalApiData(dataLayer){
 	//local call
-	d3.json("data/data_drones.json", function(error, data) {
-		globe.addExternalApiData(data, dataLayer);
-		setD3Graph(data);
-	});
+	// d3.json("data/data_drones.json", function(error, data) {
+	// 		globe.addExternalApiData(data, dataLayer);
+	// 		setD3GraphDronesBrushed(data);
+	// 	});
 		
-	// $.ajax({
-	// 			    url: dataLayer.apiCall,
-	// 		        dataType: 'jsonp',
-	// 		        jsonp: 'callback',
-	// 		        success: function(data){
-	// 					globe.addExternalApiData(data, dataLayer);
-	// 					setD3Graph(data);
-	// 		            console.log("cross domain success");
-	// 		        }
-	// 		    });
+	$.ajax({
+		    url: dataLayer.apiCall,
+	        dataType: 'jsonp',
+	        jsonp: 'callback',
+	        success: function(data){
+				globe.addExternalApiData(data, dataLayer);
+				setD3GraphDronesBrushed(data);
+	            console.log("cross domain success");
+	        }
+	    });
 	
 }
 

@@ -11,9 +11,11 @@
 }
 .axis text{
 	fill: steelblue;
-	font-size:10px;
+	font-size:11px;
 }
-
+path {
+  fill: steelblue;
+}
 
 .bar {
   fill: #ccc;
@@ -21,12 +23,20 @@
 
 .line {
   fill: none;
-  stroke: #999;
+  stroke: #c;
   stroke-width: 0.25px;
 }
 
-.dot {
+
+.dotRed {
   fill: red;
   stroke: #ccc;
   stroke-width: 0.25px;
+}
+
+.brush .extent {
+  stroke: #999;
+  fill: #ccc;
+  fill-opacity: .25;
+  shape-rendering: crispEdges;
 }

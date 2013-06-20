@@ -259,10 +259,11 @@ function setAdditionalMenuItem(label, subs){
 			'font-size':1.0+'em'
 
 		});
+		var infoTxt="The dynamics of European cities are made visible in the Open Data Globe, based on available (live) mobility data. The data comes from the CitySDK API, a platform that allows for easy and uniform distribution of European open data. New datasets are (semi) automatically added to the visualization, all data are available for developers and cities can easily make their data available. Do you want to develop an application using Open Data? Check out the developers page <a href=http://dev.citysdk.waag.org>http://dev.citysdk.waag.org</a>. Do you want to know more about the project CitySDK? Visit the project page <a href=http://www.citysdk.eu>http://www.citysdk.eu</a>."
+		infoTxt+="<br><br>Open Data (and Big Data) are hot: citizens and (government) agencies create and collect a lot of data: data that may be very valuable for social change and innovation. However, much of this information is not, or only partially available and released data comes in many forms, making it difficult to combine and reuse. The CitySDK API standardizes the data at the European level and makes the information searchable and available on demand. In this way, developers and researchers have easy access to the information."
 		
-		$(divMain).html("A webGL visualisation of City Dynamics based on real-time and scheduled Open Data in the European CitySDK Platform.The CitySDK API is an open, interoperable interface which enables easy development and distribution of digital services and data across different cities. The API is a powerful tool that helps governments and officials alike. The developers’ site is currently at <a href=http://dev.citysdk.waag.org>http://dev.citysdk.waag.org</a>. For more information on the CitySDK Project, have a look at the project website <a href=http://www.citysdk.eu>http://www.citysdk.eu</a>.");
-		
-		
+		//			"A webGL visualisation of City Dynamics based on real-time and scheduled Open Data in the European CitySDK Platform.The CitySDK API is an open, interoperable interface which enables easy development and distribution of digital services and data across different cities. The API is a powerful tool that helps governments and officials alike. The developers’ site is currently at <a href=http://dev.citysdk.waag.org>http://dev.citysdk.waag.org</a>. For more information on the CitySDK Project, have a look at the project website <a href=http://www.citysdk.eu>http://www.citysdk.eu</a>.");
+		$(divMain).html(infoTxt);
 		var img = document.createElement("img");
 		// $(img).css({
 		// 			'position':"absolute",

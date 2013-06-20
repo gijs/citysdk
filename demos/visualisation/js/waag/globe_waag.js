@@ -432,15 +432,20 @@ addData = function (data, dataLayer){
 				lGeo3D=addLineVertices(p_index, d.geom.coordinates.length-1, lGeo3D, pos3D, posInvisible);
 					
 				
-				if(d.layer_id=="divv"){
-					if(d.layers.divv.data!=null){
-						var cw=getColorWidth(d.layers.divv.data.traveltime, d.layers.divv.data.traveltime_ff, d.layers.divv.data.velocity, dataLayer.properties.dotSize, dataLayer.layer)
+				if(d.layer=="divv.traffic"){
+					//console.log("travel time ="+d.cdk_id+" = "+d.layers["divv.traffic"].data.traveltime+" --> "+d.layers["divv.traffi"].data.traveltime_freeflow);
+					if(d.layers["divv.traffic"].data!=null){
+						var cw=getColorWidth(d.layers["divv.traffic"].data.traveltime, d.layers["divv.traffic"].data.traveltime_freeflow, dataLayer.properties.dotSize, dataLayer.layer)
 						vec2D.color=vec3.color=cw.c;
-						vec2D.pointSize=vec3.pointSize=cw.w;
-					
+						
+						vec2D.pointSize=cw.w*0.5;
+						vec3D.pointSize=cw.w;
+						
 					}else{
-						vec2D.pointSize=vec3.pointSize=dotSize;
+						vec2D.pointSize=dataLayer.properties.dotSize*0.5;
+						vec3D.pointSize=dataLayer.properties.dotSize;
 					}
+
 				}
 				pGeo2D.vertices.push( vec2D );
 				pGeo3D.vertices.push( vec3D );
@@ -469,12 +474,15 @@ addData = function (data, dataLayer){
 					if(d.layer=="divv.traffic"){
 						//console.log("travel time ="+d.cdk_id+" = "+d.layers["divv.traffic"].data.traveltime+" --> "+d.layers["divv.traffi"].data.traveltime_freeflow);
 						if(d.layers["divv.traffic"].data!=null){
-							var cw=getColorWidth(d.layers["divv.traffic"].data.traveltime, d.layers["divv.traffic"].data.traveltime_freeflow, d.layers["divv.traffic"].data.velocity, dataLayer.properties.dotSize, dataLayer.layer)
+							var cw=getColorWidth(d.layers["divv.traffic"].data.traveltime, d.layers["divv.traffic"].data.traveltime_freeflow, dataLayer.properties.dotSize, dataLayer.layer)
 							vec2D.color=vec3.color=cw.c;
-							vec2D.pointSize=vec3.pointSize=cw.w;
-						
+							
+							vec2D.pointSize=cw.w*0.5;
+							vec3D.pointSize=cw.w;
+							
 						}else{
-							vec2D.pointSize=vec3.pointSize=1;
+							vec2D.pointSize=dataLayer.properties.dotSize*0.5;
+							vec3D.pointSize=dataLayer.properties.dotSize;
 						}
 
 					}
@@ -653,6 +661,9 @@ addData = function (data, dataLayer){
 		//console.log("stack index ="+shapes2D.stackIndex);
 		if(dataLayer.properties.stackIndex==dataLayer.properties.stackAmount){
 			mergeShapes(dataLayer, false);
+			if(dataLayer.layer=="cbs_nl"){
+				setD3GraphCBS(dataLayer.geoRepository.mergedGeoStack);
+			}
 			
 		}
 	
@@ -863,6 +874,7 @@ function addParticlesDynamic(geo2D, geo3D, layer){
 	for( var v = 0; v < vertices.length; v++ ) {
 
 		values_size[ v ] = vertices[v].pointSize;
+		
 		values_color[ v ] = new THREE.Color( vertices[v].color );
 		values_color[ v ].setHSL( 0.5, 0.5, 0.3 );	
 		
@@ -1151,22 +1163,22 @@ function effectsUpdate(){
 		}
 	};
 
-	// for(var i=0; i<scene.children.length; i++){
-	// 		if(scene.children[i].name=="trafic_flow_adam" || scene.children[i].name=="trafic_flow_adam_recorded"){
-	// 			if(scene.children[i] instanceof THREE.ParticleSystem){
-	// 				for (var j=0; j<scene.children[i].geometry.vertices.length; j++){
-	// 					var pointSize=scene.children[i].geometry.vertices[j].pointSize;
-	// 					
-	// 					scene.children[i].material.attributes.size.value[j]=scene.children[i].geometry.vertices[j].pointSize + ((-pointSize/2)+(Math.random()*pointSize));
-	// 					//scene.children[i].material.attributes.size.value[j]=(Math.random()*10);
-	// 				}
-	// 				scene.children[i].material.attributes.size.needsUpdate = true;
-	// 				
-	// 			}
-	// 
-	// 		}
-	// 
-	// 	}
+	for(var i=0; i<scene.children.length; i++){
+				if(scene.children[i].name=="trafic_flow_adam" || scene.children[i].name=="trafic_flow_adam_recorded"){
+					if(scene.children[i] instanceof THREE.ParticleSystem){
+						for (var j=0; j<scene.children[i].geometry.vertices.length; j++){
+							var pointSize=scene.children[i].geometry.vertices[j].pointSize;
+							
+							scene.children[i].material.attributes.size.value[j]=scene.children[i].geometry.vertices[j].pointSize + ((-pointSize/4)+(Math.random()*(pointSize/2)));
+							//scene.children[i].material.attributes.size.value[j]=(Math.random()*10);
+						}
+						scene.children[i].material.attributes.size.needsUpdate = true;
+						
+					}
+		
+				}
+		
+			}
 	
 	
 }
@@ -1520,7 +1532,7 @@ function setPositionsPt(mainIndex, lineIndex, actualTrips, tnow, modalitie, line
 			var delay;
 			//console.log(scene.children);
 			if(intersected.delay==false){
-				delay="<br>delay: <span style=color:"+fontBlue+"> on time</span>"
+				delay="<br>delay: <span style=color:"+fontBlue+">sceduled time (no realtime data)</span>"
 
 			}else{
 				if(intersected.delay<0){
@@ -1830,8 +1842,8 @@ function onMouseDown(event) {
 	
 	$("#d3graphs").css({
 		'position':"absolute",
-		'left':window.innerWidth-720-70+"px",
-		'top':window.innerHeight-230+"px",
+		'left':window.innerWidth-graphWidth-20+"px",
+		'top':window.innerHeight-310+"px",
 		'z-index':2000
 	});
 

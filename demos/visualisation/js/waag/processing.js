@@ -193,18 +193,25 @@ function formatDate(date, milliseconds){
 	
 }
 
-
-function getColorWidth(value, valueRealtime, dotSize, layer, projection){
+//getColorWidth(d.layers.divv.data.traveltime, d.layers.divv.data.traveltime_ff, d.layers.divv.data.velocity, dataLayer.properties.dotSize, dataLayer.layer)
+function getColorWidth(valueRealtime, value, dotSize, layer ){
 	var w, c;
 	
 	var cw;
 	w=dotSize;
 	var c=0xffffff;
 
-	w=((valueRealtime/value)*dotSize);
+	w=( (valueRealtime/value) * dotSize );
 	if(w==-Infinity || w==Infinity ){
 		w=dotSize;
 	}
+	if(w>2.5){
+		w=3;
+	}
+	if(w<0.1){
+		w=0.1;
+	}
+	
 	//console.log(w);
 	//pct=traveltime_ff/traveltime;
 	//c = getColorPercent(pct);
