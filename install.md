@@ -110,6 +110,8 @@ To seed the database (more information is available as comments in the various s
 * ./import_osm.sh (after correcting the file name to import, and db credentials)
 * ruby ./run_migrations.rb
 
+These commands will take considerable time; hours, most likely, so be patient.
+
 After the migrations have run, you'll need to add a password to the admin account: 
 
       cd current
@@ -118,7 +120,6 @@ After the migrations have run, you'll need to add a password to the admin accoun
       o.createPW('<passwd>')
       <ctrl>-d
       
-These commands will take considerable time; hours, most likely, so be patient.
 
 Importers and daemons won't be directly usable, except for the GTFS importer, but are included to help you get started on your own versions.
 
