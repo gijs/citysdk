@@ -305,7 +305,7 @@ module Sequel
       if params.has_key? "within"
         container = Node.where(:cdk_id => params[:within]).first
         if(container)
-          contains = Sequel.function(:ST_Intersects, Sequel.function(:ST_Buffer, container.geom, -0.00000002), :geom)
+          contains = Sequel.function(:ST_Contains, Sequel.function(:ST_Buffer, container.geom, -0.00000002), :geom)
           dataset = dataset.where(contains)
         else
           CitySDK_API.do_abort(422,"Containing node not found: #{params[:within]}")
