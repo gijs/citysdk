@@ -80,8 +80,8 @@ Sequel.migration do
         IF ST_IsEmpty(_polygons) IS FALSE THEN
           RETURN ST_SetSRID(ST_Envelope(_collection), 4326); -- Of multipolygon from separate bboxes?
         ELSIF ST_IsEmpty(_lines) IS FALSE THEN -- lines (and maybe points)
-          SELECT ST_SetSRID(ST_MakeLine(array_agg(geom)), 4326) INTO _lines 
-          FROM ST_DumpPoints(_collection);  
+          --SELECT ST_SetSRID(ST_MakeLine(array_agg(geom)), 4326) INTO _lines 
+          --FROM ST_DumpPoints(_collection);  
           RETURN _lines; 
         ELSE -- only points
           RETURN ST_SetSRID(ST_Union(_geoms), 4326);
