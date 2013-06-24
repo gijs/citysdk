@@ -47,7 +47,7 @@ When done, you should release your session by calling `GET /release_session`, ag
   </table>
 </div>
                 
-A Ruby utility library to illustrate and manage these steps is available <a href="./api_conn.rb" target='new'>here</a>.
+A Ruby utility library to illustrate and manage these steps is available <a href="./citysdk_api.rb" target='new'>here</a>.
               
 ####Adding Data
 

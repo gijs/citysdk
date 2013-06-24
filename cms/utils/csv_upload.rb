@@ -186,8 +186,8 @@ end
               :id => row[pars['unique_id']],
               :name => row[pars['name']],
               :geom => {
-                :type => 'bin',
-                :geom => geom[1]
+                :type => 'wkb',
+                :wkb => geom[1]
               },
               :data => row.to_hash
             }

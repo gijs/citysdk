@@ -85,6 +85,8 @@ Sequel.migration do
       column :bbox, 'geometry'
       String :category
       String :organization
+      String :status
+      String :fileconfiguration
     end
 
     run = <<-SQL

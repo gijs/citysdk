@@ -61,25 +61,26 @@ class CitySDK_API < Sinatra::Base
   def path_cdk_nodes(node_type=nil)
     begin
       pgn = 
-        if node_type    
-            Node.dataset
-              .where(:node_type=>node_type)
-              .geo_bounds(params)
-              .name_search(params)
-              .modality_search(params)
-              .route_members(params)
-              .nodedata(params)
-              .node_layers(params)
-              .do_paginate(params)
+        if node_type
+          params["node_type"] = node_type
+          Node.dataset
+            .where(:node_type=>node_type)
+            .geo_bounds(params)
+            .name_search(params)
+            .modality_search(params)
+            .route_members(params)
+            .nodedata(params)
+            .node_layers(params)
+            .do_paginate(params)
         else
-            Node.dataset
-              .geo_bounds(params)
-              .name_search(params)
-              .modality_search(params)
-              .route_members(params)
-              .nodedata(params)
-              .node_layers(params)
-              .do_paginate(params)
+          Node.dataset
+            .geo_bounds(params)
+            .name_search(params)
+            .modality_search(params)
+            .route_members(params)
+            .nodedata(params)
+            .node_layers(params)
+            .do_paginate(params)
         end      
       
       CitySDK_API.json_nodes_results(pgn, params, request)

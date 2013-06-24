@@ -78,8 +78,8 @@ class CitySDK_API < Sinatra::Base
     srid = 4326
     if match_params.has_key? 'srid'
       srid = match_params['srid'].to_i
-      if not srid > 0
-        CitySDK_API.do_abort(422, "Invalid 'srid' parameter supplied.")
+      if srid <= 0
+        CitySDK_API.do_abort(422, "Invalid 'srid' parameter supplied. (#{match_params['srid']})")
       end
     end
     match_params["srid"] = srid
@@ -234,7 +234,7 @@ class CitySDK_API < Sinatra::Base
       if create_params.has_key? 'srid'
         srid = create_params['srid'].to_i
         if not srid > 0
-          CitySDK_API.do_abort(422, "Invalid 'srid' parameter supplied.")
+          CitySDK_API.do_abort(422, "Invalid 'srid' parameter supplied. (#{create_params['srid']}).")
         end
       end
     
@@ -328,15 +328,15 @@ class CitySDK_API < Sinatra::Base
           #   ERROR:  You need JSON-C for ST_GeomFromGeoJSON
           # TODO: find out why, and maybe update PostgreSQL/PostGIS...
         
-          if node["geom"]['type'] != 'bin'
+          if node["geom"]['type'] != 'wkb'
             rgeo_geom = RGeo::GeoJSON.decode(node["geom"].to_json, :json_parser => :json)   
             wkb = CitySDK_API.wkb_generator.generate(rgeo_geom)
+            geom = Sequel.function(:ST_Transform, Sequel.function(:ST_SetSRID, Sequel.lit("'#{wkb}'").cast(:geometry), srid), 4326)
           else
-            # geom is already in wkb format..
-            wkb = node["geom"]['geom']
+            # geom is already in wkb format; with correct srid..
+            wkb = node["geom"]['wkb']
+            geom = Sequel.function(:ST_Transform, Sequel.lit("'#{wkb}'").cast(:geometry), 4326)
           end
-          
-          geom = Sequel.function(:ST_Transform, Sequel.function(:ST_SetSRID, Sequel.lit("'#{wkb}'").cast(:geometry), srid), 4326)
         elsif members
           # Compute derived geometry from the geometry of members
           geom = Sequel.function(:route_geometry, members)
