@@ -89,8 +89,8 @@ END $$ LANGUAGE plpgsql IMMUTABLE;
 ----------------------------------------------------------------------------------------
 
 CREATE VIEW citysdk.pand AS
-  SELECT
-    identificatie::bigint, 
+  SELECT DISTINCT ON (identificatie)
+    identificatie::bigint AS pand_id, 
     pandstatus::text AS status,
     --(SELECT id FROM citysdk.pandstatus WHERE status = p.pandstatus::text) AS pandstatus_id, 
     bouwjaar::int, 
@@ -102,8 +102,16 @@ CREATE VIEW citysdk.pand AS
 ----------------------------------------------------------------------------------------
     
 CREATE VIEW citysdk.verblijfsobject AS  
-  SELECT 
-    vbo.identificatie::bigint,
+  SELECT DISTINCT ON (vbo.identificatie)
+    vbo.identificatie::bigint AS vbo_id,
+    (
+    	SELECT 
+    	array_to_string(array_agg(p.identificatie::bigint), ',') AS pand_ids
+    	FROM pandactueelbestaand p
+    	JOIN verblijfsobjectpandactueel vbop
+    	ON p.identificatie = vbop.gerelateerdpand
+    	WHERE vbop.identificatie = vbo.identificatie
+    ),
     verblijfsobjectstatus::text AS status, 
     gebruiksdoelverblijfsobject::text AS gebruiksdoel,
     --(SELECT id FROM citysdk.verblijfsobjectstatus WHERE status = verblijfsobjectstatus::text) AS verblijfsobjectstatus_id, 
@@ -128,8 +136,8 @@ CREATE VIEW citysdk.verblijfsobject AS
 ----------------------------------------------------------------------------------------
 
 CREATE VIEW citysdk.ligplaats AS  
-  SELECT
-    lp.identificatie::bigint,
+  SELECT DISTINCT ON (lp.identificatie)
+    lp.identificatie::bigint AS ligplaats_id,
     ligplaatsstatus::text AS status,
     --(SELECT id FROM citysdk.ligplaatsstatus WHERE status = ligplaatsstatus::text) AS ligplaatsstatus_id,   
     citysdk.adres(openbareruimtenaam, huisnummer::int, huisletter, huisnummertoevoeging),
@@ -149,8 +157,8 @@ CREATE VIEW citysdk.ligplaats AS
 ----------------------------------------------------------------------------------------
 
 CREATE VIEW citysdk.standplaats AS  
-  SELECT
-    sp.identificatie::bigint,
+  SELECT DISTINCT ON (sp.identificatie)
+    sp.identificatie::bigint AS standplaats_id,
     standplaatsstatus::text AS status,
     --(SELECT id FROM citysdk.standplaatsstatus WHERE status = standplaatsstatus::text) AS standplaatsstatus_id,   
     citysdk.adres(openbareruimtenaam, huisnummer::int, huisletter, huisnummertoevoeging),
