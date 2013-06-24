@@ -304,16 +304,10 @@ module Sequel
       dataset = self
       if params.has_key? "within"
         container = Node.where(:cdk_id => params[:within]).first
-        if container
-          # By default, only find nodes contained by within node.
-          geom_function = :ST_Contains
-          if [1, 3].include? params["node_type"]
-            # But use ST_Intersects if node_type is a route (1) or a ptline (3)
-            geom_function = :ST_Intersects
-          end
-          
-          contains = Sequel.function(geom_function, Sequel.function(:ST_Buffer, container.geom, -0.00000002), :geom)
-          dataset = dataset.where(contains)
+        if container          
+          intersects = Sequel.function(:ST_Intersects, Sequel.function(:ST_Buffer, container.geom, 0.00000002), :geom)
+          not_contains = Sequel.~(Sequel.function(:ST_Contains, :geom, container.geom))
+          dataset = dataset.where(intersects).where(not_contains)          
         else
           CitySDK_API.do_abort(422,"Containing node not found: #{params[:within]}")
         end
