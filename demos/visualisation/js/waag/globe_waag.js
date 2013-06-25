@@ -662,7 +662,7 @@ addData = function (data, dataLayer){
 		if(dataLayer.properties.stackIndex==dataLayer.properties.stackAmount){
 			mergeShapes(dataLayer, false);
 			if(dataLayer.layer=="cbs_nl"){
-				setD3GraphCBS(dataLayer.geoRepository.mergedGeoStack);
+				//setD3GraphCBS(dataLayer.geoRepository.mergedGeoStack);
 			}
 			
 		}
