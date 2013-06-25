@@ -84,10 +84,12 @@
 	}
 
 
-	function delUrl(url,params) {
+	function delUrl(url,params,upd) {
 	  var r=confirm("Are your sure your want to delete this layer? The layer and *all* associated data will be lost...")
 	  if (r==true) {
 	    var nu = url;
+      
+      $('#delurl').html('<img height="18" width="18" src="/css/img/progress.gif">'); 
       
       if(params) {
   	    $.each(params, function(index, value) {
@@ -99,7 +101,7 @@
 	      url: nu,
 	      type: 'delete',
 	      success: function(data){
-	        $("#maincontent").html(data);
+	        $(upd).html(data);
 	      }
 	    });  
 	  }
