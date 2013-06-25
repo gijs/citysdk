@@ -96,16 +96,12 @@ class CSDK_CMS < Sinatra::Base
   
   get '/get_layer_stats/:layer' do |l|
     l = Layer.where(:name=>l).first
-    ndata = database.fetch("select count(*) from node_data where layer_id = %d" % l.id).all[0][:count]
-    ndataua = database.fetch("select updated_at from node_data where layer_id = %d order by updated_at desc limit 1" % l.id).all
-    ndataua = (ndataua and ndataua[0] ) ? ndataua[0][:updated_at] : '-'
-    nodes = database.fetch("select count(*) from nodes where layer_id = %d" % l.id).all[0][:count]
-    
-    h = "<b>data frames:</b>&nbsp;#{ndata}<br/>" +
-    "<b>layer nodes:</b>&nbsp;#{nodes}<br/>" +
-    "<b>last update:</b>&nbsp;#{ndataua}<br/>"
-    
-    [200,{},h]
+    @ndata = database.fetch("select count(*) from node_data where layer_id = %d" % l.id).all[0][:count]
+    @ndataua = database.fetch("select updated_at from node_data where layer_id = %d order by updated_at desc limit 1" % l.id).all
+    @ndataua = (@ndataua and @ndataua[0] ) ? @ndataua[0][:updated_at] : '-'
+    @nodes = database.fetch("select count(*) from nodes where layer_id = %d" % l.id).all[0][:count]
+    @delcommand = "delUrl('/layer/" + l.id.to_s + "',null,$('#stats'))"
+    erb :stats, :layout => false
   end
   
   
