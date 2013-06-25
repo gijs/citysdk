@@ -7,7 +7,7 @@
     <input type="hidden" name="geometry" value="<%= @geometry_column %>" />
     <input type="hidden" name="geometry_type" value="<%= @geometry_type  %>" />
 
-
+<h4>Temp. Disabled</h4>
     <div >file: <span style="font-size:120%"><em><%= @original_file %></em></span></div>
       
     
@@ -40,7 +40,7 @@
       </tr>
     </table>
     <input class='submitb' type="submit" name='match' value="show match"/>
-    <input class='submitb' type="submit" name='add' value="add data"/>
+    <input class='submitb' type="submit" name='add' disabled value="add data"/>
   </form>
   
   <div id='csvconfout'/>

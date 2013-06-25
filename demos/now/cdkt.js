@@ -243,6 +243,13 @@ $(document).ready( function() {
       console.info("geo location off.")
       alert("Location services on, please.")
     }
+    if (window.DeviceOrientationEvent) {
+      window.addEventListener("deviceorientation", function (e) {
+        console.info(e.alpha)
+        // rotate(360 - e.alpha);
+      }, false);
+    }
+    
   }
 
 

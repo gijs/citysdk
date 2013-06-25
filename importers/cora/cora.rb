@@ -6,11 +6,15 @@ pw = JSON.parse(File.read('/var/www/citysdk/shared/config/cdkpw.json')) if File.
 $email = ARGV[0] || 'citysdk@waag.org'
 $password = ARGV[1] || (pw ? pw[$email] : '')
 
+
+begin 
 $api = CitySDK_API.new($email, $password)
 
-$api.set_host('localhost',3000)
-cora_host = "https://dl.dropboxusercontent.com"
-cora_path = "/u/12905316/citysdk/cora/%s_Amsterdam_GeoJson.json"
+# cora_host = "https://dl.dropboxusercontent.com"
+# cora_path = "/u/12905316/citysdk/cora/%s_Amsterdam_GeoJson.json"
+
+cora_host = "http://dev.citysdk.waag.org"
+cora_path = "/%s_Amsterdam_GeoJson.json"
 
 if $api.authenticate == false 
   puts "Auth failure with citysdk."
@@ -18,10 +22,24 @@ if $api.authenticate == false
 end
 
 layers = {
-  #"belemmeringen",
-  #"omleidingen",
+  # "belemmeringen"=>"PROJECT_ID",
+  # "omleidingen"=>"OMLEIDING_ID",
   "projecten" => "WIORPR_ID"
 }
+
+def downkeys(h) 
+  hh = {}
+  h.each do |k,v|
+    hh[k.downcase] = v
+  end
+  return hh
+end
+  
+
+
+$api.batch_size = 1
+
+count = 10000
  
 layers.each { |layer, id| 
  
@@ -32,18 +50,8 @@ layers.each { |layer, id|
    response = cora_conn.get cora_path % [layer]
    results = JSON.parse(response.body)
  
-   nodes = results['features'].map do |f|
-     {
-       :id => f['properties']['WIORPR_ID'],       
-       :geom => f['geometry'],
-       :data => f['properties']       
-     }
-   end
- 
-   puts "Received #{nodes.length} nodes.."
-   $stderr.puts "Received #{nodes.length} nodes.."
- 
-   $api.set_layer("cora.#{layer}")
+
+   $api.set_layer("divv.cora.#{layer}")
  
    $api.set_createTemplate( {
      :create => {
@@ -53,6 +61,25 @@ layers.each { |layer, id|
        }
      }
    } )
+
+   results['features'].each do |f|
+
+     count += 1
+     begin
+       $api.create_node(
+         {
+           :id => f['properties'][id].to_s,       
+           # :id => count.to_s,       
+           :geom => f['geometry'],
+           :data => downkeys(f['properties'])
+         })
+     rescue
+     end
+   end
+   
+   # puts "Received #{nodes.length} nodes.."
+   # $stderr.puts "Received #{nodes.length} nodes.."
+ 
  
    # puts JSON.pretty_generate(   
    # nodes.map do |n|
@@ -62,11 +89,11 @@ layers.each { |layer, id|
    # end
    # )
    
-   nodes.each do |n|
-     $api.create_node(n)
-   end
  
 }
 
+ensure 
+
 $api.release
 
+end

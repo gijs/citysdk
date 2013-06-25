@@ -237,7 +237,7 @@ function getRegions(uri, page, dataLayer, resultsArray){
 					
 				}
 				var layerOrg=dataLayer.layer;
-				
+				console.log("data results ="+data.results.length);
 				for(var i=0; i<data.results.length; i++){
 					var name=data.results[i].name.toLowerCase();
 					var id=data.results[i].cdk_id.toLowerCase();
@@ -247,7 +247,10 @@ function getRegions(uri, page, dataLayer, resultsArray){
 						url=apiUrl+id+"/ptstops?geom&layer=gtfs&per_page="+maxEntrys+"&page=1";
 					}else if(layerOrg=="cbs_nl"){
 						dataLayer.layer="cbs_nl";
-						url=apiUrl+id+"/regions?admr::admn_level=3&layer=cbs&geom&per_page="+maxEntrys+"&page=1";
+						//?layer=cbs&per_page=50
+						//url=apiUrl+id+"/regions?admr::admn_level=3&layer=cbs&geom&per_page="+maxEntrys+"&page=1";
+						
+						url=apiUrl+id+"?layer=cbs&geom&per_page="+maxEntrys+"&page=1";
 
 					}
 
@@ -310,6 +313,7 @@ function getData(uri, page, dataLayer, resultsArray){
 	
 			if(data.results.length==0){
 				//return;
+				console.log("result null -->"+dataLayer.layer);
 			}
 
 			if(resultsArray==null)resultsArray=[];		

@@ -1,5 +1,7 @@
-# require "bundler/capistrano"
-puts "*** Deploying to \033[1;41mdev.citysdk.waag.org\033[0m"
+set :stages, %w(production testing opt)
+set :default_stage, "testing"
+require 'capistrano/ext/multistage'
+#require "bundler/capistrano"
 
 
 set :application, "CSDKDoc"

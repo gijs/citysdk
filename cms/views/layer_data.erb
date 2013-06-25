@@ -6,7 +6,6 @@
     <span class = "layeredit">Layer: <%= @layer.name %></span>
     <% if @oid==0 or @oid ==  @layer.owner_id %>
       <span class="editlinks">
-        <a href='#' onclick="delUrl('/layer/<%= @layer.id %>')">clear all data</a>
       </span>
     <% end %>
   </div>
@@ -19,7 +18,7 @@
   </div>
 
 
-  <h1>Experimental!! Your mileage etc.</h1>
+  <!-- <h1>Experimental!! Your mileage etc.</h1> -->
   <div class="code">
     <h4>File Upload<span class="codecomment">Upload a CSV, JSON or XML file. </span></h4>
       <div id='csvupl'>

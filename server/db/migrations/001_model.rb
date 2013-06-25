@@ -85,8 +85,11 @@ Sequel.migration do
       column :bbox, 'geometry'
       String :category
       String :organization
-      String :status
-      String :fileconfiguration
+      
+      String :import_url
+      String :import_status
+      String :import_config
+      
     end
 
     run = <<-SQL
