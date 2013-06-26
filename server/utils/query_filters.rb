@@ -314,7 +314,6 @@ module Sequel
           
           contains = Sequel.function(:ST_Intersects, Sequel.function(:ST_Buffer, container.geom, -0.00002), :geom)
           dataset = dataset.where(contains).exclude(Sequel.function(:ST_Contains, :geom, container.geom ))
-
         else
           CitySDK_API.do_abort(422,"Containing node not found: #{params[:within]}")
         end

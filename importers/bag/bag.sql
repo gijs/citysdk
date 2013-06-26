@@ -84,6 +84,23 @@ BEGIN
   RETURN adres || ', ' || postcode || ', ' || woonplaats;
 END $$ LANGUAGE plpgsql IMMUTABLE;
 
+DROP FUNCTION IF EXISTS citysdk.nummer_letter_toevoeging(nummer int, letter text, toevoeging text);
+CREATE OR REPLACE FUNCTION citysdk.nummer_letter_toevoeging(nummer int, letter text, toevoeging text) 
+RETURNS text
+AS $$
+DECLARE
+  _nummer_letter_toevoeging text;
+BEGIN
+  _nummer_letter_toevoeging := '' || nummer;
+  IF letter IS NOT NULL THEN
+    _nummer_letter_toevoeging := _nummer_letter_toevoeging || letter;
+    IF toevoeging IS NOT NULL THEN
+      _nummer_letter_toevoeging := _nummer_letter_toevoeging || toevoeging;
+    END IF;
+  END IF;
+  RETURN lower(_nummer_letter_toevoeging);
+END $$ LANGUAGE plpgsql IMMUTABLE;
+
 ----------------------------------------------------------------------------------------
 --    Panden:    -----------------------------------------------------------------------
 ----------------------------------------------------------------------------------------
@@ -117,9 +134,15 @@ CREATE VIEW citysdk.verblijfsobject AS
     --(SELECT id FROM citysdk.verblijfsobjectstatus WHERE status = verblijfsobjectstatus::text) AS verblijfsobjectstatus_id, 
     --(SELECT id FROM citysdk.gebruiksdoel g WHERE g.gebruiksdoel = gebruiksdoelverblijfsobject::text) AS gebruiksdoel_id,
     oppervlakteverblijfsobject::int AS oppervlakte,
+    openbareruimtenaam::text AS straat,
+    huisnummer::int,
+    huisletter::text,
+    huisnummertoevoeging::text AS toevoeging,
+    citysdk.nummer_letter_toevoeging(huisnummer::int, huisletter, huisnummertoevoeging) AS nummer_letter_toevoeging,
     citysdk.adres(openbareruimtenaam, huisnummer::int, huisletter, huisnummertoevoeging),
     postcode::text,
-    woonplaatsnaam::text,
+    lower(postcode || citysdk.nummer_letter_toevoeging(huisnummer::int, huisletter, huisnummertoevoeging)) AS postcode_huisnummer,
+    woonplaatsnaam::text AS woonplaats,
     ST_Transform(ST_Force_2D(geopunt), 4326) AS geom
   FROM verblijfsobjectactueelbestaand vbo
   JOIN verblijfsobjectgebruiksdoelactueel gd
