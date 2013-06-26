@@ -12,10 +12,9 @@ require '/var/www/csdk_cms/current/utils/citysdk_api.rb'
 #   66 stations, 66 * 66 = 4356!
 #   Dat is makkelijk!
 
-routes = {}
+lines = {}
 
-# Download stations and routes using NS API
-if ARGV.length == 0
+# Download stations using NS API
 
   ns = JSON.parse(File.read('/var/www/citysdk/shared/config/nskey.json')) if File.exists?('/var/www/citysdk/shared/config/nskey.json')
 
@@ -32,6 +31,9 @@ if ARGV.length == 0
       stations_name[station['Namen']['Lang']] = station['Code']
     end
   }
+
+# Download lines using NS API
+if ARGV.length == 0
 
   termini = []
   CSV.foreach("termini.csv", {:headers => true, :col_sep => ";", :encoding => 'utf-8'}) do |row|
@@ -66,17 +68,17 @@ if ARGV.length == 0
                 stations_name[stop["Naam"]]
               }            
             
-              if not routes.has_key? type
-                routes[type] = {}
+              if not lines.has_key? type
+                lines[type] = {}
               end
             
-              if not routes[type].has_key? a
-                routes[type][a] = []
+              if not lines[type].has_key? a
+                lines[type][a] = []
               end
             
-              routes[type][a] << stops
+              lines[type][a] << stops
             
-              routes[type][a].uniq!
+              lines[type][a].uniq!
             }
           else
             puts "\t No trip possible without transfer."
@@ -90,14 +92,14 @@ if ARGV.length == 0
   }
 
   # Write intermediate data to file:
-  File.open("routes_all.json", 'w') { |file| file.write(JSON.pretty_generate(routes)) }
+  File.open("lines_all.json", 'w') { |file| file.write(JSON.pretty_generate(lines)) }
   
 else
   # Read from file given in command line arguments
-  routes = JSON.parse(IO.read(ARGV[0]))   
+  lines = JSON.parse(IO.read(ARGV[0]))   
 end
 
-routes.each do |type, stations|
+lines.each do |type, stations|
   stations.each do |code, trips|
     remove = []
     trips.each_with_index do |trip1, i|
@@ -115,7 +117,7 @@ routes.each do |type, stations|
   end
 end
 
-routes.each do |type, stations|
+lines.each do |type, stations|
   stations.each do |code1, trips|
     trips.each { |trip|
       trip[1..-1].each_with_index { |code2, i|
@@ -123,22 +125,29 @@ routes.each do |type, stations|
           stations[code2].delete(trip[1+i..-1])
         end
       }
-      #if stations.has_key? trip[1]
-      #  stations[trip[1]].delete(trip[1+i..-1])
-      #end
     }
   end
-  
+  # Remove empty arrays
   stations.each do |code, trips|
     if trips == []
       stations.delete(code)
     end
-  end
-  
-  
+  end 
 end  
 
 # Write intermediate data to file:
-File.open("routes.json", 'w') { |file| file.write(JSON.pretty_generate(routes)) }
+File.open("lines.json", 'w') { |file| file.write(JSON.pretty_generate(lines)) }
 
-puts JSON.pretty_generate(routes)
+lines.each do |type, stations|
+  stations.each do |code1, trips|
+    trips.each { |trip|
+      trip.each_with_index { |code2, i|
+        trip[i] = stations_code[code2]
+      }
+    }
+  end
+end
+
+File.open("lines_debug.json", 'w') { |file| file.write(JSON.pretty_generate(lines)) }
+
+puts JSON.pretty_generate(lines)
