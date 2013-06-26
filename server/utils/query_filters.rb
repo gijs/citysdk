@@ -305,15 +305,16 @@ module Sequel
       if params.has_key? "within"
         container = Node.where(:cdk_id => params[:within]).first
         if container
-          # By default, only find nodes contained by within node.
-          geom_function = :ST_Contains
-          if [1, 3].include? params["node_type"]
-            # But use ST_Intersects if node_type is a route (1) or a ptline (3)
-            geom_function = :ST_Intersects
-          end
+
+          # Find nodes contained by within node.
+          # We want routes and lines through the node to match, even though they are not contained.
+          # But we do not want nodes to match that contain the container.
+          # So intersect and then subtract those last
+          # The ST_Buffer is used to filter out unwanted neighbours where borders intersect a bit.
           
-          contains = Sequel.function(geom_function, Sequel.function(:ST_Buffer, container.geom, -0.00000002), :geom)
-          dataset = dataset.where(contains)
+          contains = Sequel.function(:ST_Intersects, Sequel.function(:ST_Buffer, container.geom, -0.00002), :geom)
+          dataset = dataset.where(contains).exclude(Sequel.function(:ST_Contains, :geom, container.geom ))
+
         else
           CitySDK_API.do_abort(422,"Containing node not found: #{params[:within]}")
         end
