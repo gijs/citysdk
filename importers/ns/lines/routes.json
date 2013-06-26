@@ -37,23 +37,6 @@
       ],
       [
         "RSD",
-        "DDR",
-        "RTB",
-        "RTD",
-        "SDM",
-        "DT",
-        "GV",
-        "LAA",
-        "LEDN",
-        "SHL",
-        "ASDL",
-        "ASS",
-        "ASD",
-        "ALM",
-        "LLS"
-      ],
-      [
-        "RSD",
         "ETN",
         "BD",
         "TB",
@@ -70,58 +53,6 @@
         "OST",
         "WH",
         "ZL"
-      ]
-    ],
-    "BD": [
-      [
-        "BD",
-        "ETN",
-        "RSD"
-      ],
-      [
-        "BD",
-        "DDR",
-        "RTD",
-        "DT",
-        "GV",
-        "GVC"
-      ],
-      [
-        "BD",
-        "TB",
-        "HT",
-        "O",
-        "NM",
-        "NML",
-        "EST",
-        "AHZ",
-        "AH",
-        "DR",
-        "ZP",
-        "DV",
-        "OST",
-        "WH",
-        "ZL"
-      ]
-    ],
-    "DN": [
-      [
-        "DN",
-        "HRT",
-        "BR",
-        "VL"
-      ],
-      [
-        "DN",
-        "HM",
-        "EHV",
-        "TB",
-        "BD",
-        "DDR",
-        "RTD",
-        "DT",
-        "GV",
-        "GVC"
       ]
     ],
     "VL": [
@@ -139,30 +70,6 @@
         "DT",
         "GV",
         "GVC"
-      ]
-    ],
-    "WT": [
-      [
-        "WT",
-        "RM",
-        "STD",
-        "HRL"
-      ],
-      [
-        "WT",
-        "RM",
-        "STD",
-        "MT"
-      ]
-    ],
-    "STD": [
-      [
-        "STD",
-        "HRL"
-      ],
-      [
-        "STD",
-        "MT"
       ]
     ],
     "HRL": [
@@ -203,63 +110,11 @@
     "UT": [
       [
         "UT",
-        "HT",
-        "EHV",
-        "WT",
-        "RM",
-        "STD",
-        "HRL"
-      ],
-      [
-        "UT",
-        "HT",
-        "EHV",
-        "WT",
-        "RM",
-        "STD",
-        "MT"
-      ],
-      [
-        "UT",
-        "DB",
-        "ED",
-        "AH",
-        "NM"
-      ],
-      [
-        "UT",
-        "KLP",
-        "ED",
-        "AH",
-        "NM"
-      ],
-      [
-        "UT",
-        "GD",
-        "GVC"
-      ],
-      [
-        "UT",
         "WD",
         "BDG",
         "APN",
         "LDL",
         "LEDN"
-      ],
-      [
-        "UT",
-        "AMF",
-        "APD",
-        "DV",
-        "AML",
-        "HGL",
-        "ES"
-      ],
-      [
-        "UT",
-        "ASB",
-        "ASDZ",
-        "SHL"
       ],
       [
         "UT",
@@ -270,79 +125,9 @@
         "CAS",
         "HLO",
         "AMR"
-      ],
-      [
-        "UT",
-        "ASA",
-        "ASD",
-        "ASS",
-        "ZD",
-        "CAS",
-        "AMR",
-        "AMRN",
-        "HWD",
-        "SGN",
-        "ANA",
-        "HDRZ",
-        "HDR"
-      ],
-      [
-        "UT",
-        "AMF",
-        "ZL",
-        "SWK",
-        "HR",
-        "LW"
-      ],
-      [
-        "UT",
-        "AMF",
-        "ZL",
-        "ASN",
-        "GN"
-      ]
-    ],
-    "ED": [
-      [
-        "ED",
-        "AH",
-        "NM"
-      ]
-    ],
-    "AH": [
-      [
-        "AH",
-        "AHZ",
-        "EST",
-        "NML",
-        "NM",
-        "O",
-        "HT",
-        "TB",
-        "BD",
-        "ETN",
-        "RSD"
-      ],
-      [
-        "AH",
-        "DR",
-        "ZP",
-        "DV",
-        "OST",
-        "WH",
-        "ZL"
       ]
     ],
     "NM": [
-      [
-        "NM",
-        "O",
-        "HT",
-        "TB",
-        "BD",
-        "ETN",
-        "RSD"
-      ],
       [
         "NM",
         "AH",
@@ -371,36 +156,9 @@
         "ANA",
         "HDRZ",
         "HDR"
-      ],
-      [
-        "NM",
-        "NML",
-        "EST",
-        "AHZ",
-        "AH",
-        "DR",
-        "ZP",
-        "DV",
-        "OST",
-        "WH",
-        "ZL"
       ]
     ],
     "DDR": [
-      [
-        "DDR",
-        "RSD",
-        "BGN",
-        "RB",
-        "KBD",
-        "KRG",
-        "BZL",
-        "GS",
-        "ARN",
-        "MDB",
-        "VSS",
-        "VS"
-      ],
       [
         "DDR",
         "RTB",
@@ -419,68 +177,8 @@
     "RTD": [
       [
         "RTD",
-        "RTB",
-        "DDR",
-        "RSD",
-        "BGN",
-        "RB",
-        "KBD",
-        "KRG",
-        "BZL",
-        "GS",
-        "ARN",
-        "MDB",
-        "VSS",
-        "VS"
-      ],
-      [
-        "RTD",
         "DDR",
         "RSD"
-      ],
-      [
-        "RTD",
-        "DDR",
-        "BD",
-        "TB",
-        "EHV",
-        "HM",
-        "DN",
-        "HRT",
-        "BR",
-        "VL"
-      ],
-      [
-        "RTD",
-        "DT",
-        "GV",
-        "GVC"
-      ],
-      [
-        "RTD",
-        "SDM",
-        "DT",
-        "GV",
-        "LAA",
-        "LEDN",
-        "HAD",
-        "HLM",
-        "ASS",
-        "ASD"
-      ],
-      [
-        "RTD",
-        "SDM",
-        "DT",
-        "GV",
-        "LAA",
-        "LEDN",
-        "SHL",
-        "ASDL",
-        "ASS",
-        "ASD",
-        "ALM",
-        "LLS"
       ],
       [
         "RTD",
@@ -577,46 +275,9 @@
         "BDG",
         "WD",
         "UT"
-      ],
-      [
-        "LEDN",
-        "SHL",
-        "ASDL",
-        "ASS",
-        "ASD",
-        "ALM",
-        "LLS"
-      ]
-    ],
-    "WD": [
-      [
-        "WD",
-        "UT"
       ]
     ],
     "APD": [
-      [
-        "APD",
-        "AMF",
-        "UT",
-        "GD",
-        "GVC"
-      ],
-      [
-        "APD",
-        "DV",
-        "AML",
-        "HGL",
-        "ES"
-      ],
-      [
-        "APD",
-        "AMF",
-        "HVS",
-        "DVD",
-        "ASDZ",
-        "SHL"
-      ],
       [
         "APD",
         "AMF",
@@ -629,15 +290,6 @@
         "BKG",
         "BKF",
         "EKZ"
-      ]
-    ],
-    "ZP": [
-      [
-        "ZP",
-        "DV",
-        "OST",
-        "WH",
-        "ZL"
       ]
     ],
     "ES": [
@@ -671,75 +323,11 @@
         "DV",
         "APD",
         "AMF",
-        "UT",
-        "GD",
-        "GVC"
-      ],
-      [
-        "AML",
-        "HGL",
-        "ES"
-      ],
-      [
-        "AML",
-        "DV",
-        "APD",
-        "AMF",
-        "HVS",
-        "DVD",
-        "ASDZ",
-        "SHL"
-      ],
-      [
-        "AML",
-        "DV",
-        "APD",
-        "AMF",
         "HVS",
         "ASD"
       ]
     ],
-    "DV": [
-      [
-        "DV",
-        "ZP",
-        "DR",
-        "AH",
-        "AHZ",
-        "EST",
-        "NML",
-        "NM",
-        "O",
-        "HT",
-        "TB",
-        "BD",
-        "ETN",
-        "RSD"
-      ]
-    ],
     "SHL": [
-      [
-        "SHL",
-        "LEDN",
-        "LAA",
-        "GV",
-        "DT",
-        "SDM",
-        "RTD",
-        "RTB",
-        "DDR",
-        "RSD",
-        "BGN",
-        "RB",
-        "KBD",
-        "KRG",
-        "BZL",
-        "GS",
-        "ARN",
-        "MDB",
-        "VSS",
-        "VS"
-      ],
       [
         "SHL",
         "ASDZ",
@@ -764,11 +352,6 @@
       ],
       [
         "SHL",
-        "LEDN",
-        "GVC"
-      ],
-      [
-        "SHL",
         "ASDZ",
         "DVD",
         "HVS",
@@ -778,31 +361,6 @@
         "AML",
         "HGL",
         "ES"
-      ],
-      [
-        "SHL",
-        "ASDZ",
-        "DVD",
-        "ALM",
-        "LLS",
-        "ZL",
-        "MP",
-        "SWK",
-        "WV",
-        "HR",
-        "AKM",
-        "GW",
-        "LW"
-      ],
-      [
-        "SHL",
-        "ASDZ",
-        "DVD",
-        "ALM",
-        "LLS",
-        "ZL",
-        "ASN",
-        "GN"
       ]
     ],
     "AMR": [
@@ -821,66 +379,11 @@
         "RM",
         "STD",
         "MT"
-      ],
-      [
-        "AMR",
-        "CAS",
-        "ZD",
-        "ASS",
-        "ASD",
-        "ASA",
-        "UT",
-        "KLP",
-        "ED",
-        "AH",
-        "NM"
-      ],
-      [
-        "AMR",
-        "HLO",
-        "CAS",
-        "UTG",
-        "BV",
-        "HLM"
-      ],
-      [
-        "AMR",
-        "AMRN",
-        "HWD",
-        "SGN",
-        "ANA",
-        "HDRZ",
-        "HDR"
-      ],
-      [
-        "AMR",
-        "AMRN",
-        "HWD",
-        "OBD",
-        "HN"
       ]
     ],
     "HLM": [
       [
         "HLM",
-        "HAD",
-        "LEDN",
-        "LAA",
-        "GV",
-        "DT",
-        "SDM",
-        "RTD",
-        "RTB",
-        "DDR"
-      ],
-      [
-        "HLM",
-        "HAD",
-        "LEDN",
-        "GVC"
-      ],
-      [
-        "HLM",
         "BV",
         "UTG",
         "CAS",
@@ -890,52 +393,6 @@
         "HWD",
         "OBD",
         "HN"
-      ],
-      [
-        "HLM",
-        "ASS",
-        "ASD"
-      ]
-    ],
-    "UTG": [
-      [
-        "UTG",
-        "BV",
-        "HLM"
-      ],
-      [
-        "UTG",
-        "CAS",
-        "HLO",
-        "AMR",
-        "AMRN",
-        "HWD",
-        "OBD",
-        "HN"
-      ]
-    ],
-    "SGN": [
-      [
-        "SGN",
-        "HWD",
-        "AMRN",
-        "AMR",
-        "CAS",
-        "ZD",
-        "ASS",
-        "ASD",
-        "ASA",
-        "UT",
-        "KLP",
-        "ED",
-        "AH",
-        "NM"
-      ],
-      [
-        "SGN",
-        "ANA",
-        "HDRZ",
-        "HDR"
       ]
     ],
     "HDR": [
@@ -971,14 +428,6 @@
         "UTG",
         "BV",
         "HLM"
-      ],
-      [
-        "HN",
-        "HNK",
-        "HKS",
-        "BKG",
-        "BKF",
-        "EKZ"
       ]
     ],
     "EKZ": [
@@ -1011,51 +460,6 @@
       [
         "ASD",
         "ASS",
-        "ASDL",
-        "SHL",
-        "LEDN",
-        "LAA",
-        "GV",
-        "DT",
-        "SDM",
-        "RTD",
-        "RTB",
-        "DDR",
-        "RSD",
-        "BGN",
-        "RB",
-        "KBD",
-        "KRG",
-        "BZL",
-        "GS",
-        "ARN",
-        "MDB",
-        "VSS",
-        "VS"
-      ],
-      [
-        "ASD",
-        "ASA",
-        "UT",
-        "HT",
-        "EHV",
-        "WT",
-        "RM",
-        "STD",
-        "MT"
-      ],
-      [
-        "ASD",
-        "ASA",
-        "UT",
-        "KLP",
-        "ED",
-        "AH",
-        "NM"
-      ],
-      [
-        "ASD",
-        "ASS",
         "HLM",
         "HAD",
         "LEDN",
@@ -1082,42 +486,6 @@
         "APD",
         "DV",
         "AML"
-      ],
-      [
-        "ASD",
-        "ASS",
-        "ZD",
-        "CAS",
-        "HLO",
-        "AMR"
-      ],
-      [
-        "ASD",
-        "ASS",
-        "ZD",
-        "CAS",
-        "AMR",
-        "AMRN",
-        "HWD",
-        "SGN",
-        "ANA",
-        "HDRZ",
-        "HDR"
-      ],
-      [
-        "ASD",
-        "ASS",
-        "HN",
-        "HNK",
-        "HKS",
-        "BKG",
-        "BKF",
-        "EKZ"
-      ],
-      [
-        "ASD",
-        "ALM",
-        "LLS"
       ]
     ],
     "LLS": [
@@ -1147,23 +515,6 @@
         "MDB",
         "VSS",
         "VS"
-      ],
-      [
-        "LLS",
-        "ZL",
-        "MP",
-        "SWK",
-        "WV",
-        "HR",
-        "AKM",
-        "GW",
-        "LW"
-      ],
-      [
-        "LLS",
-        "ZL",
-        "ASN",
-        "GN"
       ]
     ],
     "ZL": [
@@ -1185,42 +536,6 @@
         "BD",
         "ETN",
         "RSD"
-      ],
-      [
-        "ZL",
-        "AMF",
-        "UT",
-        "GD",
-        "RTA",
-        "RTD"
-      ],
-      [
-        "ZL",
-        "SWK",
-        "HR",
-        "LW"
-      ]
-    ],
-    "MP": [
-      [
-        "MP",
-        "ZL",
-        "LLS",
-        "ALM",
-        "DVD",
-        "ASDZ",
-        "SHL",
-        "LEDN",
-        "GVC"
-      ],
-      [
-        "MP",
-        "SWK",
-        "WV",
-        "HR",
-        "AKM",
-        "GW",
-        "LW"
       ]
     ],
     "LW": [
@@ -1329,12 +644,6 @@
     "TBU": [
       [
         "TBU",
-        "TBR",
-        "GZ",
-        "BD"
-      ],
-      [
-        "TBU",
         "TB",
         "OT",
         "BTL",
@@ -1345,18 +654,6 @@
         "HZE",
         "MZ",
         "WT"
-      ],
-      [
-        "TBU",
-        "TB",
-        "HT",
-        "ZBM",
-        "GDM",
-        "CL",
-        "HTNC",
-        "HTN",
-        "UTL",
-        "UT"
       ]
     ],
     "DN": [
@@ -1413,26 +710,12 @@
     "STD": [
       [
         "STD",
-        "SRN",
-        "EC",
-        "RM"
-      ],
-      [
-        "STD",
         "GLN",
         "SBK",
         "SN",
         "NH",
         "HB",
         "HRL"
-      ],
-      [
-        "STD",
-        "LUT",
-        "BK",
-        "BDE",
-        "MT",
-        "MTR"
       ]
     ],
     "HRL": [
@@ -1444,12 +727,6 @@
         "SBK",
         "GLN",
         "STD"
-      ]
-    ],
-    "MT": [
-      [
-        "MT",
-        "MTR"
       ]
     ],
     "MTR": [
@@ -1615,23 +892,6 @@
         "OTB",
         "WF",
         "ED"
-      ],
-      [
-        "AH",
-        "AHZ",
-        "EST",
-        "NML",
-        "NM"
-      ],
-      [
-        "AH",
-        "AHP",
-        "AHPR",
-        "VP",
-        "RH",
-        "DR",
-        "BMN",
-        "ZP"
       ]
     ],
     "NM": [
@@ -1671,62 +931,13 @@
         "ZP"
       ]
     ],
-    "GDM": [
-      [
-        "GDM",
-        "ZBM",
-        "HT",
-        "TB",
-        "TBU",
-        "TBR",
-        "GZ",
-        "BD"
-      ],
-      [
-        "GDM",
-        "CL",
-        "HTNC",
-        "HTN",
-        "UTL",
-        "UT"
-      ],
-      [
-        "GDM",
-        "TPSW",
-        "TL"
-      ]
-    ],
     "DDR": [
-      [
-        "DDR",
-        "DDZD",
-        "ZLW",
-        "ZVB",
-        "ODB",
-        "RSD"
-      ],
       [
         "DDR",
         "DDZD",
         "ZLW",
         "BDPB",
         "BD"
-      ],
-      [
-        "DDR",
-        "ZWD",
-        "BRD",
-        "RLB",
-        "RTZ",
-        "RTB",
-        "RTD",
-        "SDM",
-        "DTZ",
-        "DT",
-        "RSW",
-        "GVMW",
-        "GV",
-        "GVC"
       ]
     ],
     "RTD": [
@@ -1750,16 +961,6 @@
         "BRD",
         "ZWD",
         "DDR"
-      ],
-      [
-        "RTD",
-        "SDM",
-        "DTZ",
-        "DT",
-        "RSW",
-        "GVMW",
-        "GV",
-        "GVC"
       ],
       [
         "RTD",
@@ -1844,30 +1045,6 @@
         "HLM"
       ]
     ],
-    "LEDN": [
-      [
-        "LEDN",
-        "DVNK",
-        "VST",
-        "GVM",
-        "LAA",
-        "GVC"
-      ],
-      [
-        "LEDN",
-        "SSH",
-        "NVP",
-        "HFD",
-        "SHL"
-      ],
-      [
-        "LEDN",
-        "VH",
-        "HIL",
-        "HAD",
-        "HLM"
-      ]
-    ],
     "WD": [
       [
         "WD",
@@ -1886,39 +1063,11 @@
         "WD",
         "GDG",
         "GD",
-        "NWK",
-        "CPS",
-        "RTA",
-        "RTN",
-        "RTD"
-      ],
-      [
-        "WD",
-        "GDG",
-        "GD",
         "ZTMO",
         "ZTM",
         "YPB",
         "VB",
         "GVC"
-      ],
-      [
-        "WD",
-        "BKL",
-        "AC",
-        "ASHD",
-        "ASB",
-        "DVD",
-        "ASA",
-        "ASDM",
-        "ASD",
-        "ASS",
-        "ZD",
-        "KBW",
-        "KZD",
-        "WM",
-        "KMA",
-        "UTG"
       ]
     ],
     "APD": [
@@ -1986,64 +1135,7 @@
         "ZL"
       ]
     ],
-    "AML": [
-      [
-        "AML",
-        "WDN",
-        "RSN",
-        "HON",
-        "DVC",
-        "DV",
-        "TWL",
-        "APDO",
-        "APD"
-      ],
-      [
-        "AML",
-        "AMRI",
-        "BN",
-        "HGL",
-        "ESD",
-        "ES"
-      ],
-      [
-        "AML",
-        "WDN",
-        "NVD",
-        "RAT",
-        "HNO",
-        "ZL"
-      ]
-    ],
-    "DV": [
-      [
-        "DV",
-        "TWL",
-        "APDO",
-        "APD"
-      ],
-      [
-        "DV",
-        "DVC",
-        "HON",
-        "RSN",
-        "WDN",
-        "AML",
-        "AMRI",
-        "BN",
-        "HGL",
-        "ESD",
-        "ES"
-      ]
-    ],
     "AMF": [
-      [
-        "AMF",
-        "DLD",
-        "BHV",
-        "UTO",
-        "UT"
-      ],
       [
         "AMF",
         "BRN",
@@ -2085,10 +1177,6 @@
         "BHV",
         "UTO",
         "UT"
-      ],
-      [
-        "BRN",
-        "AMF"
       ]
     ],
     "SHL": [
@@ -2210,11 +1298,6 @@
       ],
       [
         "HLM",
-        "OVN",
-        "ZVT"
-      ],
-      [
-        "HLM",
         "BLL",
         "SPTZ",
         "SPTN",
@@ -2222,13 +1305,6 @@
         "BV",
         "HK",
         "UTG"
-      ],
-      [
-        "HLM",
-        "HLMS",
-        "HWZB",
-        "ASS",
-        "ASD"
       ]
     ],
     "UTG": [
@@ -2268,12 +1344,6 @@
         "HLM"
       ]
     ],
-    "HN": [
-      [
-        "HN",
-        "HNK"
-      ]
-    ],
     "HNK": [
       [
         "HNK",
@@ -2292,59 +1362,12 @@
     "ASD": [
       [
         "ASD",
-        "ASDM",
-        "ASA",
-        "DVD",
-        "ASB",
-        "ASHD",
-        "AC",
-        "BKL",
-        "WD",
-        "GDG",
-        "GD",
-        "NWK",
-        "CPS",
-        "RTA",
-        "RTN",
-        "RTD"
-      ],
-      [
-        "ASD",
-        "ASDM",
-        "ASSP",
-        "DMN",
-        "WP",
-        "NDB",
-        "BSMZ",
-        "HVSN",
-        "HVS",
-        "BRN"
-      ],
-      [
-        "ASD",
-        "ASS",
-        "ASDL",
-        "SHL",
-        "HFD"
-      ],
-      [
-        "ASD",
         "ASS",
         "HWZB",
         "HLMS",
         "HLM",
         "OVN",
         "ZVT"
-      ],
-      [
-        "ASD",
-        "ASS",
-        "ZD",
-        "KBW",
-        "KZD",
-        "WM",
-        "KMA",
-        "UTG"
       ],
       [
         "ASD",
@@ -2392,29 +1415,6 @@
         "ASDZ",
         "SHL",
         "HFD"
-      ],
-      [
-        "ALMO",
-        "LLS",
-        "DRON",
-        "KPNZ",
-        "ZL"
-      ]
-    ],
-    "LLS": [
-      [
-        "LLS",
-        "ALMO",
-        "ALMB",
-        "ALMP",
-        "ALM",
-        "ALMM",
-        "AMPO",
-        "WP",
-        "DMN",
-        "ASSP",
-        "ASDM",
-        "ASD"
       ]
     ],
     "KPN": [
@@ -2489,10 +1489,6 @@
     "MP": [
       [
         "MP",
-        "ZL"
-      ],
-      [
-        "MP",
         "SWK",
         "WV",
         "HR",
@@ -2534,12 +1530,6 @@
         "ASD"
       ]
     ],
-    "SHL": [
-      [
-        "SHL",
-        "ASD"
-      ]
-    ],
     "ASD": [
       [
         "ASD",
@@ -2550,26 +1540,6 @@
     ]
   },
   "stoptrein": {
-    "VL": [
-      [
-        "VL",
-        "TG",
-        "RV",
-        "SM",
-        "RM"
-      ],
-      [
-        "VL",
-        "BR",
-        "VRY",
-        "VLB",
-        "BMR",
-        "CK",
-        "MMLH",
-        "NMH",
-        "NM"
-      ]
-    ],
     "RM": [
       [
         "RM",
@@ -2587,28 +1557,6 @@
         "NM"
       ]
     ],
-    "HRL": [
-      [
-        "HRL",
-        "HRLK",
-        "LG",
-        "EGH",
-        "CVM",
-        "KRD"
-      ],
-      [
-        "HRL",
-        "HRLW",
-        "VDL",
-        "KMR",
-        "SOG",
-        "VK",
-        "SGL",
-        "MES",
-        "MT",
-        "MTR"
-      ]
-    ],
     "KRD": [
       [
         "KRD",
@@ -2624,12 +1572,6 @@
         "VK",
         "SGL",
         "MES",
-        "MT",
-        "MTR"
-      ]
-    ],
-    "MT": [
-      [
         "MT",
         "MTR"
       ]
@@ -2656,25 +1598,8 @@
     "GR": [
       [
         "GR",
-        "AKL",
-        "LDM",
-        "BSD",
-        "GDM"
-      ],
-      [
-        "GR",
         "BHDV",
         "GND",
-        "SDT",
-        "SDTB",
-        "DDRS",
-        "DDR"
-      ],
-      [
-        "GR",
-        "BHDV",
-        "GND",
-        "HBZM",
         "SDT",
         "SDTB",
         "DDRS",
@@ -2791,18 +1716,6 @@
     "BNC": [
       [
         "BNC",
-        "LTN",
-        "EDC",
-        "ED"
-      ],
-      [
-        "BNC",
-        "BNN",
-        "HVL",
-        "AMF"
-      ],
-      [
-        "BNC",
         "BNN",
         "AMF"
       ]
@@ -2869,27 +1782,6 @@
         "ZP"
       ]
     ],
-    "DTC": [
-      [
-        "DTC",
-        "DTCH",
-        "WL",
-        "DID",
-        "ZV",
-        "DVN",
-        "WTV",
-        "AHP",
-        "AH"
-      ],
-      [
-        "DTC",
-        "GDR",
-        "TBG",
-        "VSV",
-        "ATN",
-        "WW"
-      ]
-    ],
     "ODZ": [
       [
         "ODZ",
@@ -2920,40 +1812,6 @@
         "DA",
         "VZ",
         "AML"
-      ],
-      [
-        "MRB",
-        "HDB",
-        "GBG",
-        "CO",
-        "DLN",
-        "NA",
-        "EMNZ",
-        "EMN"
-      ],
-      [
-        "MRB",
-        "OMN",
-        "DL",
-        "ZL"
-      ]
-    ],
-    "CO": [
-      [
-        "CO",
-        "DLN",
-        "NA",
-        "EMNZ",
-        "EMN"
-      ],
-      [
-        "CO",
-        "GBG",
-        "HDB",
-        "MRB",
-        "OMN",
-        "DL",
-        "ZL"
       ]
     ],
     "EMN": [
@@ -3184,38 +2042,6 @@
         "MES",
         "VK",
         "HRL"
-      ]
-    ],
-    "MRB": [
-      [
-        "MRB",
-        "HDB",
-        "CO",
-        "NA",
-        "EMNZ",
-        "EMN"
-      ],
-      [
-        "MRB",
-        "OMN",
-        "DL",
-        "ZL"
-      ]
-    ],
-    "CO": [
-      [
-        "CO",
-        "NA",
-        "EMNZ",
-        "EMN"
-      ],
-      [
-        "CO",
-        "HDB",
-        "MRB",
-        "OMN",
-        "DL",
-        "ZL"
       ]
     ],
     "EMN": [

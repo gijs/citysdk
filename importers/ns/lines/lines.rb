@@ -116,11 +116,16 @@ routes.each do |type, stations|
 end
 
 routes.each do |type, stations|
-  stations.each do |code, trips|
+  stations.each do |code1, trips|
     trips.each { |trip|
-      if stations.has_key? trip[1]
-        stations[trip[1]].delete(trip[1..-1])
-      end
+      trip[1..-1].each_with_index { |code2, i|
+        if stations.has_key? code2
+          stations[code2].delete(trip[1+i..-1])
+        end
+      }
+      #if stations.has_key? trip[1]
+      #  stations[trip[1]].delete(trip[1+i..-1])
+      #end
     }
   end
   
@@ -133,8 +138,7 @@ routes.each do |type, stations|
   
 end  
 
-puts JSON.pretty_generate(routes)
-
 # Write intermediate data to file:
 File.open("routes.json", 'w') { |file| file.write(JSON.pretty_generate(routes)) }
 
+puts JSON.pretty_generate(routes)
