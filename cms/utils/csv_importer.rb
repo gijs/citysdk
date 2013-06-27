@@ -67,6 +67,8 @@ class CsvImporter
       @params['colsep'] = findColSep(StringIO.new(@content)) if !@params['colsep']
       
       getHeaders
+      
+      guessName if not @params['name']
 
       if not ((@params['x'] and @params['y']) or @params['geometry'])
         colname,srid,type = findGeometryColumn
@@ -96,6 +98,14 @@ class CsvImporter
     end
   end
   
+  
+  def guessName
+    @params['headers'].each do |h|
+      if(h =~ /^(title|titel|naam|name)/i)
+        @params['name'] = h
+      end
+    end
+  end
   
   def guessSRID(lon,lat)
     begin
@@ -178,8 +188,7 @@ class CsvImporter
       bailWithError(excpt, __LINE__)
     end
   end
-  
-  
+    
   def findXYColumns
     x = y = nil
     xs = ys = true
@@ -255,7 +264,6 @@ class CsvImporter
     end
   end
   
-
   def sign_in
     begin
       if @signed_in == false
@@ -271,6 +279,39 @@ class CsvImporter
   
   def sign_out
     @api.release
+  end
+  
+  def add_vbo
+    sign_in
+    
+    begin
+      qres=''
+      csv = CSV.new(@content, :col_sep => @params['colsep'], :headers => true, :skip_blanks =>true)
+      csv.each do |row|
+      
+        a = yield(row.to_hash)
+        
+        pc = a[0]
+        hn = a[1]
+        d  = a[2]
+              
+        hn.scan(/\d+/) { |n|
+          qres = @api.get("/nodes?bag.vbo::postcode_huisnummer=#{(pc + n).downcase}")
+          break if qres['status']=='success' and qres['record_count'] >= 1
+        }
+        
+        if qres['status']=='success' and qres['results'] and qres['results'][0]
+          url = '/' + qres['results'][0]['cdk_id'] + '/' + @params['layername']
+          $api.put(url,{'data'=>d})
+        end
+
+      end
+    rescue => e
+      puts e.message
+    ensure
+      sign_out
+    end
+
   end
   
   def do_import
@@ -324,8 +365,6 @@ class CsvImporter
       data = row.to_hash
       data = yield(data) if defined? yield
         
-      end
-
       node[:id]   = row[@params['unique_id']]
       node[:data] = data
       node[:name] = data[@params['name']] if @params['name'] and data[@params['name']]
