@@ -3,102 +3,59 @@
 require "csv"
 require 'charlock_holmes'
 
-def isGeometry(s)
-  begin 
-    res1 = database.fetch("select st_srid('#{s}'::geometry)").all
-    res2 = database.fetch("select GeometryType('#{s}'::geometry)").all
-    return res1[0][:st_srid], res2[0][:geometrytype]
-  rescue
-    return nil,nil
-  end
-end
-
-def colsep(f)
-  begin
-    a = f.gets
-    b = f.gets
-    [";","\t","|"].each do |s|
-      return s if (a.split(s).length  == b.split(s).length) and b.split(s).length > 1
-    end
-  rescue
-  ensure
-    f.rewind
-  end
-  ','
-end
-
-
-def getUploadedFileContents(f)
-  content = File.read(f)
-  detect = CharlockHolmes::EncodingDetector.detect(content)
-  return detect ? 
-  	CharlockHolmes::Converter.convert(content, detect[:encoding], 'UTF-8') :
-  	content
-end
-
 
 
   def parseCSV(f,l)
     begin
       
-      content = getUploadedFileContents(f.path).force_encoding('utf-8')
+      csv = CsvImporter.new(
+        {
+          'filepath' => f.path,
+          'layername'  => l,
+          'email' => session[:e],
+          'passwd' => session[:p]
+        }
+      )
       
       @filename = f.path.gsub(/^\/tmp\//,'./filetmp/')
-      File.open(@filename,"w") do |fd|
-        fd.write(content)
-      end
-      @geometry_column = ''
-      @srid = '4326'
       
-      csv = CSV.new(content, :col_sep => colsep(StringIO.new(content)), :headers => true, :skip_blanks =>true)
-      csv.each do |row|
-        @headers = row.headers
-        @headers.each do |h|
-          res,type = isGeometry(row[h])
-          if(res)
-            @geometry_type = type
-            @geometry_column = h
-            @srid = res
-            break
-          end
-        end
-        break
-      end
+      csv.writeFileContents(@filename)
+      
+      @params = csv.params
+      @params['filepath'] = @filename
+      @params['utf8_fixed'] = true
       
       @unique_id = "<select name='unique_id'> "
       @name = "<select name='name'><option>&lt;no name&gt;</option> "
       nt = it = true
-      @headers.each do |h|
-        
-        if(it and h =~ /.*id$/i)
-          it = false
+      @params['headers'].each do |h|
+        if h == @params['unique_id']
           @unique_id += "<option selected='selected'>#{h}</option>"
         else
           @unique_id += "<option>#{h}</option>"
         end
-          
-        if(nt and h =~ /title|titel|naam|name/i)
-          nt = false
+        
+        if h == @params['name']
           @name += "<option selected='selected'>#{h}</option>"
         else
           @name += "<option>#{h}</option>"
         end
-
       end
+      
       @name += "</select>"
       @unique_id += "</select>"
-
-      if @geometry_column == ''
+      
+      if !@params['geometry'] or (@params['geometry']=='')
         @sel_x = "<select name='x_field'> "
         @sel_y = "<select name='y_field'> "
-        @headers.each do |h|
-          if h =~ /lon|lng/i or (h =~ /coord|location/i and h =~ /x/i)
+        @params['headers'].each do |h|
+          if h == @params['x']
             @sel_x += "<option selected value='#{h}' >#{h}</option>"
           else
             @sel_x += "<option value='#{h}' >#{h}</option>"
           end
   
-          if h =~ /lat/i or (h =~ /coord|location/i and h =~ /y/i)
+          if h == @params['y']
             @sel_y += "<option selected value='#{h}' >#{h}</option>"
           else
             @sel_y += "<option value='#{h}' >#{h}</option>"
@@ -107,7 +64,11 @@ end
         @sel_x += "</select>"
         @sel_y += "</select>"
       end
-
+      
+      @srid = @params['srid']
+      @layername = @params['layername']
+      @colsep = @params['colsep']
+      
       erb :selectheaders, :layout => false
     rescue Exception => e
       e.message
@@ -136,6 +97,7 @@ end
     match = {
       :match => {
         :params => {
+          :srid => pars['srid'],
           :radius => 200,
           :debug => true,
           :geometry_type => :point,
@@ -167,8 +129,9 @@ end
     
     
       api = CitySDK_API.new(session[:e],session[:p])
+      api.set_host('api.dev') # !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
       api.set_matchTemplate(match)
-      api.set_layer(Layer[pars['layer'].to_i].name)
+      api.set_layer(pars['layername'])
       
       if api.authenticate
         
@@ -176,7 +139,7 @@ end
         res = ''
 
         content = File.read(pars['filename']).force_encoding('utf-8')
-        csv = CSV.new(content, :col_sep => colsep(StringIO.new(content)), :headers => true, :skip_blanks =>true)
+        csv = CSV.new(content, :col_sep => pars['colsep'], :headers => true, :skip_blanks =>true)
         
         csv.each do |row|
           
@@ -216,24 +179,18 @@ end
             }
           end
           
-          if(pars['add'])
-            if pars['geometry'] && pars['geometry'] != '' ###TO-FIX
-              api.create_node(node)
-            else
-              api.match_create_node(node)
-            end
-          else
-            res = api.match_node(node)
-            if(res) 
-              api.release()
-              return JSON.pretty_generate(res)
-            end
+          res = api.match_node(node)
+          if(res) 
+            api.release()
+            return res
           end
           
           count += 1;
           
         end
         api.release()
+      else
+        "could not authenticate...."
       end
 
     rescue Exception => e

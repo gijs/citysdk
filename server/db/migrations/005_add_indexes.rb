@@ -24,6 +24,7 @@ Sequel.migration do
       run "CREATE INDEX ON nodes USING btree (layer_id);"
     $stderr.puts("\t\tNode index name...")
       run "CREATE INDEX ON nodes USING gist (name gist_trgm_ops);"
+      run "CREATE INDEX ON nodes USING btree(lower(name));"
       
     $stderr.puts("\t\tNode index members[0]...")
       run "CREATE INDEX ON nodes USING btree ((members[array_lower(members, 1)]));"

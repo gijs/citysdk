@@ -291,7 +291,7 @@ module Sequel
       if params.has_key? "name"
         if params.has_key? "trigrams"
           return self.where('name % ?'.lit(Sequel.expr(params['name'])))
-            #.order(Sequel.desc(Sequel.function(:similarity, :name, params['name'])))
+            .order(Sequel.desc(Sequel.function(:similarity, :name, params['name'])))
         else
           return self.where(Sequel.expr(:name).ilike("%#{params['name']}%"))        
             #.order(Sequel.desc(Sequel.function(:similarity, :name, params['name'])))          

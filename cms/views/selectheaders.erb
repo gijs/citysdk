@@ -1,13 +1,13 @@
 <div id='csvconf'>
   <form name="input" id="csvconf_f" action="/csvheader" method="post">
     <input type="hidden" name="filename" value="<%= @filename %>" />
-    <input type="hidden" name="encoding" value="<%= @encoding %>" />
     <input type="hidden" name="layer" value="<%= @layer.id %>" />
     <input type="hidden" name="srid" value="<%= @srid %>" />
     <input type="hidden" name="geometry" value="<%= @geometry_column %>" />
     <input type="hidden" name="geometry_type" value="<%= @geometry_type  %>" />
+    <input type="hidden" name="layername" value="<%= @layername %>" />
+    <input type="hidden" name="colsep" value="<%= @colsep %>" />
 
-<h4>Temp. Disabled</h4>
     <div >file: <span style="font-size:120%"><em><%= @original_file %></em></span></div>
       
     
@@ -40,11 +40,9 @@
       </tr>
     </table>
     <input class='submitb' type="submit" name='match' value="show match"/>
-    <input class='submitb' type="submit" name='add' disabled value="add data"/>
+    <input class='submitb' type="submit" name='add'  value="add data"/>
   </form>
-  
   <div id='csvconfout'/>
-  
   
 </div>
 

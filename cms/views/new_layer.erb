@@ -6,7 +6,7 @@
     <span class = "layeredit">New Layer:</span>
   </div>
   
-  <form name="input" action="/layer/create" method="post">
+  <form id='cl' name="input" action="/layer/create" method="post">
 
     <div class="code">
       <h4>Name</h4>
@@ -43,3 +43,16 @@
   </form>
 </div>
 
+
+<script type="text/javascript" charset="utf-8">
+
+function submit_resp(responseText, statusText, xhr, $form) {
+  $('#csvconfout').html(responseText)
+}
+
+
+$('#cl').submit(function() { 
+    $(this).ajaxSubmit(); 
+    return false; 
+});
+</script>

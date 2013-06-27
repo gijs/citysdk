@@ -276,11 +276,7 @@ class CSDK_CMS < Sinatra::Base
     params[:nolayout] = true
     redirect "/layer/#{@layer.id}/data?nolayout"
   end
-  
-  
-  
-  
-  
+
   get '/layer/new' do
     if Owner.validSession(session[:auth_key])
       @owner = Owner[@oid]
@@ -439,7 +435,7 @@ class CSDK_CMS < Sinatra::Base
         
         if p && p[:tempfile] 
           @layerSelect = Layer.selectTag()
-          return parseCSV(p[:tempfile], @layer.id)
+          return parseCSV(p[:tempfile], @layer.name)
         end
         
         
@@ -461,13 +457,16 @@ class CSDK_CMS < Sinatra::Base
     # 
     count = 0
     if params['add']
-      # Thread.new do 
-        processCSV(params)
-      # end
+        # processCSV(params)
+
       # return "job started..."
     else
+      
       a = processCSV(params)
-      return "<hr/><pre>" + a + "</pre>"
+      
+      puts JSON.pretty_generate(a)
+      
+      return [200,{},"<hr/><pre>" +  "</pre>"]
       # self.send_data(processCSV(params,false), { :disposition => :attachment, :filename => 'match_results.json' } )
     end
   end
