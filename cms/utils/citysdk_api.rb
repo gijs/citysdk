@@ -36,7 +36,7 @@ class CitySDK_API
   end
   
   def initialize(email='',pw='')
-    set_default_host
+    set_host('api.citysdk.waag.org')
     @error = '';
     @layer = '';
     @email = email;
@@ -128,6 +128,7 @@ class CitySDK_API
   def authenticate
     if !( @host == 'api.dev' or @host == 'localhost' or @host == '127.0.0.1')
       auth_connection = Faraday.new :url => "https://#{@host}", :ssl => {:verify => false}
+      # puts "trying: #{@host} with #{@email}, #{@passw}"
       resp = auth_connection.get '/get_session', { :e => @email, :p => @passw }
     else 
       resp = @connection.get '/get_session', { :e => @email, :p => @passw }
@@ -142,6 +143,7 @@ class CitySDK_API
   end
 
   def release
+    match_flush
     create_flush # send any remaining entries in the create buffer
     match_create_flush
     if authorized
