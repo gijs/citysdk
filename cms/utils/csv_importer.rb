@@ -266,22 +266,25 @@ class CsvImporter
   
   def sign_in
     begin
-      if @signed_in == false
-        @api = CitySDK_API.new(@params['email'],@params['passw'])
-        @api.authenticate
-        @api.set_layer(@params['layername'])
-        @signed_in = true
-      end
-    rescue
-      @signed_in = false
+      sign_out if @signed_in
+      
+      @api = CitySDK_API.new(@params['email'],@params['passw'])
+      @api.set_host(@params['host']) if @params['host']
+      @api.authenticate
+      @api.set_layer(@params['layername'])
+      @signed_in = true
+    rescue => e
+      puts e.message
     end
   end
   
   def sign_out
     @api.release
+    @signed_in = false
   end
   
-  def add_vbo
+  def add_to_address(dry_run=false)
+    failed = []
     sign_in
     
     begin
@@ -289,22 +292,20 @@ class CsvImporter
       csv = CSV.new(@content, :col_sep => @params['colsep'], :headers => true, :skip_blanks =>true)
       csv.each do |row|
       
-        a = yield(row.to_hash)
-        
-        pc = a[0]
-        hn = a[1]
-        d  = a[2]
-              
-        hn.scan(/\d+/) { |n|
+        yielded = yield(row.to_hash)
+        pc = yielded[0]
+        hn = yielded[1]
+        hn.scan(/\d+/) { |n| # takek care of addresses with range of numbers, 79-83 f.i.
           qres = @api.get("/nodes?bag.vbo::postcode_huisnummer=#{(pc + n).downcase}")
           break if qres['status']=='success' and qres['record_count'] >= 1
         }
         
         if qres['status']=='success' and qres['results'] and qres['results'][0]
           url = '/' + qres['results'][0]['cdk_id'] + '/' + @params['layername']
-          $api.put(url,{'data'=>d})
+          $api.put(url,{'data'=>yielded[2]}) if not dry_run
+        else
+          failed << yielded[2]
         end
-
       end
     rescue => e
       puts e.message
@@ -312,6 +313,8 @@ class CsvImporter
       sign_out
     end
 
+    return failed
+    
   end
   
   def do_import
