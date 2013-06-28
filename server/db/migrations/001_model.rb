@@ -90,6 +90,8 @@ Sequel.migration do
       String :import_status
       String :import_config
       
+      String :sample_url
+      
     end
 
     run = <<-SQL

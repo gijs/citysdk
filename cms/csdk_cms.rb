@@ -298,7 +298,6 @@ class CSDK_CMS < Sinatra::Base
       @layer.organization = @owner.organization
       @categories = @layer.cat_select
       @webservice = false
-      
       erb :new_layer
     else
       CSDK_CMS.do_abort(401,"not authorized")
@@ -319,11 +318,10 @@ class CSDK_CMS < Sinatra::Base
       else
         @layer.name = params['name']
       end
-      
+
       params['validity_from'] = Time.now.strftime('%Y-%m-%d') if params['validity_from'].nil?
       params['validity_to'] = Time.now.strftime('%Y-%m-%d') if params['validity_to'].nil?
-      
-      
+
       @layer.description = params['description']
       @layer.update_rate = params['update_rate'].to_i
       @layer.validity = "[#{params['validity_from']}, #{params['validity_to']}]"
@@ -332,7 +330,6 @@ class CSDK_CMS < Sinatra::Base
       @layer.data_sources << params["data_sources_x"] if params["data_sources_x"] && params["data_sources_x"] != ''
       @layer.organization = params['organization']
       @layer.category = params['catprefix'] + '.' + params['category']
-
       @layer.webservice = params['wsurl']
       @layer.update_rate = params['update_rate']
 
@@ -382,6 +379,9 @@ class CSDK_CMS < Sinatra::Base
         
         @layer.webservice = params['wsurl']
         @layer.update_rate = params['update_rate']
+        
+        @layer.sample_url = params['sample_url'] if params['sample_url'] and params['sample_url'] != ''
+        
         
         if !@layer.valid? 
           @categories = @layer.cat_select

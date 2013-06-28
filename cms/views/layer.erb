@@ -1,13 +1,16 @@
 <div class="code">
   <span class = "layerheader"><%= @layer.name %></span>
-  <% if @oid and (@oid==0 or @oid.to_i ==  @layer.owner_id) %>
     <% edit = "document.location='/layer/edit/#{@layer.id}'" %>
     <span class = "editlinks">
-      <a href='#' onclick="delUrl('/layer/<%= @layer.id %>', {'delete_layer' : 'true', 'category': '<%= @selected %>'})">delete..</a> &nbsp;/&nbsp;
-      <a href='/layer/<%= @layer.id %>/edit'>edit..</a> &nbsp;/&nbsp;
-      <a href='/layer/<%= @layer.id %>/data'>data..</a>
+      <% sample = "http://dev.citysdk.waag.org/map#" + (@layer.sample_url || "nodes?layer=#{@layer.name}&per_page=10") %>
+      <a href="<%= sample %>" target='new'>show sample..</a>
+      <% if @oid and (@oid==0 or @oid.to_i ==  @layer.owner_id) %>
+        &nbsp;/&nbsp;
+        <a href='#' onclick="delUrl('/layer/<%= @layer.id %>', {'delete_layer' : 'true', 'category': '<%= @selected %>'})">delete..</a> &nbsp;/&nbsp;
+        <a href='/layer/<%= @layer.id %>/edit'>edit..</a> &nbsp;/&nbsp;
+        <a href='/layer/<%= @layer.id %>/data'>data..</a>
+      <% end %>
     </span>
-  <% end %>
   
   <table border="0">
     <tr>

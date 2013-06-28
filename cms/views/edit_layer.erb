@@ -24,6 +24,12 @@
       <h4>Description</h4>
       <textarea name="description"><%= @layer.description %></textarea>
     </div>
+    
+    <div class="code">
+      <h4>Sample URL<span class="codecomment">Enter the <b>path</b> of a sample of data to display in the viewer. </span></h4>
+      <div><input class='layer' type="text" size="100" name="sample_url", value="<%= @layer.sample_url %>"/></div>
+    </div>
+
     <div class="code">
       <h4>Datasources</h4>
       <% @layer.data_sources.each_with_index do |s,i| %>
