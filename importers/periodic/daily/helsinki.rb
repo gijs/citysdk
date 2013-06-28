@@ -3,7 +3,7 @@ require '/var/www/csdk_cms/current/utils/citysdk_api.rb'
 
 pw = JSON.parse(File.read('/var/www/citysdk/shared/config/cdkpw.json')) if File.exists?('/var/www/citysdk/shared/config/cdkpw.json')
 $email = ARGV[0] || 'citysdk@waag.org'
-$password = ARGV[1] || pw ? pw[$email] : ''
+$password = ARGV[1] || (pw ? pw[$email] : '')
 
 $helsSR = Faraday.new :url => "https://asiointi.hel.fi", :ssl => {:verify => false, :version => 'SSLv3'}
 $helsPath = "/palautews/rest/v1/requests.json"
