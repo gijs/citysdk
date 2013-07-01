@@ -34,15 +34,19 @@
     
     <div class="full-width-content">
       <div class="container">
-        <nav class="menu">
+        <nav id = 'menu' class="menu">
           <ul>
             <li><a href="/">Home</a></li>
-            <!-- <li><a href="concept">Concept</a></li> -->
-            <li><a href="read">Read</a></li>
-            <li><a href="write">Write</a></li>
-            <li><a href="match">Match</a></li>
-            <!-- <li><a href="cms">CMS</a></li> -->
-            <!-- <li><a href="apps">Apps</a></li> -->
+            <% if api==false %>
+              <li><a href="what">&nbsp;What?&nbsp;</a></li>
+              <li><a href="apps">&nbsp;Apps&nbsp;</a></li>
+              <li><a href="dev">&nbsp;&nbsp;API&nbsp;&nbsp;</a></li>
+            <% else %>
+              <li><a href="dev">&nbsp;&nbsp;API&nbsp;&nbsp;</a></li>
+              <li><a href="read">Read</a></li>
+              <li><a href="write">Write</a></li>
+              <li><a href="match">Match</a></li>
+            <% end %>
             <li><a href="map">Viewer</a></li>
           </ul>
         </nav>
