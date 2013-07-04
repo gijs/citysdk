@@ -1,18 +1,23 @@
+require "../../rce/rijksmonumenten"
 require 'active_support/core_ext'
 require '/var/www/csdk_cms/current/utils/citysdk_api.rb'
 
 pw = JSON.parse(File.read('/var/www/citysdk/shared/config/cdkpw.json')) if File.exists?('/var/www/citysdk/shared/config/cdkpw.json')
 ns = JSON.parse(File.read('/var/www/citysdk/shared/config/nskey.json')) if File.exists?('/var/www/citysdk/shared/config/nskey.json')
 $email = ARGV[0] || 'citysdk@waag.org'
-$password = ARGV[1] || pw ? pw[$email] : ''
+$password = ARGV[1] || (pw ? pw[$email] : '')
 
 @ns = Faraday.new :url => "https://webservices.ns.nl", :ssl => {:verify => false}
 @ns.basic_auth(ns['usr'], ns['key'])
 xml = @ns.get "/ns-api-stations"
+
+# TODO: Use ns-api-stations-v2
+
 stations = Hash.from_xml(xml.body)['stations']
 stations = stations['station']
 
 nodes = stations.map do |s|
+  # TODO: Niet alleen Nederlandse stations??
   if s["country"] == "NL" and s['alias'] == 'false' and s['code']
     s.delete('alias')
     lat = s.delete('lat')
