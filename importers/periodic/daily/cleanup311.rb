@@ -6,7 +6,7 @@ $email = ARGV[0] || 'citysdk@waag.org'
 $password = ARGV[1] || pw ? pw[$email] : ''
 
 
-$layer = '311.helsinki'
+$layer = '311.*'
 $api = CitySDK_API.new($email,$password)
 if $api.authenticate == false 
   puts "Auth failure.."
@@ -19,7 +19,7 @@ puts "Cleaning up layer #{$layer}.."
 $stderr.puts "Cleaning up layer #{$layer}.."
 
 
-url = "/nodes?layer=#{$layer}&per_page=10&skip_webservice"
+url = "nodes?per_page=10&skip_webservice&layer=311.*&per_page=100"
 page = 1
 count = 0
 now = Date.today
