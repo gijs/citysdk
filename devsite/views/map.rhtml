@@ -86,9 +86,10 @@
     // Leaflet map initialization 
     // ================================================================================
 
-    //var tileUrl = 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
+
+    // var tileUrl = 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
+    //var tileUrl = 'http://test-api.citysdk.waag.org:8888/v2/citysdk/{z}/{x}/{y}.png';
     var tileUrl = 'http://tiles.citysdk.waag.org/v2/citysdk/{z}/{x}/{y}.png';
-    // var tileUrl = 'http://test-api.citysdk.waag.org:8888/v2/citysdk/{z}/{x}/{y}.png';
 
     var osmAttrib = 'Map data © OpenStreetMap contributors';  
     
@@ -518,8 +519,13 @@
         },
         {
           "url": "n798432345/select/regions",
+<<<<<<< HEAD
           "title": "Select the admn region hierarchy 'up from' a node (the olympic stadium in Amsterdam)."
+=======
+          "title": "Select the admn region hierarchy 'up from' a node."
+>>>>>>> 2ed123c8f0782613bcf3b9abe95fa3a5867a5eab
         }
+        
       ];
       
       $.each(examples.slice(0).reverse(), function() {

@@ -1,7 +1,41 @@
-##CitySDK Quick Guide
+##About the CitySDK Platform / API
 
-The CitySDK Mobility API, developed by [Waag Society](http://waag.org/) is a layer-based data distribution and service kit. Part of CitySDK, a European project in which eight cities (Manchester, Rome, Lamia, Amsterdam, Helsinki, Barcelona, Lisbon and Istanbul) and more than 20 organisations collaborate, the CitySDK Mobility API enables easy development and distribution of digital services across different cities. The API is a powerful tool that helps governments and officials alike.
+The CitySDK API is a distribution platform being developed by [Waag Society](http://waag.org). It enables the linking of (mobility) datasets and city services. Linking a database with planned roadworks to a route planning service for instance. Or enabling citizens to report the nuisance due to roadworks, or perhaps better, let them offer alternative routes to their fellow citizens.
 
-CitySDK Mobility links datasets through addressable, real-world objects. The organization of the information is extremely simple; there are nodes and information on these nodes. A node can be anything; a landmark, a bus-stop, a stretch of road, a town or a public transport line. All nodes are a `node`, but there are multiple types of nodes which are treated specially: these are `route`, `region`, `ptstop` and `ptline`. A route is a series of nodes in a particular order. A region is a node that represents a formal administrative region. Since the API also deals with open government data, it is convenient to have these nodes available as a shortcut. This allows for easy attachment of data on towns, suburbs and neighborhoods. We define the country as level 0, the provinces as 1, the municipalities as level 3 (level 2 is for larger regions that are not provinces, like Stadsregio Amsterdam), quarters ('wijken') are level 4, neigborhoods are level 5. Amsterdam also defines an even smaller area, level 6. We are assessing whether to bring these levels in line with the levels as used in OSM, so this may change. `ptstop` and `ptline` nodes represent public transport stops and lines.
+The CitySDK API is part of an open source [European Project](http://citysdk.eu), which means that it offers one interoperable interface for 8 different cities (Amsterdam, Helsinki, Manchester, Lisbon, Istanbul, Lamia, Rome, Barcelona) across the continent. It is a powerful tool to make more and better use of the huge amount of available open data. The CitySDK project focuses on three different domains: Participation (issue reporting), Mobility and Tourism.
 
-There is a further entity, the `layer`. Layers are the means through which the data is organized, and through which data is addressed and updated. A layer has an `owner` who will be responsible for the data on that layer. A layer is also the organizational unit through which applications will write to the API. The app reads and processes information from any layer, but writes only to its own layer(s). The base geography data lives in the OpenStreetMap layer (name: `osm`); this basically represents the OSM nodes, ways and relations. The regions live in the `admr` layer, public transport is on the `gtfs` layer. Nodes are uniquely addressable through their `cdk_id`. Although the `cdk_id` of a node is not meant to represent data or information, conventions that we implement, and are handy to remember when exploring the API. For example: `gtfs.line.gvb.25-1` represents southbound GVB tram line 25, `admr.nl.amsterdam` represents the municipality of Amsterdam and `admr.nl.amsterdam_stadsdeel_centrum` represents the city center of Amsterdam.
+###Benefits of CitySDK Platform
+
+CitySDK is a powerful tool because it...
+
+1.	Is a one-stop-shop for developers: with standardised interfaces, developers can build better apps and services for end users and governments.
+2.	Offers Pan-European access to datasets, which ensures easy scalability of applications.
+3.	Enables the Read/Write City: add a layer and annotate any of the objects and data in the city.
+4.	Provides efficient and transparent data exchange between citizens, and from and to the city council.
+5.	Enables innovation for businesses, media and citizens.
+6.	Manages the constant technological change: adding new datasets and services is made easy.
+7.	Is released as [Open Source](http://github.com/waagsociety/citysdk): community supported, and can easily be implemented and amended to local needs.
+
+###CitySDK Platform Features 
+
+* Open API, Open Source
+* Ruby API gem (coming soon!)
+* No access key's for reading
+* Write access for data owners and app developers
+* CMS for data owners for easy integration of new datasets
+* Mapping service (in CMS)
+* Map Viewer, Geocoding
+* Standardized interface in 8 cities
+
+###Interested?
+If your city is interested in CitySDK and the API interface and toolkit, or if you are a developer looking to develop Apps that work in different European cities, then get in touch via <a href='&#109;&#97;&#105;lto&#58;%63%69%&#55;4&#37;&#55;&#57;sd&#37;6&#66;%&#52;0wa&#97;&#103;&#46;org'>Citysdk Support</a>.
+
+###Adding your own data
+If you are a data owner the CitySDK API offers a user friendly [CMS](http://cms.citysdk.waag.org).
+It makes it easy to upload and (automatically) update your static and realtime datasets. To get a login, send an email to <a href='&#109;&#97;&#105;lto&#58;%63%69%&#55;4&#37;&#55;&#57;sd&#37;6&#66;%&#52;0wa&#97;&#103;&#46;org'>Citysdk Support</a>.
+
+###Cities & Partners
+The mobility API is developed as part of the European [CitySDK Project](http://citysdk.eu). CitySDK is creating a toolkit for the development of digital services within cities. The toolkit is comprised of open and interoperable digital service interfaces as well as processes, guidelines and usability standards. CitySDK enables a more efficient utilisation of the expertise and know-how of developer communities to be applied in city service development.
+
+CitySDK is working in the areas of participation, mobility and tourism and has eight cities across Europe as partners: Helsinki, Barcelona, Amsterdam, Manchester, Lamia, Istanbul, Lisbon and Rome.
+
