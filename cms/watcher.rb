@@ -1,20 +1,9 @@
-# $LOAD_PATH.unshift(File.dirname(__FILE__) + '/../lib')
-# $LOAD_PATH.unshift(File.dirname(__FILE__) + '/../ext')
-require 'fsevent'
+require 'rb-fsevent'
 
-class PrintChange < FSEvent
-  def on_change(directories)
+fsevent = FSEvent.new
+fsevent.watch Dir.pwd do |directories|
+  if (File.expand_path('./tmp') + '/') != directories[0]
     system 'touch ./tmp/restart.txt'
-    puts "Detected change in: #{directories.inspect}"
-  end
-
-  def start
-    puts "watching #{registered_directories.join(", ")} for changes"
-    super
   end
 end
-
-printer = PrintChange.new
-printer.latency = 0.2
-printer.watch_directories %W(#{Dir.pwd})
-printer.start
+fsevent.run

@@ -46,8 +46,8 @@ require 'charlock_holmes'
       @unique_id += "</select>"
       
       if !@params['geometry'] or (@params['geometry']=='')
-        @sel_x = "<select name='x_field'> "
-        @sel_y = "<select name='y_field'> "
+        @sel_x = "<select name='x'> "
+        @sel_y = "<select name='y'> "
         @params['headers'].each do |h|
           if h == @params['x']
             @sel_x += "<option selected value='#{h}' >#{h}</option>"
@@ -77,7 +77,7 @@ require 'charlock_holmes'
   end
   
   
-  def processCSV(pars) 
+  def matchCSV(pars) 
     
     count = 0
     # {
@@ -100,7 +100,7 @@ require 'charlock_holmes'
           :srid => pars['srid'],
           :radius => 200,
           :debug => true,
-          :geometry_type => :point,
+          :geometry_type => pars['geometry_type'],
           :data_op => "or",
           :layers => {}
         }
@@ -129,7 +129,7 @@ require 'charlock_holmes'
     
     
       api = CitySDK_API.new(session[:e],session[:p])
-      api.set_host('api.dev') # !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+      api.set_host('api.citysdk.waag.org') # !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
       api.set_matchTemplate(match)
       api.set_layer(pars['layername'])
       
@@ -138,7 +138,7 @@ require 'charlock_holmes'
         nodes = []
         res = ''
 
-        content = File.read(pars['filename']).force_encoding('utf-8')
+        content = File.read(pars['filepath']).force_encoding('utf-8')
         csv = CSV.new(content, :col_sep => pars['colsep'], :headers => true, :skip_blanks =>true)
         
         csv.each do |row|

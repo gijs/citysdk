@@ -149,6 +149,7 @@ class CsvImporter
   end
 
   def isGeometryColumn(s)
+    return nil,nil if @pg_csdk.nil?
     begin 
       res1 = @pg_csdk.exec("select st_srid('#{s}'::geometry)")
       res2 = @pg_csdk.exec("select GeometryType('#{s}'::geometry)")
@@ -171,7 +172,7 @@ class CsvImporter
         end
         count = count + 1
         row.headers.each do |h|
-          cols[h][row[h]] += 1
+          cols[h][row[h]] += 1 if row[h] and cols[h]
         end
       end
 
@@ -272,6 +273,10 @@ class CsvImporter
       @api.set_host(@params['host']) if @params['host']
       @api.authenticate
       @api.set_layer(@params['layername'])
+      
+      @api.set_matchTemplate(@params['match_tpl']) if @params['match_tpl']
+      @api.set_createTemplate(@params['create_tpl']) if @params['create_tpl']
+      
       @signed_in = true
     rescue => e
       puts e.message
@@ -279,8 +284,9 @@ class CsvImporter
   end
   
   def sign_out
-    @api.release
+    ret = @api.release
     @signed_in = false
+    return ret
   end
   
   def add_to_address(dry_run=false)
@@ -297,18 +303,22 @@ class CsvImporter
         hn = yielded[1]
         hn.scan(/\d+/) { |n| # takek care of addresses with range of numbers, 79-83 f.i.
           qres = @api.get("/nodes?bag.vbo::postcode_huisnummer=#{(pc + n).downcase}")
-          break if qres['status']=='success' and qres['record_count'] >= 1
+          break if qres['status']=='success' and qres['record_count'].to_i >= 1
         }
         
         if qres['status']=='success' and qres['results'] and qres['results'][0]
           url = '/' + qres['results'][0]['cdk_id'] + '/' + @params['layername']
-          $api.put(url,{'data'=>yielded[2]}) if not dry_run
+          data = yielded[2]
+          data.delete(@params['x']) if @params['x']
+          data.delete(@params['y']) if @params['y']
+          data.delete(@params['geometry']) if @params['geometry']
+          @api.put(url,{'data'=>data}) if not dry_run
         else
           failed << yielded[2]
         end
       end
-    rescue => e
-      puts e.message
+    rescue => excpt
+      bailWithError(excpt, __LINE__)
     ensure
       sign_out
     end
@@ -371,11 +381,12 @@ class CsvImporter
       node[:id]   = row[@params['unique_id']]
       node[:data] = data
       node[:name] = data[@params['name']] if @params['name'] and data[@params['name']]
+            
       @api.create_node(node)
 
     end
     
-    sign_out
+    return sign_out
 
   end
 

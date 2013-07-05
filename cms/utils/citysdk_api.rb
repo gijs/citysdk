@@ -155,7 +155,7 @@ class CitySDK_API
         raise CitySDK_Exception.new(@error)
       end
     end
-    return @updated, @created
+    return [@updated, @created]
   end
 
 
