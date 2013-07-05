@@ -10,7 +10,8 @@ if ARGV[0]
   
     puts "\tlayer: #{params['layername']}\n\tfile: #{params['originalfile']}"  
 
-      params['host'] = 'api.citysdk.waag.org'
+    # params['host'] = 'api.citysdk.waag.org'
+    params['host'] = 'api.dev'
     if false
       puts "params: #{JSON.pretty_generate(params)}"
     end
@@ -23,8 +24,9 @@ if ARGV[0]
       end
       h
     end
-  
-    puts "\tupdated: #{ret[0]}; added: #{ret[1]}"
+    
+    s = "\tupdated: #{ret[0]}; added: #{ret[1]}"
+    csv.setLayerStatus(s[1..10000])
 
   rescue Exception => e
     puts "Exception:"

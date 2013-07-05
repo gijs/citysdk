@@ -96,6 +96,7 @@ class CSDK_CMS < Sinatra::Base
   
   get '/get_layer_stats/:layer' do |l|
     l = Layer.where(:name=>l).first
+    @lstatus = l.import_status || '-'
     @ndata = database.fetch("select count(*) from node_data where layer_id = %d" % l.id).all[0][:count]
     @ndataua = database.fetch("select updated_at from node_data where layer_id = %d order by updated_at desc limit 1" % l.id).all
     @ndataua = (@ndataua and @ndataua[0] ) ? @ndataua[0][:updated_at] : '-'
@@ -259,6 +260,7 @@ class CSDK_CMS < Sinatra::Base
         begin
           api = CitySDK_API.new(session[:e],session[:p])
           api.set_host('api.citysdk.waag.org')
+          api.set_host('api.dev')
           if api.authenticate
             api.delete(url)
             api.release()

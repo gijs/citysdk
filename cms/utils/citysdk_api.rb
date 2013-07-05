@@ -61,6 +61,11 @@ class CitySDK_API
     @layer = l
   end
   
+  def set_layer_status(status)
+    puts "set_layer_status: /layer/#{@layer}/status; data: #{status}"
+    put("/layer/#{@layer}/status",{:data => status})
+  end
+  
   
   def tally(res)
     if res['status'] == "success"
@@ -192,6 +197,9 @@ class CitySDK_API
     if authorized 
       resp = @connection.put(path,data.to_json)
       return JSON.parse(resp.body) if resp.status == 200
+      
+      puts resp.body
+      
       @error = JSON.parse(resp.body)['message']
       raise CitySDK_Exception.new(@error)
     end

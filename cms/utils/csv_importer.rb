@@ -7,6 +7,13 @@ require '/var/www/csdk_cms/current/utils/citysdk_api.rb'
 
 $cdkpw = '/var/www/citysdk/shared/config/cdkpw.json'
 
+
+class String
+  def filled?
+    return self !~ /^\s*$/
+  end
+end
+
   # parameters:
   # 
   # required:
@@ -34,12 +41,13 @@ class CsvImporter
   end
   
   def setLayerStatus(m)
+    puts "CsvImporter setLayerStatus #{m}"
     begin
-      dbconf = JSON.parse(File.read('/var/www/citysdk/current/database.json'))
-      @pg_csdk = PGconn.new(dbconf['host'], '5432', nil, nil, dbconf['database'], dbconf['user'], dbconf['passwd'])
-      @pg_csdk.exec("update layers set import_status = '#{m}' where name = #{@params['layername']};")
-      @pg_csdk.close
-    rescue
+      sign_in
+      @api.set_layer_status(m)
+      sign_out
+    rescue Exception => e
+      puts "CsvImporter setLayerStatus Exception #{e.message}"
     end
   end
 
@@ -294,17 +302,23 @@ class CsvImporter
     sign_in
     
     begin
-      qres=''
+      qres={}
       csv = CSV.new(@content, :col_sep => @params['colsep'], :headers => true, :skip_blanks =>true)
       csv.each do |row|
       
         yielded = yield(row.to_hash)
         pc = yielded[0]
         hn = yielded[1]
-        hn.scan(/\d+/) { |n| # takek care of addresses with range of numbers, 79-83 f.i.
-          qres = @api.get("/nodes?bag.vbo::postcode_huisnummer=#{(pc + n).downcase}")
-          break if qres['status']=='success' and qres['record_count'].to_i >= 1
-        }
+        
+        if pc and pc.filled? and hn and hn.filled?
+          hn.scan(/\d+/) { |n| # take care of addresses with range of numbers, 79-83 f.i.
+            qres = @api.get("/nodes?bag.vbo::postcode_huisnummer=#{(pc + n).downcase}")
+            break if qres['status']=='success' and qres['record_count'].to_i >= 1
+          }
+        else
+          puts "no pr/hn"
+          qres['status']='nix'
+        end
         
         if qres['status']=='success' and qres['results'] and qres['results'][0]
           url = '/' + qres['results'][0]['cdk_id'] + '/' + @params['layername']
@@ -312,8 +326,12 @@ class CsvImporter
           data.delete(@params['x']) if @params['x']
           data.delete(@params['y']) if @params['y']
           data.delete(@params['geometry']) if @params['geometry']
-          @api.put(url,{'data'=>data}) if not dry_run
+          if not dry_run
+            n = @api.put(url,{'data'=>data})
+            puts JSON.pretty_generate(n)
+          end
         else
+          puts "fails"
           failed << yielded[2]
         end
       end
