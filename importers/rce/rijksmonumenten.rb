@@ -9,9 +9,13 @@ rce_path = "/select/"
 
 rce_layer = "rce.rijksmonumenten"
 
+# TODO: add layer/webservice for RCE Beeldbank
+# Beeld per monumentnummer: http://cultureelerfgoed.adlibsoft.com/harvest/wwwopac.ashx?database=images&search=pointer%201009%20and%20monument.record_number-%3EmD=%225941%22&limit=100&xmltype=grouped
+# Image URL: http://images.memorix.nl/rce/thumb/800x800/7369c0a4-e1e9-7fd8-a162-31012f891071.jpg
+
 pw = JSON.parse(File.read('/var/www/citysdk/shared/config/cdkpw.json')) if File.exists?('/var/www/citysdk/shared/config/cdkpw.json')
 $email = ARGV[0] || 'citysdk@waag.org'
-$password = ARGV[1] || pw ? pw[$email] : ''
+$password = ARGV[1] || (pw ? pw[$email] : '')
 
 @rce_conn = Faraday.new :url => rce_url
 
@@ -38,19 +42,34 @@ while start < numFound or numFound == 0 do
   
     monumentnummer = doc["rce_objrijksnr"]
     
+    url = nil
+    if doc["weblink_primair"] and doc["weblink_primair"].length > 0 and doc["weblink_primair"][0] and doc["weblink_link"] and doc["weblink_link"].length > 0
+      url = doc["weblink_link"][0]
+    end
+    
+    naam = nil
+    if doc["rce_objectnaam"]
+      naam = doc["rce_objectnaam"]
+    else
+      naam = doc["abc_objectnaam"]
+    end
+        
     data = {
       :monumentnummer => monumentnummer,
-      :naam => doc["rce_objectnaam"],
+      :naam => naam,
+      :omschrijving => doc["rce_omschrijving_redengevend"],
       :categorie => doc["rce_categorie"],
-      :weblink => doc["weblink_link"],
-      :wikipedia => doc["wiki_article_url"]
-    }.reject {|key,value| value == nil or value == ""}
+      :url => url,
+      :wikipedia => doc["wiki_article_url"],
+      :image_url => doc["wiki_image_url"]      
+    }.reject {|key,value| value == nil or value.strip == ""}
 
     # Use BAG's verblijfsobjecten to find matching CitySDK node
     
     postcode = doc["rce_postcode"]
-    huisnummer = doc["rce_huisnummer"]
-    
+    #huisnummer = doc["rce_huisnummer"]
+    huisnummer = doc["rce_huisnr_van"]
+      
     if postcode and huisnummer 
       
       # rce_huisnummer does not include toevoeging. abc_adres does include toevoeging
@@ -63,20 +82,37 @@ while start < numFound or numFound == 0 do
         toevoeging = adres[toevoeging_index..-1]     
       end
          
-      postcode_huisnummer = (postcode + huisnummer + toevoeging).gsub(/\s+/, "").downcase
-  
-      qres = @api.get("/nodes?bag.vbo::postcode_huisnummer=#{postcode_huisnummer}")    
+      # Try multiple postcode/number variants
+      variants = [
+        (postcode + huisnummer).gsub(/\s+/, "").downcase,
+        (postcode + huisnummer + toevoeging).gsub(/[\W\s]+/, "").downcase
+      ].uniq
+          
+      success = false
+      variants.each { |variant| 
+        qres = @api.get("/nodes?bag.vbo::postcode_huisnummer=#{variant}")      
+        if qres['status']=='success' and qres['results'] and qres['results'][0]
+          cdk_id = qres['results'][0]['cdk_id']
      
-      if qres['status']=='success' and qres['results'] and qres['results'][0]
-        cdk_id = qres['results'][0]['cdk_id']
-     
-        puts "\t#{cdk_id} => #{monumentnummer}"
-        url = '/' + cdk_id + '/' + rce_layer
-        @api.put(url, {'data' => data}) if not dry_run
-      else
+          puts "\t#{cdk_id} => #{monumentnummer}"
+          url = '/' + cdk_id + '/' + rce_layer
+          begin
+            @api.put(url, {'data' => data}) if not dry_run
+            success = true
+          rescue Exception => e
+
+          end
+          
+          break if success == true
+          
+        end
+      }
+      
+      if not success      
         failed << monumentnummer
         puts "\tNot found: #{monumentnummer}: #{doc["abc_adres"]}"
-      end
+      end  
+      
     end
 			
   }
