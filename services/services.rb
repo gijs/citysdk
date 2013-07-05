@@ -149,12 +149,15 @@ class CitySDK_Services < Sinatra::Base
             :route => {},
             :eindbestemming => {
               :naam => vt["EindBestemming"]              
-            }
+            },
+            :spoor => vt["VertrekSpoor"]
           }
-            
-          vertrekkende_trein[:route][:tekst] = vt["RouteTekst"] if vt["RouteTekst"]
           
-          # "VertrekSpoor": "9", 
+          vertrekkende_trein[:reistip] = vt["ReisTip"].strip if vt["ReisTip"]
+          if vt["Opmerkingen"]
+            vertrekkende_trein[:opmerkingen] = vt["Opmerkingen"].values.map { |opmerking| opmerking.strip }
+          end
+          vertrekkende_trein[:route][:tekst] = vt["RouteTekst"] if vt["RouteTekst"]
           
           # Eindbestemming, code & cdk_id:
           code = NS_STATION_CODES[vt['EindBestemming']]
