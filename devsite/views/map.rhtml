@@ -87,7 +87,8 @@
     // ================================================================================
 
     //var tileUrl = 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
-    var tileUrl = 'http://test-api.citysdk.waag.org:8888/v2/citysdk/{z}/{x}/{y}.png';
+    var tileUrl = 'http://tiles.citysdk.waag.org/v2/citysdk/{z}/{x}/{y}.png';
+    // var tileUrl = 'http://test-api.citysdk.waag.org:8888/v2/citysdk/{z}/{x}/{y}.png';
 
     var osmAttrib = 'Map data © OpenStreetMap contributors';  
     
@@ -514,6 +515,10 @@
         {
           "url": "nodes?layer=bag.panden&lat=52.0936&lon=4.3451&per_page=100",
           "title": "Buildings from the BAG near the Dutch Royal Palace"
+        },
+        {
+          "url": "n798432345/select/regions",
+          "title": "Select the admn region hierarchy 'up from' a node (the olympic stadium in Amsterdam)."
         }
       ];
       
