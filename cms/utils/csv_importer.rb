@@ -1,18 +1,10 @@
-require 'pg'
 require 'csv'
-require 'faraday'
-require 'json'
+require 'geo_ruby'
+require 'geo_ruby/geojson'
 require 'charlock_holmes'
 require '/var/www/csdk_cms/current/utils/citysdk_api.rb'
 
 $cdkpw = '/var/www/citysdk/shared/config/cdkpw.json'
-
-
-class String
-  def filled?
-    return self !~ /^\s*$/
-  end
-end
 
   # parameters:
   # 
@@ -21,6 +13,7 @@ end
   #   passw
   #   layername
   #   filepath
+  #   host
   # optional:
   #   utf8_fixed: true => file is clean utf8; no need to convert (has been done elsewhere).
   #   geometry: name of geometry column, if exists.
@@ -33,7 +26,8 @@ class CsvImporter
   attr_accessor :params
   
   def bailWithError(excpt,l)
-    message = "#{Time.now.strftime("%b %M %Y, %H:%M")}\nCsvImporter: exception in #{File.basename(__FILE__)}, #{l}:\nProcessing file: #{File.basename(@params['filepath'])}\n#{excpt.message}"
+    file = File.basename( @params['originalfile'] ? @params['originalfile'] : @params['filepath'])
+    message = "#{Time.now.strftime("%b %M %Y, %H:%M")}\nCsvImporter: exception in #{File.basename(__FILE__)}, #{l}:\nProcessing file: #{file}\n#{excpt.message}"
     setLayerStatus(message) if @params['layername']
     $stderr.puts(message)
     $stderr.puts JSON.pretty_generate(@params)
@@ -41,10 +35,10 @@ class CsvImporter
   end
   
   def setLayerStatus(m)
-    puts "CsvImporter setLayerStatus #{m}"
+    # puts "CsvImporter setLayerStatus #{m}"
     begin
       sign_in
-      @api.set_layer_status(m)
+      @api.set_layer_status(m.gsub("\n","<br/>"))
       sign_out
     rescue Exception => e
       puts "CsvImporter setLayerStatus Exception #{e.message}"
@@ -61,13 +55,14 @@ class CsvImporter
       
        @signed_in = false
 
-      bailWithError(Exception.new('No file name supplied'), __LINE__) if not @params['filepath']
-      bailWithError(Exception.new('No layer name supplied'), __LINE__) if not @params['layername']
+      bailWithError(Exception.new('No file supplied'), __LINE__) if not @params['filepath']
+      bailWithError(Exception.new('No layer supplied'), __LINE__) if not @params['layername']
+      bailWithError(Exception.new('No host supplied'), __LINE__) if not @params['host']
       
       @params['email'] = @params['email'] || 'citysdk@waag.org'
       if @params['passw'].nil?
         pw = File.exists?($cdkpw) ? JSON.parse(File.read($cdkpw)) : nil
-        @params['passw'] = pw ? pw[@email] : ''
+        @params['passw'] = (pw ? pw[@email] : '')
       end
       
       geFileContents
@@ -156,15 +151,16 @@ class CsvImporter
     end
   end
 
-  def isGeometryColumn(s)
-    return nil,nil if @pg_csdk.nil?
-    begin 
-      res1 = @pg_csdk.exec("select st_srid('#{s}'::geometry)")
-      res2 = @pg_csdk.exec("select GeometryType('#{s}'::geometry)")
-      return res1[0]['st_srid'], res2[0]['geometrytype']
-    rescue
-      return nil,nil
+  def isGeometry(s)
+    begin
+      f = GeoRuby::SimpleFeatures::GeometryFactory::new
+      p = GeoRuby::SimpleFeatures::HexEWKBParser.new(f)
+      p.parse(s)
+      g = f.geometry
+      return g.srid,g.as_json[:type]
+    rescue Exception=>e
     end
+    nil
   end
 
   def findUniqueColumn
@@ -226,23 +222,19 @@ class CsvImporter
 
   def findGeometryColumn
     begin
-      dbconf = JSON.parse(File.read('/var/www/citysdk/current/database.json'))
-      @pg_csdk = PGconn.new(dbconf['host'], '5432', nil, nil, dbconf['database'], dbconf['user'], dbconf['passwd'])
       csv = CSV.new(@content, :col_sep => @params['colsep'], :headers => true, :skip_blanks =>true)
       csv.each do |row|
         row.headers.each do |h|
           next if h.nil? or h == ''
-          srid,g_type = isGeometryColumn(row[h])
+          srid,g_type = isGeometry(row[h])
           if(srid)
             return h,srid,g_type
           end
         end
-        return nil,nil,nil
+        return nil
       end
     rescue => excpt
       bailWithError(excpt, __LINE__)
-    ensure
-      @pg_csdk.close
     end
   end
 
@@ -278,13 +270,11 @@ class CsvImporter
       sign_out if @signed_in
       
       @api = CitySDK_API.new(@params['email'],@params['passw'])
-      @api.set_host(@params['host']) if @params['host']
-      @api.authenticate
+      @api.set_host(@params['host'])
       @api.set_layer(@params['layername'])
-      
       @api.set_matchTemplate(@params['match_tpl']) if @params['match_tpl']
       @api.set_createTemplate(@params['create_tpl']) if @params['create_tpl']
-      
+      @api.authenticate
       @signed_in = true
     rescue => e
       puts e.message
@@ -292,12 +282,11 @@ class CsvImporter
   end
   
   def sign_out
-    ret = @api.release
     @signed_in = false
-    return ret
+    return @api.release
   end
   
-  def add_to_address(dry_run=false)
+  def add_to_address()
     failed = []
     sign_in
     
@@ -306,17 +295,21 @@ class CsvImporter
       csv = CSV.new(@content, :col_sep => @params['colsep'], :headers => true, :skip_blanks =>true)
       csv.each do |row|
       
-        yielded = yield(row.to_hash)
-        pc = yielded[0]
-        hn = yielded[1]
+        if block_given? 
+          yielded = yield(row.to_hash)
+          pc = yielded[0]
+          hn = yielded[1]
+        else
+          pc = @params['postcode'] ? row[@params['postcode']] : nil
+          hn = @params['housenumber'] ? row[@params['housenumber']] : nil
+        end
         
-        if pc and pc.filled? and hn and hn.filled?
-          hn.scan(/\d+/) { |n| # take care of addresses with range of numbers, 79-83 f.i.
+        if not (pc.empty? or hn.empty?)
+          hn.scan(/\d+/).reverse.each { |n|
             qres = @api.get("/nodes?bag.vbo::postcode_huisnummer=#{(pc + n).downcase}")
             break if qres['status']=='success' and qres['record_count'].to_i >= 1
           }
         else
-          puts "no pr/hn"
           qres['status']='nix'
         end
         
@@ -326,12 +319,8 @@ class CsvImporter
           data.delete(@params['x']) if @params['x']
           data.delete(@params['y']) if @params['y']
           data.delete(@params['geometry']) if @params['geometry']
-          if not dry_run
-            n = @api.put(url,{'data'=>data})
-            puts JSON.pretty_generate(n)
-          end
+          n = @api.put(url,{'data'=>data})
         else
-          puts "fails"
           failed << yielded[2]
         end
       end

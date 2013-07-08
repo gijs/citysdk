@@ -62,7 +62,11 @@
     });
     
     function submit_add(responseText, statusText, xhr, $form) {
-      $('#csvconfout').html(responseText)
+      $('#stats').html(responseText)
+      $('#fupl').load("/fupl/<%= @layer.id %>")
+      
+      console.info($("#statusstring").text())
+      
     }
 
     function submit_show(responseText, statusText, xhr, $form) {
@@ -72,7 +76,6 @@
     $('#csvconf_f').submit(function() { 
         $('#showres').html('')
         if( $( $('#csvconf_f').data().clicked).attr('name') == 'add' ) {
-           console.info('add clicked!!!')
           $(this).ajaxSubmit({
             url: '/csvheader?add=true',
             success: submit_add

@@ -443,13 +443,20 @@ class CSDK_CMS < Sinatra::Base
     end
   end
   
+  get '/fupl/:layer' do |layer|
+    @layer = Layer[layer]
+    erb :file_upl, :layout => false
+  end
+  
+  
   post '/csvheader' do
     if params['add']
       params['email'] = session[:e]
       params['passw'] = session[:p]
       params['geometry_type'] = 'Point' if params['geometry_type'].nil? or params['geometry_type'] =~ /^\s*$/
       system "ruby utils/import_file.rb '#{params.to_json}' >> log/import.log &"
-      return [200,{},"Import started, refresh page to see progress."]
+      redirect "/get_layer_stats/#{params['layername']}"
+      # return [200,{},"Import started, refresh page to see progress."]
     else
       puts JSON.pretty_generate(params)
       a = matchCSV(params)

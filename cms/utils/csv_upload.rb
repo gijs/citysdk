@@ -13,7 +13,9 @@ require 'charlock_holmes'
           'filepath' => f.path,
           'layername'  => l,
           'email' => session[:e],
-          'passwd' => session[:p]
+          'passw' => session[:p],
+          'originalfile' => @original_file,
+          'host' => 'api.dev'
         }
       )
       

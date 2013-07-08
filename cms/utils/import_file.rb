@@ -1,7 +1,8 @@
 if ARGV[0]
 
   puts "\nFile import at #{Time.now.strftime('%b %d %Y - %H:%M:%S')}"
-
+  csv = nil
+  
   begin 
 
     require '/var/www/csdk_cms/current/utils/csv_importer.rb'
@@ -17,7 +18,8 @@ if ARGV[0]
     end
 
     csv = CsvImporter.new params
-
+    csv.setLayerStatus("importing...")
+    
     ret = csv.do_import do |h|
       h.each do |k,v|
         h.delete(k) if v.nil? or v =~ /^\s*$/
@@ -29,6 +31,7 @@ if ARGV[0]
     csv.setLayerStatus(s[1..10000])
 
   rescue Exception => e
+    csv.setLayerStatus(e.message) if csv
     puts "Exception:"
     puts e.message
   end

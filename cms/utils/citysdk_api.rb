@@ -7,6 +7,10 @@ require 'json'
 # Typical use is: authenticate -> get | put | post | delete -> release
 # Authentication is not needed for get, get is added for completeness. 
 
+class NilClass
+    def empty?; true; end
+end
+
 class CitySDK_Exception < Exception
 end
 
