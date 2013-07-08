@@ -7,6 +7,10 @@ require 'json'
 # Typical use is: authenticate -> get | put | post | delete -> release
 # Authentication is not needed for get, get is added for completeness. 
 
+class NilClass
+    def empty?; true; end
+end
+
 class CitySDK_Exception < Exception
 end
 
@@ -59,6 +63,11 @@ class CitySDK_API
   
   def set_layer(l)
     @layer = l
+  end
+  
+  def set_layer_status(status)
+    puts "set_layer_status: /layer/#{@layer}/status; data: #{status}"
+    put("/layer/#{@layer}/status",{:data => status})
   end
   
   
@@ -155,7 +164,7 @@ class CitySDK_API
         raise CitySDK_Exception.new(@error)
       end
     end
-    return @updated, @created
+    return [@updated, @created]
   end
 
 
@@ -192,6 +201,9 @@ class CitySDK_API
     if authorized 
       resp = @connection.put(path,data.to_json)
       return JSON.parse(resp.body) if resp.status == 200
+      
+      puts resp.body
+      
       @error = JSON.parse(resp.body)['message']
       raise CitySDK_Exception.new(@error)
     end

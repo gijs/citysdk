@@ -6,10 +6,10 @@ GEM
     activesupport (3.0.0)
     charlock_holmes (0.6.9.4)
     daemon_controller (1.1.1)
-    eventmachine (1.0.3)
     faraday (0.8.5)
       multipart-post (~> 1.1)
     fastthread (1.0.7)
+    georuby (2.0.0)
     i18n (0.6.2)
     logger (1.2.8)
     multipart-post (1.1.5)
@@ -44,8 +44,8 @@ PLATFORMS
 DEPENDENCIES
   active_support
   charlock_holmes
-  eventmachine
   faraday
+  georuby
   i18n
   logger
   passenger

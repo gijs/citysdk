@@ -13,4 +13,4 @@ gem "faraday"
 gem "passenger"
 gem "sinatra-session"
 gem 'charlock_holmes'
-gem 'eventmachine'
+gem 'georuby'

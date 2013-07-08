@@ -96,6 +96,7 @@ class CSDK_CMS < Sinatra::Base
   
   get '/get_layer_stats/:layer' do |l|
     l = Layer.where(:name=>l).first
+    @lstatus = l.import_status || '-'
     @ndata = database.fetch("select count(*) from node_data where layer_id = %d" % l.id).all[0][:count]
     @ndataua = database.fetch("select updated_at from node_data where layer_id = %d order by updated_at desc limit 1" % l.id).all
     @ndataua = (@ndataua and @ndataua[0] ) ? @ndataua[0][:updated_at] : '-'
@@ -258,6 +259,8 @@ class CSDK_CMS < Sinatra::Base
         url += "?" + par.join("&") if par.length > 0
         begin
           api = CitySDK_API.new(session[:e],session[:p])
+          api.set_host('api.citysdk.waag.org')
+          api.set_host('api.dev')
           if api.authenticate
             api.delete(url)
             api.release()
@@ -423,9 +426,6 @@ class CSDK_CMS < Sinatra::Base
       if(@layer && (@oid == @layer.owner_id) or @oid==0)
         p = params['0'] || params['csv']
         @original_file = p[:filename]
-        
-        puts @original_file
-        
         if !['.csv','.tsv','.CSV','.TSV'].include?(File.extname(@original_file))
           @errorContext = "File upload"
           @errorMessage = "Only CSV for now.. &nbsp;&nbsp;<a href='/layer/#{@layer.id}/data'>go back</a>"
@@ -437,37 +437,35 @@ class CSDK_CMS < Sinatra::Base
           @layerSelect = Layer.selectTag()
           return parseCSV(p[:tempfile], @layer.name)
         end
-        
-        
       else
         CSDK_CMS.do_abort(401,"not authorized")
       end
     end
   end
   
+  get '/fupl/:layer' do |layer|
+    @layer = Layer[layer]
+    erb :file_upl, :layout => false
+  end
+  
+  
   post '/csvheader' do
-    puts params
-  # post '/csvheader' , provides: 'text/event-stream' do
-    # stream :keep_open do |out|
-    #   EventMachine::PeriodicTimer.new(20) { out << "data: \n\n" } # added
-    #   
-    #   settings.connections << out
-    #   out.callback { settings.connections.delete(out) }
-    # end
-    # 
-    count = 0
     if params['add']
-        # processCSV(params)
-
-      # return "job started..."
+      params['email'] = session[:e]
+      params['passw'] = session[:p]
+      params['geometry_type'] = 'Point' if params['geometry_type'].nil? or params['geometry_type'] =~ /^\s*$/
+      system "ruby utils/import_file.rb '#{params.to_json}' >> log/import.log &"
+      redirect "/get_layer_stats/#{params['layername']}"
+      # return [200,{},"Import started, refresh page to see progress."]
     else
-      
-      a = processCSV(params)
-      
-      puts JSON.pretty_generate(a)
-      
-      return [200,{},"<hr/><pre>" +  "</pre>"]
-      # self.send_data(processCSV(params,false), { :disposition => :attachment, :filename => 'match_results.json' } )
+      puts JSON.pretty_generate(params)
+      a = matchCSV(params)
+      begin 
+        a = JSON.pretty_generate(a)
+      rescue
+      end
+      return [200,{},"<hr/><pre>" + a + "</pre>"]
+
     end
   end
   

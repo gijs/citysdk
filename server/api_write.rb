@@ -541,7 +541,31 @@ class CitySDK_API < Sinatra::Base
     end
   end
   
+
+
+
+  put '/layer/:layer/status' do |layer|
+  
+    layer_id = Layer.idFromText(layer)
+    CitySDK_API.do_abort(422,"Invalid layer spec: #{layer}") if layer_id.nil? or layer_id.is_a? Array
+    Owner.validateSessionForLayer(request.env['HTTP_X_AUTH'],layer_id)   
+    json = CitySDK_API.parse_request_json(request)
+  puts "PUT : #{json}"  
+    if json['data']
+      l = Layer[layer_id]
+      l.import_status = json['data']
+      l.save
+      return 200, { 
+        :status => 'success' 
+      }.to_json
+    end
+    CitySDK_API.do_abort(422,"Data missing..")
+  end
+
+
+
 end
+
 
 
 
