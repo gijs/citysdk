@@ -163,9 +163,15 @@ CREATE VIEW citysdk.ligplaats AS
     lp.identificatie::bigint AS ligplaats_id,
     ligplaatsstatus::text AS status,
     --(SELECT id FROM citysdk.ligplaatsstatus WHERE status = ligplaatsstatus::text) AS ligplaatsstatus_id,   
+    openbareruimtenaam::text AS straat,
+    huisnummer::int,
+    huisletter::text,
+    huisnummertoevoeging::text AS toevoeging,
+    citysdk.nummer_letter_toevoeging(huisnummer::int, huisletter, huisnummertoevoeging) AS nummer_letter_toevoeging,
     citysdk.adres(openbareruimtenaam, huisnummer::int, huisletter, huisnummertoevoeging),
     postcode::text,
-    woonplaatsnaam::text,
+    lower(postcode || citysdk.nummer_letter_toevoeging(huisnummer::int, huisletter, huisnummertoevoeging)) AS postcode_huisnummer,
+    woonplaatsnaam::text AS woonplaats,
     ST_Transform(ST_Force_2D(lp.geovlak), 4326) AS geom
   FROM ligplaatsactueelbestaand lp
   JOIN nummeraanduidingactueelbestaand na
@@ -184,9 +190,15 @@ CREATE VIEW citysdk.standplaats AS
     sp.identificatie::bigint AS standplaats_id,
     standplaatsstatus::text AS status,
     --(SELECT id FROM citysdk.standplaatsstatus WHERE status = standplaatsstatus::text) AS standplaatsstatus_id,   
+    openbareruimtenaam::text AS straat,
+    huisnummer::int,
+    huisletter::text,
+    huisnummertoevoeging::text AS toevoeging,
+    citysdk.nummer_letter_toevoeging(huisnummer::int, huisletter, huisnummertoevoeging) AS nummer_letter_toevoeging,
     citysdk.adres(openbareruimtenaam, huisnummer::int, huisletter, huisnummertoevoeging),
     postcode::text,
-    woonplaatsnaam::text,
+    lower(postcode || citysdk.nummer_letter_toevoeging(huisnummer::int, huisletter, huisnummertoevoeging)) AS postcode_huisnummer,
+    woonplaatsnaam::text AS woonplaats,
     ST_Transform(ST_Force_2D(sp.geovlak), 4326) AS geom
   FROM standplaatsactueelbestaand sp
   JOIN nummeraanduidingactueelbestaand na

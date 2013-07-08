@@ -1,51 +1,52 @@
 <div id='csvconf'>
   <form name="input" id="csvconf_f" action="/csvheader" method="post">
-    <input type="hidden" name="filename" value="<%= @filename %>" />
+    <input type="hidden" name="filepath" value="<%= @params['filepath'] %>" />
     <input type="hidden" name="layer" value="<%= @layer.id %>" />
-    <input type="hidden" name="srid" value="<%= @srid %>" />
-    <input type="hidden" name="geometry" value="<%= @geometry_column %>" />
-    <input type="hidden" name="geometry_type" value="<%= @geometry_type  %>" />
-    <input type="hidden" name="layername" value="<%= @layername %>" />
-    <input type="hidden" name="colsep" value="<%= @colsep %>" />
+    <input type="hidden" name="srid" value="<%= @params['srid'] %>" />
+    <input type="hidden" name="geometry" value="<%= @params['geometry'] %>" />
+    <input type="hidden" name="geometry_type" value="<%= @params['geometry_type']  %>" />
+    <input type="hidden" name="layername" value="<%= @params['layername'] %>" />
+    <input type="hidden" name="colsep" value="<%= @params['colsep'] %>" />
+    <input type="hidden" name="originalfile" value="<%= @original_file %>" />
 
     <div >file: <span style="font-size:120%"><em><%= @original_file %></em></span></div>
       
-    
-    <table border="0" cellspacing="5" cellpadding="5">
+    <div id='csvconfout'>
       
-      <h3>temporarily disabled</h3>
+      <table border="0" cellspacing="5" cellpadding="5">
       
-      <tr>
+        <tr>
+          <!-- left side -->
+          <td> 
+            <table>
+              <tr> <td class='tdlabel'>name:</td> <td><%= @name %></td> </tr>
+              <tr> <td class='tdlabel'>unique key:</td> <td><%= @unique_id %></td> </tr>
+              <% if @sel_x %>
+              <tr> <td class='tdlabel'>lat or y field:</td> <td><%= @sel_y %></td> </tr>
+              <tr> <td class='tdlabel'>lon or x field:</td> <td><%= @sel_x %></td> </tr>
+              <tr> <td class='tdlabel'>srid: (nl28992)</td> <td><input type="text" name="srid", value="<%= @srid %>"/></td> </tr>
+              <% else %>
+              <tr> <td class='tdlabel'>geometry column:</td> <td><%= @geometry_column %></td> </tr>
+              <% end %>
+            </table>
+          </td>
         
-        <!-- left side -->
-        <td> 
-          <table>
-            <tr> <td class='tdlabel'>name:</td> <td><%= @name %></td> </tr>
-            <tr> <td class='tdlabel'>unique key:</td> <td><%= @unique_id %></td> </tr>
-            <% if @sel_x %>
-            <tr> <td class='tdlabel'>lat or y field:</td> <td><%= @sel_y %></td> </tr>
-            <tr> <td class='tdlabel'>lon or x field:</td> <td><%= @sel_x %></td> </tr>
-            <tr> <td class='tdlabel'>srid: (nl28992)</td> <td><input type="text" name="srid", value="<%= @srid %>"/></td> </tr>
-            <% else %>
-            <tr> <td class='tdlabel'>geometry column:</td> <td><%= @geometry_column %></td> </tr>
-            <% end %>
-          </table>
-        </td>
+          <!-- right side -->
+          <td valign="bottom"> 
+            <ul id='tagselectlist'>
+            </ul>
+            <% nts = "newTagSelect('" + @layerSelect + "')" %>
+            <p><a href='#' onclick="<%= nts %>" >add match term</a></p>
+          </td>
         
-        <!-- right side -->
-        <td valign="bottom"> 
-          <ul id='tagselectlist'>
-          </ul>
-          <% nts = "newTagSelect('" + @layerSelect + "')" %>
-          <p><a href='#' onclick="<%= nts %>" >add match term</a></p>
-        </td>
-        
-      </tr>
-    </table>
-    <input class='submitb' type="submit" name='match' value="show match"/>
-    <input class='submitb' type="submit" name='add'  diabled='true' value="add data"/>
+        </tr>
+      </table>
+      <input class='submitb' type="submit" name='match' disabled value="show match"/>
+      <input class='submitb' type="submit" name='add' value="add data"/> 
+      
+    </div>
   </form>
-  <div id='csvconfout'/>
+  <div id='showres'/>
   
 </div>
 
@@ -60,19 +61,28 @@
       $(this).data('clicked',$(event.target))
     });
     
-    function submit_resp(responseText, statusText, xhr, $form) {
-      $('#csvconfout').html(responseText)
+    function submit_add(responseText, statusText, xhr, $form) {
+      $('#stats').html(responseText)
+      $('#fupl').load("/fupl/<%= @layer.id %>")
+      
+      console.info($("#statusstring").text())
+      
+    }
+
+    function submit_show(responseText, statusText, xhr, $form) {
+      $('#showres').html(responseText)
     }
 
     $('#csvconf_f').submit(function() { 
+        $('#showres').html('')
         if( $( $('#csvconf_f').data().clicked).attr('name') == 'add' ) {
           $(this).ajaxSubmit({
-            url: '/csvheader?add=true'
-            success: submit_resp 
+            url: '/csvheader?add=true',
+            success: submit_add
           }); 
         } else {
           $(this).ajaxSubmit({
-            success: submit_resp 
+            success: submit_show 
           }); 
         }
         

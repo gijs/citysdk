@@ -145,8 +145,6 @@ class CitySDK_Services < Sinatra::Base
     end
   end
 
-
-
   NS_Key = JSON.parse(File.read('/var/www/citysdk/shared/config/nskey.json')) 
   NS_Url = "https://webservices.ns.nl" 
   NS_AVT = "/ns-api-avt?station="
@@ -154,6 +152,11 @@ class CitySDK_Services < Sinatra::Base
   NS_Stations = "/ns-api-stations"
   NS_Storingen = "/ns-api-storingen?"
   NS_Planner = "/ns-api-treinplanner?"
+  
+  NS_CDK_IDS = JSON.parse(File.read('ns/cdk_ids.json')) 
+  NS_STATION_CODES = JSON.parse(File.read('ns/station_codes.json')) 
+  NS_LINES = JSON.parse(File.read('ns/lines.json')) 
+  
   # curl -u tom@waag.org:mGdLkTCCW8419MeZ2LtpEjvuLZzN08agECQY7eZihoCADK8F45cakg https:webservices.ns.nl/ns-api-avt?station=HT
   # curl --data '{"code":"HT", "land":"NL", "type":"knooppuntIntercitystation", "uiccode":"8400319"}' http://services.citysdk.waag.org/ns_avt
   post '/ns_avt' do
@@ -168,7 +171,62 @@ class CitySDK_Services < Sinatra::Base
       response = httpget(@connection,NS_AVT + @json['code'])
       if response.status == 200
         h = Hash.from_xml(response.body)
-        data['VertrekkendeTreinen'] = h['ActueleVertrekTijden']['VertrekkendeTrein']
+        
+        data["vertrekkende_treinen"] = []
+        h['ActueleVertrekTijden']['VertrekkendeTrein'].each { |vt|
+          
+          vertrekkende_trein = {
+            :type => vt["TreinSoort"].downcase.gsub(/\W+/, '_'),
+            :vervoerder => vt["Vervoerder"],
+            :ritnummer => vt["RitNummer"],
+            :vertrektijd => vt["VertrekTijd"],
+            :route => {},
+            :eindbestemming => {
+              :naam => vt["EindBestemming"]              
+            },
+            :spoor => vt["VertrekSpoor"]
+          }
+          
+          vertrekkende_trein[:reistip] = vt["ReisTip"].strip if vt["ReisTip"]
+          if vt["Opmerkingen"]
+            vertrekkende_trein[:opmerkingen] = vt["Opmerkingen"].values.map { |opmerking| opmerking.strip }
+          end
+          vertrekkende_trein[:route][:tekst] = vt["RouteTekst"] if vt["RouteTekst"]
+          
+          # Eindbestemming, code & cdk_id:
+          code = NS_STATION_CODES[vt['EindBestemming']]
+          cdk_id = NS_CDK_IDS[code]
+          type = vt["TreinSoort"].downcase.gsub(/\W+/, '_')
+          
+          vertrekkende_trein[:eindbestemming][:code] = code if code
+          vertrekkende_trein[:eindbestemming][:cdk_id] = cdk_id if cdk_id   
+
+          # Route
+          line = nil
+          if NS_LINES.has_key? type
+            NS_LINES[type].each { |l|
+              # Two options to check whether l is the correct line
+              # 1. l must contain code and @json['code'] with index of code > index @json['code']
+              # 2. code must be terminus of l and l must contain @json['code']
+              
+              if i1 = l.index(@json['code']) and i2 = l.index(code) and i1 < i2 # Option 1
+              #if l[-1] == code and l.include? @json['code'] # Option 2
+                line = l
+                break
+              end
+            }
+          end
+          
+          if line
+            vertrekkende_trein[:route][:cdk_id] = "ns.#{type}.#{line[0]}.#{line[-1]}".downcase
+            vertrekkende_trein[:route][:stations] = {}
+            vertrekkende_trein[:route][:stations][:codes] = line
+            vertrekkende_trein[:route][:stations][:cdk_ids] = line.map { |code|  NS_CDK_IDS[code]}
+          end
+          
+          data["vertrekkende_treinen"] << vertrekkende_trein   
+        }        
+        
         return { :status => 'success', 
           :url => request.url, 
           :data => data

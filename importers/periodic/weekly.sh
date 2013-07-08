@@ -15,4 +15,4 @@ do
     fi
 done
 
-cd ../importers/gtfs && $ruby update_gtfs.rb >> "$log"
+cd ../importers/gtfs && $ruby update_feeds.rb >> "$log"
