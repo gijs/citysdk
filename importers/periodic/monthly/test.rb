@@ -1,1 +1,0 @@
-puts "this is a monthly test"

@@ -1,10 +1,11 @@
 require 'date'
 require 'active_support/core_ext'
 require '/var/www/csdk_cms/current/utils/citysdk_api.rb'
+require '/var/www/csdk_cms/current/utils/sysmail.rb'
 
 pw = JSON.parse(File.read('/var/www/citysdk/shared/config/cdkpw.json')) if File.exists?('/var/www/citysdk/shared/config/cdkpw.json')
 $email = ARGV[0] || 'citysdk@waag.org'
-$password = ARGV[1] || pw ? pw[$email] : ''
+$password = ARGV[1] || (pw ? pw[$email] : '')
 
 
 $adamSR = Faraday.new :url => "http://open311.dataplatform.nl"
@@ -15,16 +16,16 @@ puts "Updating layer #{$layer}.."
 
 $api = CitySDK_API.new($email,$password)
 
-$api.set_host('api.dev')
-if $api.authenticate == false 
-  puts "Auth failure"
-  exit!
-end
 
 
 begin 
-  $api.set_layer($layer)
+  $api.set_host('api.dev')
+  if $api.authenticate == false 
+    puts "Auth failure"
+    exit!
+  end
 
+  $api.set_layer($layer)
 
   updated = 0
   new_nodes = 0
@@ -81,11 +82,13 @@ begin
     end
 
   else
+    CitySDK.sysmail('error @ adam311',"Error accessing Amsterdam 311 api.")
     puts "Error accessing Amsterdam 311 api."
     puts response.body
   end
 
 rescue Exception => e
+  CitySDK.sysmail('error @ adam311',e.message)
   puts "Exception:"
   puts e.message
 ensure

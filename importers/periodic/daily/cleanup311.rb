@@ -19,7 +19,7 @@ puts "Cleaning up layer #{$layer}.."
 $stderr.puts "Cleaning up layer #{$layer}.."
 
 
-url = "nodes?per_page=10&skip_webservice&layer=311.*&per_page=100"
+url = "nodes?skip_webservice&layer=311.*&per_page=100"
 page = 1
 count = 0
 now = Date.today
