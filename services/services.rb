@@ -153,9 +153,9 @@ class CitySDK_Services < Sinatra::Base
   NS_Storingen = "/ns-api-storingen?"
   NS_Planner = "/ns-api-treinplanner?"
   
-  NS_CDK_IDS = JSON.parse(File.read('ns/cdk_ids.json')) 
-  NS_STATION_CODES = JSON.parse(File.read('ns/station_codes.json')) 
-  NS_LINES = JSON.parse(File.read('ns/lines.json')) 
+  NS_CDK_IDS = JSON.parse(File.read('ns/cdk_ids.json').force_encoding('utf-8')) 
+  NS_STATION_CODES = JSON.parse(File.read('ns/station_codes.json').force_encoding('utf-8')) 
+  NS_LINES = JSON.parse(File.read('ns/lines.json').force_encoding('utf-8')) 
   
   # curl -u tom@waag.org:mGdLkTCCW8419MeZ2LtpEjvuLZzN08agECQY7eZihoCADK8F45cakg https:webservices.ns.nl/ns-api-avt?station=HT
   # curl --data '{"code":"HT", "land":"NL", "type":"knooppuntIntercitystation", "uiccode":"8400319"}' http://services.citysdk.waag.org/ns_avt
@@ -172,7 +172,7 @@ class CitySDK_Services < Sinatra::Base
       if response.status == 200
         h = Hash.from_xml(response.body)
         
-        data["vertrekkende_treinen"] = []
+        data["VertrekkendeTreinen"] = []
         h['ActueleVertrekTijden']['VertrekkendeTrein'].each { |vt|
           
           vertrekkende_trein = {
@@ -230,7 +230,7 @@ class CitySDK_Services < Sinatra::Base
             vertrekkende_trein[:route][:stations] = line.map { |code|  NS_CDK_IDS[code]}
           end
           
-          data["vertrekkende_treinen"] << vertrekkende_trein   
+          data["VertrekkendeTreinen"] << vertrekkende_trein   
         }        
         
         return { :status => 'success', 
