@@ -178,7 +178,7 @@ class CitySDK_Services < Sinatra::Base
           vertrekkende_trein = {
             :type => vt["TreinSoort"].downcase.gsub(/\W+/, '_'),
             :vervoerder => vt["Vervoerder"],
-            :ritnummer => vt["RitNummer"],
+            :ritnummer => vt["RitNummer"].to_i,
             :vertrektijd => vt["VertrekTijd"],
             :route => {},
             :eindbestemming => {
@@ -192,7 +192,15 @@ class CitySDK_Services < Sinatra::Base
             vertrekkende_trein[:opmerkingen] = vt["Opmerkingen"].values.map { |opmerking| opmerking.strip }
           end
           vertrekkende_trein[:route][:tekst] = vt["RouteTekst"] if vt["RouteTekst"]
-          
+                
+          # Vertrekvertraging
+          if vt["VertrekVertraging"]
+            vertrekkende_trein[:vertraging] = {
+              :minuten => vt["VertrekVertraging"] =~ /(\d+)/ ? $1.to_i : 0,
+              :tekst => vt["VertrekVertragingTekst"]
+            }           
+          end
+                                    
           # Eindbestemming, code & cdk_id:
           code = NS_STATION_CODES[vt['EindBestemming']]
           cdk_id = NS_CDK_IDS[code]
@@ -219,9 +227,7 @@ class CitySDK_Services < Sinatra::Base
           
           if line
             vertrekkende_trein[:route][:cdk_id] = "ns.#{type}.#{line[0]}.#{line[-1]}".downcase
-            vertrekkende_trein[:route][:stations] = {}
-            vertrekkende_trein[:route][:stations][:codes] = line
-            vertrekkende_trein[:route][:stations][:cdk_ids] = line.map { |code|  NS_CDK_IDS[code]}
+            vertrekkende_trein[:route][:stations] = line.map { |code|  NS_CDK_IDS[code]}
           end
           
           data["vertrekkende_treinen"] << vertrekkende_trein   
