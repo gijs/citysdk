@@ -101,8 +101,12 @@ module Sequel
     LAYER_OR_SEPARATOR  = "|"
     LAYER_AND_SEPARATOR = ","
     def node_layers(params)      
-      # don't select nodes without any data on the specified layers
-      if params.has_key? 'layer' or params.has_key? "nodedata_layer_ids"
+      
+      if params['layer'] == "*"
+        # Return ALL data (on ALL layers) for node
+        return self
+      elsif params.has_key? 'layer' or params.has_key? "nodedata_layer_ids"
+        # don't select nodes without any data on the specified layers
         # Look for separators, determine if query is OR or AND query
 
         layer_ids = []
