@@ -571,6 +571,7 @@ class CitySDK_API < Sinatra::Base
         if l.valid?
           l.owner_id = Owner.get_id(request.env['HTTP_X_AUTH'])
           l.save
+          Layer.getLayerHashes
         else
           CitySDK_API.do_abort(422,l.errors)
         end

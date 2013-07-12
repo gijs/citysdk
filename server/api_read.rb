@@ -75,7 +75,7 @@ class CitySDK_API < Sinatra::Base
 
   get '/layer/:name/?' do |name|
     layer_id = Layer.idFromText(name)
-    CitySDK_API.do_abort(422,"Unkown layer or invalid layer spec: #{name}") if layer_id.nil? or layer_id.is_a? Array
+    CitySDK_API.do_abort(422,"Unknown layer or invalid layer spec: #{name}") if layer_id.nil? or layer_id.is_a? Array
     layer = Layer[layer_id]
     { :status => 'success', 
       :url => request.url,  
