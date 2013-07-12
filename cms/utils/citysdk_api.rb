@@ -40,7 +40,9 @@ class CitySDK_API
   end
   
   def initialize(email='',pw='')
+
     set_host('api.citysdk.waag.org')
+
     @error = '';
     @layer = '';
     @email = email;
@@ -56,7 +58,12 @@ class CitySDK_API
     @connection.headers = {
       :user_agent => 'CitySDK_API RubyLib 1.0',
       :content_type => 'application/json'
-    } 
+    }
+    begin 
+      get('/')
+    rescue
+      raise CitySDK_Exception.new("Trouble connecting to api @ #{host}")
+    end
     @create = @@create_tpl
     @match = @@match_tpl
   end
@@ -66,7 +73,6 @@ class CitySDK_API
   end
   
   def set_layer_status(status)
-    puts "set_layer_status: /layer/#{@layer}/status; data: #{status}"
     put("/layer/#{@layer}/status",{:data => status})
   end
   
@@ -210,19 +216,4 @@ class CitySDK_API
     raise CitySDK_Exception.new("PUT needs authorization.")
   end
   
-  private
-  
-  
-  def set_default_host
-    local_ip = UDPSocket.open {|s| s.connect("123.123.123.123", 1); s.addr.last}
-    if(local_ip =~ /192\.168|10\.0\.135/)
-      set_host('api.dev')
-    elsif(local_ip == '195.169.149.22')
-      set_host('test-api.citysdk.waag.org',80)
-    else
-      set_host('api.citysdk.waag.org',80)
-    end
-  end
-  
-
 end
