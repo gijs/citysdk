@@ -42,13 +42,18 @@ class CitySDK_API < Sinatra::Base
           end
           h[key][:times] << self.getRealTime(mckey,g[:data]['stop_id'],t[:departure])
           h[key][:times].uniq!
-          a = database.fetch "SELECT cdk_id from nodes where id in (select unnest(get_members('#{key}')))"
+
+          line = Node.where(:cdk_id=>key).first
+          members = line.members.to_a
+          lstops = Node.where(:nodes__id => members).all
+          lstops = lstops.sort_by { |a| members.index(a.values[:id]) }
+
           seen_current = false
           h[key][:stops] = []
-          a.to_a.each do { |k| 
+          lstops.each do |k|
             seen_current = true if k[:cdk_id] == stop.cdk_id
             h[key][:stops] << k[:cdk_id] if (seen_current and (k[:cdk_id] != stop.cdk_id))
-          }
+          end
         end
 
         r = []
