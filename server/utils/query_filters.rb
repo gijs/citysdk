@@ -104,7 +104,12 @@ module Sequel
       
       if params['layer'] == "*"
         # Return ALL data (on ALL layers) for node
-        return self
+        if not params.has_key? "geom"
+          columns = (Node.dataset.columns - [:geom]).map { |column| "nodes__#{column}".to_sym }
+          return self.select{columns}
+        else
+          return self.select_append(Sequel.function(:collect_member_geometries, :members).as(:member_geometries))
+        end        
       elsif params.has_key? 'layer' or params.has_key? "nodedata_layer_ids"
         # don't select nodes without any data on the specified layers
         # Look for separators, determine if query is OR or AND query
