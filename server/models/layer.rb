@@ -10,6 +10,22 @@ class Layer < Sequel::Model
 	plugin :validation_helpers
   plugin :json_serializer
   
+  def validate
+    super
+    validates_presence [:name, :description, :organization, :category]
+    validates_unique :name
+    validates_format /^\w+(\.\w+)*$/, :name
+    validates_format /^\w+\.\w+$/, :category
+    
+    cname = self.category.split('.')[0]
+    if Category.where(:name => cname).first == nil
+      errors.add(:category,"Cannot be '#{cname}'")
+    end
+    
+  end
+  
+  
+  
   @@layerIdHash = {};
   @@layerTextHash = {};
 

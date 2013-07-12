@@ -14,6 +14,17 @@ class Owner < Sequel::Model
     self.save
   end
   
+  
+  def self.domains(s)
+    o = Owner.where(:session => s).first
+    o ? o.domains.split(',') : []
+  end
+  
+  def self.get_id(s)
+    o = Owner.where(:session => s).first
+    o ? o.id : -1
+  end
+
   def self.validSession(s)
     o = Owner.where(:session => s).first
     if(o and ((o.id == 0) or (o.timeout and o.timeout > Time.now)) ) 

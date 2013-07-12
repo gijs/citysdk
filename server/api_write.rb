@@ -550,7 +550,6 @@ class CitySDK_API < Sinatra::Base
     CitySDK_API.do_abort(422,"Invalid layer spec: #{layer}") if layer_id.nil? or layer_id.is_a? Array
     Owner.validateSessionForLayer(request.env['HTTP_X_AUTH'],layer_id)   
     json = CitySDK_API.parse_request_json(request)
-  puts "PUT : #{json}"  
     if json['data']
       l = Layer[layer_id]
       l.import_status = json['data']
@@ -562,6 +561,28 @@ class CitySDK_API < Sinatra::Base
     CitySDK_API.do_abort(422,"Data missing..")
   end
 
+
+
+  put '/layers' do
+    json = CitySDK_API.parse_request_json(request)
+    if json['data']
+      if Owner.domains(request.env['HTTP_X_AUTH']).include?(json['data']['name'].split('.')[0])
+        l = Layer.new(json['data'])
+        if l.valid?
+          l.owner_id = Owner.get_id(request.env['HTTP_X_AUTH'])
+          l.save
+        else
+          CitySDK_API.do_abort(422,l.errors)
+        end
+      else
+        CitySDK_API.do_abort(401,"Not authorized for domain #{json['data']['name'].split('.')[0]}.")
+      end
+      return 200, { 
+        :status => 'success' 
+      }.to_json
+    end
+    CitySDK_API.do_abort(422,"Data missing..")
+  end
 
 
 end
