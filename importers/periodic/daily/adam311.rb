@@ -19,7 +19,7 @@ $api = CitySDK_API.new($email,$password)
 
 
 begin 
-  $api.set_host('api.dev')
+  $api.set_host('api.citysdk.waag.org')
   if $api.authenticate == false 
     puts "Auth failure"
     exit!
@@ -36,9 +36,6 @@ begin
     puts "Number of requests: #{nodes.length}"
     
     nodes.each do |n|
-      
-      puts JSON.pretty_generate(n)
-      
       
       begin
           $api.get("/311.amsterdam.#{n['service_request_id']}")
@@ -92,6 +89,7 @@ rescue Exception => e
   puts "Exception:"
   puts e.message
 ensure
+  $api.set_layer_status("updated #{updated} nodes; added #{new_nodes} nodes.")
   $api.release()
 end
 
