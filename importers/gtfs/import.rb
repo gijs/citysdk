@@ -168,6 +168,7 @@ def stops
   $pg_csdk.exec "update igtfs.stops set parent_station = '' where parent_station is NULL" if cls.include?('parent_station')
   $pg_csdk.exec "update igtfs.stops set wheelchair_boarding = 0 where wheelchair_boarding is NULL" if cls.include?('wheelchair_boarding')
   $pg_csdk.exec "update igtfs.stops set platform_code = '' where platform_code is NULL" if cls.include?('platform_code')
+  $pg_csdk.exec "update igtfs.stops set location_type = 0 where location_type is NULL" if cls.include?('location_type')
   
   $pg_csdk.exec <<-SQL
     WITH upsert as
@@ -268,6 +269,9 @@ def routes
   end
   
   $pg_csdk.exec "update igtfs.routes set (route_id) = ('#{$prefix}' || route_id)"
+
+  $pg_csdk.exec "update igtfs.routes set route_short_name = route_long_name where route_short_name is NULL"
+
   $pg_csdk.exec <<-SQL
     WITH upsert as
     (update gtfs.routes g set 
@@ -331,6 +335,8 @@ def trips
     select += cls.include?('trip_bikes_allowed') ? ", trip_bikes_allowed" : ", 0"
     select += cls.include?('shape_id') ? ", '#{$prefix}' || shape_id" : ", ''"
     
+    $pg_csdk.exec "update igtfs.trips set direction_id = 0 where direction_id is NULL"
+
     $zrp.p "Merging trips.." 
     
     $pg_csdk.exec <<-SQL
@@ -408,6 +414,7 @@ def do_stops
     end
   end
   
+  
 
   stops = $pg_csdk.exec("select * from gtfs.stops where stop_id in (#{stops_a.join(',')}) order by stop_name");
   stopsCount = stops.cmdtuples
@@ -458,7 +465,10 @@ def do_routes
   end
 
   routes = $pg_csdk.exec("select * from gtfs.routes where route_id in (#{route_a.join(',')})");
+  
+  
   totalRoutes = routes.cmdtuples
+  
   $zrp.n
   routes.each do |route|
     $zrp.p "#{totalRoutes}; #{route['route_id']}; #{route['route_short_name']}; #{route['route_long_name']}" 
