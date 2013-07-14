@@ -27,6 +27,11 @@ class CitySDK_API < Sinatra::Base
         h = {}
         a = database.fetch("select * from stop_now('#{g[:data]['stop_id']}','#{tz}')").all
         a.to_a.each do |t|
+          
+          puts
+          puts t
+          puts
+          
           aname = t[:agency_id]
           key = "gtfs.line.#{aname.downcase.gsub(/\W/,'')}.#{t[:route_name].gsub(/\W/,'')}-#{t[:direction_id]}"
           mckey = "gtfs.line.#{t[:route_id]}-#{t[:direction_id]}"
@@ -44,15 +49,16 @@ class CitySDK_API < Sinatra::Base
           h[key][:times].uniq!
 
           line = Node.where(:cdk_id=>key).first
-          members = line.members.to_a
-          lstops = Node.where(:nodes__id => members).all
-          lstops = lstops.sort_by { |a| members.index(a.values[:id]) }
-
-          seen_current = false
-          h[key][:stops] = []
-          lstops.each do |k|
-            seen_current = true if k[:cdk_id] == stop.cdk_id
-            h[key][:stops] << k[:cdk_id] if (seen_current and (k[:cdk_id] != stop.cdk_id))
+          if line
+            members = line.members.to_a
+            lstops = Node.where(:nodes__id => members).all
+            lstops = lstops.sort_by { |a| members.index(a.values[:id]) }
+            seen_current = false
+            h[key][:stops] = []
+            lstops.each do |k|
+              seen_current = true if k[:cdk_id] == stop.cdk_id
+              h[key][:stops] << k[:cdk_id] if (seen_current and (k[:cdk_id] != stop.cdk_id))
+            end
           end
         end
 
