@@ -57,7 +57,7 @@ class Owner < Sequel::Model
       o.touch_session
       return true
     end
-    CitySDK_API.do_abort(401,"Not Authorized")
+    CitySDK_API.do_abort(401,"Not authorized for layer '#{Layer[l].name}'.")
   end
   
   def self.login(email,pw)
