@@ -576,7 +576,7 @@ class CitySDK_API < Sinatra::Base
           CitySDK_API.do_abort(422,l.errors)
         end
       else
-        CitySDK_API.do_abort(401,"Not authorized for domain #{json['data']['name'].split('.')[0]}.")
+        CitySDK_API.do_abort(401,"Not authorized for domain '#{json['data']['name'].split('.')[0]}'.")
       end
       return 200, { 
         :status => 'success' 
