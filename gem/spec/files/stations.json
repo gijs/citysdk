@@ -1,0 +1,42 @@
+[
+    {
+        "alias": "true", 
+        "code": "GVC", 
+        "country": "NL", 
+        "lat": "52.080276", 
+        "long": "4.325", 
+        "name": "'s-Gravenhage"
+    }, 
+    {
+        "alias": "true", 
+        "code": "ALM", 
+        "country": "NL", 
+        "lat": "52.37503", 
+        "long": "5.21764", 
+        "name": "Almere"
+    }, 
+    {
+        "alias": "true", 
+        "code": "APN", 
+        "country": "NL", 
+        "lat": "52.124443", 
+        "long": "4.657778", 
+        "name": "Alphen aan den Rijn"
+    }, 
+    {
+        "alias": "true", 
+        "code": "ASD", 
+        "country": "NL", 
+        "lat": "52.378887", 
+        "long": "4.9002776", 
+        "name": "Amsterdam"
+    }, 
+    {
+        "alias": "true", 
+        "code": "SHL", 
+        "country": "NL", 
+        "lat": "52.309444", 
+        "long": "4.7619443", 
+        "name": "Amsterdam Airport"
+    }
+]
