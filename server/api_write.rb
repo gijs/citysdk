@@ -23,7 +23,7 @@ class CitySDK_API < Sinatra::Base
     # Moet name + id in de node? of in de data?? Want nu soms dubbel met andere naam?
     # (als in data, dan moet in parameters een mapping naar name/id voor node)
     
-    CitySDK_API.do_abort(422, "No 'match/params' object supplied") if not json.has_key? "match" and not json["match"].has_key? "params"
+    CitySDK_API.do_abort(422, "No 'match/params' object supplied") if (not json.has_key? "match") or (not json["match"].has_key? "params")
     match_params = json["match"]["params"]
       
     # Abort if JSON data contains duplicate IDs
