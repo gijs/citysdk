@@ -5,35 +5,38 @@ if ARGV[0]
   
   begin 
 
-    require '/var/www/csdk_cms/current/utils/csv_importer.rb'
+    require 'citysdk'
 
-    params = JSON.parse(ARGV[0])
+    params = JSON.parse(ARGV[0], {:symbolize_names => true} )
+
+    params[:host] = 'test-api.citysdk.waag.org' #TOM FIX!!
   
-    puts "\tlayer: #{params['layername']}\n\tfile: #{params['originalfile']}"  
+    puts "\tlayer: #{params[:layername]}\n\tfile: #{params[:originalfile]}"  
 
-    # params['host'] = 'api.citysdk.waag.org'
-    params['host'] = 'api.dev'
-    if false
+    if true
       puts "params: #{JSON.pretty_generate(params)}"
     end
 
-    csv = CsvImporter.new params
+    csv = CitySDK::Importer.new(params)
+    
+    
+    puts "setLayerStatus"
     csv.setLayerStatus("importing...")
     
-    ret = csv.do_import do |h|
-      h.each do |k,v|
-        h.delete(k) if v.nil? or v =~ /^\s*$/
-      end
-      h
-    end
+    ret = csv.doImport
+    puts "ret: #{JSON.pretty_generate(ret)}"
     
-    s = "\tupdated: #{ret[0]}; added: #{ret[1]}"
-    csv.setLayerStatus(s[1..10000])
+    s = "updated: #{ret[:updated]}; added: #{ret[:created]}; not added: #{ret[:not_added]}"
+    puts s
+    
+    csv.setLayerStatus(s)
+    
 
   rescue Exception => e
     csv.setLayerStatus(e.message) if csv
     puts "Exception:"
     puts e.message
+    puts e.backtrace
   end
 
 end

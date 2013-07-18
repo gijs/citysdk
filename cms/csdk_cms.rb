@@ -1,9 +1,12 @@
 $LOAD_PATH.unshift File.dirname(__FILE__)
 
 require 'sinatra'
-require 'json'
+require 'sinatra/sequel'
 require 'sinatra/session'
+require 'json'
 require 'open-uri'
+require 'citysdk'
+require 'base64'
 
 configure do | app |
   if defined?(PhusionPassenger)
@@ -16,22 +19,30 @@ configure do | app |
           end
       end
   end
-    
+
   dbconf = JSON.parse(File.read('./database.json')) 
+  # set :database, "postgres://#{dbconf['user']}:#{dbconf['password']}@#{dbconf['host']}/#{dbconf['database']}"
   app.database = "postgres://#{dbconf['user']}:#{dbconf['password']}@#{dbconf['host']}/#{dbconf['database']}"
   app.database.extension :pg_array
   app.database.extension :pg_range
 
+
   #app.database.logger = Logger.new(STDOUT)
-  
+
   Dir[File.dirname(__FILE__) + '/utils/*.rb'].each {|file| require file }
   Dir[File.dirname(__FILE__) + '/models/*.rb'].each {|file| require file }
-end
 
+end
 
 enable :sessions
 
 class CSDK_CMS < Sinatra::Base
+  
+  API_SERVER = 'test-api.citysdk.waag.org'
+  set :views, Proc.new { File.join(root, "../views") }  
+
+  # puts settings.root
+
   use Rack::MethodOverride
   register Sinatra::Session
   set :session_fail, '/login'
@@ -43,6 +54,7 @@ class CSDK_CMS < Sinatra::Base
   end
 
   before do
+    puts request.url
     @oid = session? ? session[:oid] : nil
     # puts "request: #{request.env['PATH_INFO']}"
   end
@@ -97,15 +109,13 @@ class CSDK_CMS < Sinatra::Base
   get '/get_layer_stats/:layer' do |l|
     l = Layer.where(:name=>l).first
     @lstatus = l.import_status || '-'
-    @ndata = database.fetch("select count(*) from node_data where layer_id = %d" % l.id).all[0][:count]
-    @ndataua = database.fetch("select updated_at from node_data where layer_id = %d order by updated_at desc limit 1" % l.id).all
-    @ndataua = (@ndataua and @ndataua[0] ) ? @ndataua[0][:updated_at] : '-'
-    @nodes = database.fetch("select count(*) from nodes where layer_id = %d" % l.id).all[0][:count]
+    @ndata   = NodeDatum.where(:layer_id => l.id).count
+    @ndataua = NodeDatum.select(:updated_at).where(:layer_id => l.id).order(:updated_at).reverse.limit(1).all
+    @ndataua = ( @ndataua and @ndataua[0] ) ? @ndataua[0][:updated_at] : '-'
+    @nodes   = Node.where(:layer_id => l.id).count
     @delcommand = "delUrl('/layer/" + l.id.to_s + "',null,$('#stats'))"
     erb :stats, :layout => false
   end
-  
-  
   
   get '/logout' do
     session_end!
@@ -258,19 +268,14 @@ class CSDK_CMS < Sinatra::Base
         end
         url += "?" + par.join("&") if par.length > 0
         begin
-          api = CitySDK_API.new(session[:e],session[:p])
-          api.set_host('api.citysdk.waag.org')
-          api.set_host('api.dev')
-          if api.authenticate
+          api = CitySDK::API.new(API_SERVER)
+          api.authenticate(session[:e],session[:p]) do
             api.delete(url)
-            api.release()
-          else
-            throw Exception.new("not authorized.")
           end
         rescue Exception => e
           @errorContext = "delete layer #{@layer.name}:"
           @errorMessage = e.message
-          puts "deleting content of #{@layer.name}, error: #{e.message}"
+          puts "deleting content of #{@layer.name}, error: #{e.message}\n #{e.backtrace}"
           return "deleting content of #{@layer.name}, error: #{e.message}" + @errorMessage
         end
       end
@@ -343,7 +348,7 @@ class CSDK_CMS < Sinatra::Base
         erb :new_layer
       else
         @layer.save
-        api = CitySDK_API.new()
+        api = CitySDK::API.new(API_SERVER)
         api.get('/layers/reload__')
         getLayers
         erb :layers
@@ -391,7 +396,7 @@ class CSDK_CMS < Sinatra::Base
           erb :edit_layer
         else
           @layer.save
-          api = CitySDK_API.new()
+          api = CitySDK::API.new(API_SERVER)
           api.get('/layers/reload__')
           redirect '/'
         end
@@ -421,21 +426,20 @@ class CSDK_CMS < Sinatra::Base
   end
   
   post '/layer/:layer_id/loadcsv' do |l|
+    
     if Owner.validSession(session[:auth_key])
       @layer = Layer[l]
       if(@layer && (@oid == @layer.owner_id) or @oid==0)
         p = params['0'] || params['csv']
         @original_file = p[:filename]
-        if !['.csv','.tsv','.CSV','.TSV'].include?(File.extname(@original_file))
-          @errorContext = "File upload"
-          @errorMessage = "Only CSV for now.. &nbsp;&nbsp;<a href='/layer/#{@layer.id}/data'>go back</a>"
-          # erb :errmsg, :layout => false
-          return @errorMessage
-        end
-        
+
         if p && p[:tempfile] 
           @layerSelect = Layer.selectTag()
-          return parseCSV(p[:tempfile], @layer.name)
+          begin
+            return parseCSV(p[:tempfile], @layer.name)
+          rescue => e
+            return [422,{},e.message]
+          end
         end
       else
         CSDK_CMS.do_abort(401,"not authorized")
@@ -450,13 +454,36 @@ class CSDK_CMS < Sinatra::Base
   
   
   post '/csvheader' do
+    
     if params['add']
       params['email'] = session[:e]
       params['passw'] = session[:p]
-      params['geometry_type'] = 'Point' if params['geometry_type'].nil? or params['geometry_type'] =~ /^\s*$/
-      system "ruby utils/import_file.rb '#{params.to_json}' >> log/import.log &"
-      redirect "/get_layer_stats/#{params['layername']}"
-      # return [200,{},"Import started, refresh page to see progress."]
+      
+      
+      parameters = JSON.parse(Base64.decode64(params['parameters']))
+
+      # puts "csvheader parameters: #{parameters}"
+      #     
+      # puts ""
+      #     
+      params.delete('parameters')
+
+      # puts "csvheader params: #{params}"
+      #     
+      # puts ""
+      #     
+      parameters = parameters.merge(params)
+      # 
+      # puts "csvheader merged: #{parameters}"
+      # 
+
+      parameters.each do |k,v|
+        parameters.delete(k) if v =~ /^<no\s+/
+      end
+
+      system "ruby utils/import_file.rb '#{parameters.to_json}' >> log/import.log &"
+      redirect "/get_layer_stats/#{parameters['layername']}"
+
     else
       puts JSON.pretty_generate(params)
       a = matchCSV(params)

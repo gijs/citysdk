@@ -123,6 +123,9 @@
 	      processData: false,
 	      success: function(data){
 	        $(u).html(data)
+	      },
+	      error: function(jqXHR,textStatus,errorThrown ){
+	        $(u).html(errorThrown + '<br/>' + jqXHR.responseText)
 	      }
 	  });
 	}

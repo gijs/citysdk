@@ -1,15 +1,18 @@
 <div id='csvconf'>
   <form name="input" id="csvconf_f" action="/csvheader" method="post">
-    <input type="hidden" name="filepath" value="<%= @params['filepath'] %>" />
+    <!-- <input type="hidden" name="file_path" value="<%= @params[:file_path] %>" />
     <input type="hidden" name="layer" value="<%= @layer.id %>" />
-    <input type="hidden" name="srid" value="<%= @params['srid'] %>" />
-    <input type="hidden" name="geometry" value="<%= @params['geometry'] %>" />
-    <input type="hidden" name="geometry_type" value="<%= @params['geometry_type']  %>" />
-    <input type="hidden" name="layername" value="<%= @params['layername'] %>" />
-    <input type="hidden" name="colsep" value="<%= @params['colsep'] %>" />
-    <input type="hidden" name="originalfile" value="<%= @original_file %>" />
+    <input type="hidden" name="srid" value="<%= @params[:srid] %>" />
+    <input type="hidden" name="geometry" value="<%= @params[:geometry] %>" />
+    <input type="hidden" name="geometry_type" value="<%= @params[:geometry_type]  %>" />
+    <input type="hidden" name="layername" value="<%= @params[:layername] %>" />
+    <input type="hidden" name="colsep" value="<%= @params[:colsep] %>" />
+    <input type="hidden" name="originalfile" value="<%= @params[:originalfile] %>" />
+    <input type="hidden" name="housenumber" value="<%= @params[:housenumber] %>" />
+    <input type="hidden" name="postcode" value="<%= @params[:postcode] %>" /> -->
+    <input type="hidden" name="parameters" value="<%= @parameters %>" />
 
-    <div >file: <span style="font-size:120%"><em><%= @original_file %></em></span></div>
+    <div >file: <span style="font-size:120%"><em><%= @originalfile %></em></span></div>
       
     <div id='csvconfout'>
       
@@ -21,12 +24,12 @@
             <table>
               <tr> <td class='tdlabel'>name:</td> <td><%= @name %></td> </tr>
               <tr> <td class='tdlabel'>unique key:</td> <td><%= @unique_id %></td> </tr>
+              <tr> <td class='tdlabel'>postcode:</td> <td><%= @postcode %></td> </tr>
+              <tr> <td class='tdlabel'>housenumber:</td> <td><%= @house_nr %></td> </tr>
               <% if @sel_x %>
               <tr> <td class='tdlabel'>lat or y field:</td> <td><%= @sel_y %></td> </tr>
               <tr> <td class='tdlabel'>lon or x field:</td> <td><%= @sel_x %></td> </tr>
               <tr> <td class='tdlabel'>srid: (nl28992)</td> <td><input type="text" name="srid", value="<%= @srid %>"/></td> </tr>
-              <% else %>
-              <tr> <td class='tdlabel'>geometry column:</td> <td><%= @geometry_column %></td> </tr>
               <% end %>
             </table>
           </td>
@@ -64,9 +67,6 @@
     function submit_add(responseText, statusText, xhr, $form) {
       $('#stats').html(responseText)
       $('#fupl').load("/fupl/<%= @layer.id %>")
-      
-      console.info($("#statusstring").text())
-      
     }
 
     function submit_show(responseText, statusText, xhr, $form) {
@@ -78,17 +78,18 @@
         if( $( $('#csvconf_f').data().clicked).attr('name') == 'add' ) {
           $(this).ajaxSubmit({
             url: '/csvheader?add=true',
-            success: submit_add
+            success: submit_add,
+    	      error: function(jqXHR,textStatus,errorThrown ){
+    	        $('#fupl').html(errorThrown + '<br/>' + jqXHR.responseText)
+    	      }
           }); 
         } else {
           $(this).ajaxSubmit({
             success: submit_show 
           }); 
         }
-        
         return false; 
     }); 
-
   }); 
 
 </script>

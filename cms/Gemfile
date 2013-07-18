@@ -1,8 +1,10 @@
 source "https://rubygems.org"
 
 gem "sinatra", :require => "sinatra/base"
-gem "sequel"
 gem "sinatra-sequel"
+gem 'citysdk'
+gem 'pony'
+gem "sequel"
 gem "rgeo"
 gem "rgeo-geojson"
 gem "i18n"
@@ -12,5 +14,3 @@ gem "logger"
 gem "faraday"
 gem "passenger"
 gem "sinatra-session"
-gem 'charlock_holmes'
-gem 'georuby'
