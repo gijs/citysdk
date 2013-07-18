@@ -4,10 +4,10 @@
 require '/var/www/csdk_cms/current/utils/csv_importer.rb'
 
 $params = {
-  'filepath' => 'hotels.csv' ,
-  'layername' => 'amsterdam.hotels',
-  'email' => ARGV[0],
-  'passw' => ARGV[1]
+  :file_path => 'hotels.csv' ,
+  :layername => 'amsterdam.hotels',
+  :email => ARGV[0],
+  :passw => ARGV[1]
 }
 
 # file looks like this:
