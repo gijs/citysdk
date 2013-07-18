@@ -9,7 +9,7 @@ module CitySDK
   class Exception < ::Exception
     def initialize(message,parms=nil,srcfile=nil,srcline=nil)
       if parms and srcfile and srcline
-        file = File.basename( parms[:originalfile] ? parms[:originalfile] : ( parms[:filepath] || '-' ) )
+        file = File.basename( parms[:originalfile] ? parms[:originalfile] : ( parms[:file_path] || '-' ) )
         m = "#{Time.now.strftime("%b %M %Y, %H:%M")}; CitySDK, processing file: #{file}\n Exception in #{File.basename(srcfile)}, #{srcline}\n #{message}"
       else
         m = "#{Time.now.strftime("%b %M %Y, %H:%M")}; CitySDK Exception: #{message}"

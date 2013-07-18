@@ -1,7 +1,7 @@
 module CitySDK
   
   class Importer
-    attr_reader :filereader, :api
+    attr_reader :filereader, :api, :params
     
     def initialize(pars)
       @params = pars
@@ -24,11 +24,24 @@ module CitySDK
       # CREATE_TYPE_UPDATE = 'update' 
       # CREATE_TYPE_ROUTES = 'routes'
       # CREATE_TYPE_CREATE = 'create'
-      
 
       @filereader = FileReader.new(@params)
     end
     
+    
+    def write(path)
+      return @filereader.write(path)
+    end
+    
+    def setLayerStatus(m)
+      begin
+        sign_in
+        @api.set_layer_status(m.gsub("\n","<br/>"))
+        sign_out
+      rescue Exception => e
+        puts "File Importer setLayerStatus Exception #{e.message}"
+      end
+    end
     
     def setParameter(k,v)
       begin
@@ -148,6 +161,7 @@ module CitySDK
             }
             node[:name] = rec[:properties][@params[:name]] if @params[:name]
             node[:data] = rec[:properties]
+            
             @api.match_create_node(node) if not dryrun
             count -= 1
           end
@@ -155,14 +169,22 @@ module CitySDK
       
         elsif @params[:unique_id] and (@params[:hasgeometry] != 'unknown')
           
+          puts ""
+          puts "doImport..."
+          puts ""
+
           begin
             nodes.each do |rec|
+              
               node = {
                 :geom => rec[:geometry],
                 :id   => rec[:properties][@params[:unique_id]]
               }
               node[:name] = rec[:properties][@params[:name]] if @params[:name]
               node[:data] = rec[:properties]
+
+              puts JSON.pretty_generate(node)
+            
               @api.create_node(node) if not dryrun
               count -= 1
             end
@@ -189,10 +211,12 @@ module CitySDK
           sign_in
           @filereader.content.each do |rec|
             row = rec[:properties]
-            pc = row[@params[:postcode]].downcase.gsub(/[^a-z0-9]/,'')
+            
+            pc = row[@params[:postcode]]
             hn = row[@params[:housenumber]]
             qres = {}
             if not (pc.empty? or hn.empty?)
+              pc = pc.downcase.gsub(/[^a-z0-9]/,'')
               hn.scan(/\d+/).reverse.each { |n|
                 qres = @api.get("/nodes?#{@params[:addresslayer]}::#{@params[:addressfield]}=#{pc + n}")
                 break if qres[:status]=='success' and qres[:record_count].to_i >= 1

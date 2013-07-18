@@ -10,28 +10,33 @@ module CitySDK
 
   class FileReader
     
-    RE_NAME = /(title|titel|naam|name)/i
-    RE_A_NAME = /^(naam|name|title|titel)$/i
-    RE_GEO = /^geom(etry)?|location|locatie$/i
     RE_Y = /lat|(y.*coord)|(y.*loc(atie|ation)?)/i
     RE_X = /lon|lng|(x.*coord)|(x.*loc(atie|ation)?)/i
+    RE_GEO = /^geom(etry)?|location|locatie$/i
+    RE_NAME = /(title|titel|naam|name)/i
+    RE_A_NAME = /^(naam|name|title|titel)$/i
     
     attr_reader :file, :content,:params
 
     def initialize(pars)
       @params = pars
       file_path = File.expand_path(@params[:file_path])
-      case File.extname(file_path)
-      when /\.zip/i
-        readZip(file_path)
-      when /\.(geo)?json/i
-        readJSON(file_path)
-      when /\.shape/i
-        readShape(file_path)
-      when /\.csv|tsv/i
-        readCsv(file_path)
-      when /\.csdk/i
+      if File.extname(file_path) == '.csdk'
         readCsdk(file_path)
+      else
+        ext = @params[:originalfile] ? File.extname(@params[:originalfile]) : File.extname(file_path)
+        case ext
+          when /\.zip/i
+            readZip(file_path)
+          when /\.(geo)?json/i
+            readJSON(file_path)
+          when /\.shape/i
+            readShape(file_path)
+          when /\.csv|tsv/i
+            readCsv(file_path)
+          when /\.csdk/i
+            readCsdk(file_path)
+        end
       end
 
       @params[:rowcount] = @content.length
@@ -361,14 +366,16 @@ module CitySDK
     end
 
     def write(path=nil)
+      path = @file_path if path.nil?
+      path = path + '.csdk'
       begin
-        path = @file_path if path.nil?
-        File.open(path+'.csdk',"w") do |fd|
+        File.open(path,"w") do |fd|
           fd.write( Marshal.dump({:config=>@params, :content=>@content}) )
-          # fd.write(JSON.pretty_generate({:config=>@params, :content=>@content}))
         end
       rescue
+        return nil
       end
+      return path
     end
 
   end
