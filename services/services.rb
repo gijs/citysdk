@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 $LOAD_PATH.unshift File.dirname(__FILE__)
 require 'active_support/core_ext'
 require 'faraday'
@@ -68,16 +70,42 @@ class CitySDK_Services < Sinatra::Base
     }.to_json 
   end
   
-  post '/divv_tf' do
-    puts "maar hier wel"
-    # dummy; added for consistent implemtation of rt services.
-    # values are always retrieved from memcache, so this should never be called.
+  
+  
+  
+  # curl --data '{"sensorid":"216"}' http://services.citysdk.waag.org/sck
+  SCK_KEY = JSON.parse(File.read('/var/www/citysdk/shared/config/sck.json').force_encoding('utf-8'))['key'] 
+  SCK_URL = "http://api.smartcitizen.me"
+  SCK_PATH = "/v0.0.1/#{SCK_KEY}/"
+  post '/sck' do
     @json = self.parse_request_json
-    return { :status => 'success', 
+    
+    @connection = Faraday.new(:url => SCK_URL) do |c|
+      c.use Faraday::Request::UrlEncoded  # encode request params as "www-form-urlencoded"
+      # c.use Faraday::Response::Logger     # log request & response to STDOUT
+      c.use Faraday::Adapter::NetHttp     # perform requests with Net::HTTP
+    end
+    
+    resp = httpget(@connection, SCK_PATH + "#{@json['sensorid']}/posts.json")
+    if resp.status == 200
+      h = JSON.parse(resp.body)
+      @json['update'] = h['device']['posts'][0]['insert_datetime']
+      @json['battery'] = h['device']['posts'][0]['bat'].to_s + "%"
+      @json['light'] = h['device']['posts'][0]['light'].to_s + "%"
+      @json['temperature'] = h['device']['posts'][0]['temp'].to_s + "℃"
+      @json['humidity'] = h['device']['posts'][0]['hum'].to_s + "%"
+      @json['noise'] = h['device']['posts'][0]['noise'].to_s + "dB"
+      @json['co'] = h['device']['posts'][0]['co'].to_s + "㏀"
+      @json['no2'] = h['device']['posts'][0]['no2'].to_s + "㏀"
+    end
+    
+    return { 
+      :status => 'success', 
       :url => request.url, 
       :data => @json
     }.to_json 
   end
+  
     
   Amsterdam311_URL = "http://open311.dataplatform.nl"
   Amsterdam311_PATH = "/opentunnel/open311/v21/requests.xml?jurisdiction_id=0363&api_key=" + JSON.parse(File.read('/var/www/citysdk/shared/config/adam311.json'))['key'] + "&service_request_id="
