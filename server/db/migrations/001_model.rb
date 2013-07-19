@@ -87,6 +87,7 @@ Sequel.migration do
       String :organization
       
       String :import_url
+      String :import_period
       String :import_status
       String :import_config
       

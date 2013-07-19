@@ -28,10 +28,6 @@ class CitySDK_API < Sinatra::Base
         a = database.fetch("select * from stop_now('#{g[:data]['stop_id']}','#{tz}')").all
         a.to_a.each do |t|
           
-          puts
-          puts t
-          puts
-          
           aname = t[:agency_id]
           key = "gtfs.line.#{aname.downcase.gsub(/\W/,'')}.#{t[:route_name].gsub(/\W/,'')}-#{t[:direction_id]}"
           mckey = "gtfs.line.#{t[:route_id]}-#{t[:direction_id]}"

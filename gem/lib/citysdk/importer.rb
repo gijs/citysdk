@@ -147,6 +147,10 @@ module CitySDK
         sign_in
         if @params[:unique_id] and @params[:match] and (@params[:hasgeometry] != 'unknown')
 
+          # puts ""
+          # puts "doImport... 1"
+          # puts ""
+
           match_tpl[:match][:params][:radius] = @params[:radius] || 200
           match_tpl[:match][:params][:geometry_type] = @params[:geometry_type] || :point
           @params[:match].each do |a|
@@ -157,10 +161,12 @@ module CitySDK
           nodes.each do |rec|
             node = {
               :geom => rec[:geometry],
-              :id   => rec[:properties][@params[:unique_id]]
+              :id   => rec[:id]
             }
             node[:name] = rec[:properties][@params[:name]] if @params[:name]
             node[:data] = rec[:properties]
+
+            # puts JSON.pretty_generate(node)
             
             @api.match_create_node(node) if not dryrun
             count -= 1
@@ -169,21 +175,21 @@ module CitySDK
       
         elsif @params[:unique_id] and (@params[:hasgeometry] != 'unknown')
           
-          puts ""
-          puts "doImport..."
-          puts ""
+          # puts ""
+          # puts "doImport... 2"
+          # puts ""
 
           begin
             nodes.each do |rec|
               
               node = {
                 :geom => rec[:geometry],
-                :id   => rec[:properties][@params[:unique_id]]
+                :id   => rec[:id]
               }
               node[:name] = rec[:properties][@params[:name]] if @params[:name]
               node[:data] = rec[:properties]
 
-              puts JSON.pretty_generate(node)
+              # puts JSON.pretty_generate(node)
             
               @api.create_node(node) if not dryrun
               count -= 1

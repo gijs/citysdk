@@ -1,22 +1,20 @@
 if ARGV[0]
 
-  puts "\nFile import at #{Time.now.strftime('%b %d %Y - %H:%M:%S')}"
   csv = nil
   
   begin 
 
     require 'citysdk'
 
+    puts "\nFile import at #{Time.now.strftime('%b %d %Y - %H:%M:%S')}"
+
     params = JSON.parse(ARGV[0], {:symbolize_names => true} )
 
-    params[:host] = 'test-api.citysdk.waag.org' #TOM FIX!!
-  
     puts "\tlayer: #{params[:layername]}\n\tfile: #{params[:originalfile]}"  
 
-    if true
-      puts "params: #{JSON.pretty_generate(params)}"
-    end
+    # puts "params: #{JSON.pretty_generate(params)}"
 
+    
     csv = CitySDK::Importer.new(params)
     
     
@@ -24,8 +22,7 @@ if ARGV[0]
     csv.setLayerStatus("importing...")
     
     ret = csv.doImport
-    puts "ret: #{JSON.pretty_generate(ret)}"
-    
+
     s = "updated: #{ret[:updated]}; added: #{ret[:created]}; not added: #{ret[:not_added]}"
     puts s
     
@@ -34,8 +31,7 @@ if ARGV[0]
 
   rescue Exception => e
     csv.setLayerStatus(e.message) if csv
-    puts "Exception:"
-    puts e.message
+    puts "Exception: #{e.message}"
     puts e.backtrace
   end
 

@@ -19,8 +19,9 @@ class CitySDK_API < Sinatra::Base
       if( params['delete_layer'] == 'true' )
         Layer.where(:id => layer_id).delete
         Layer.getLayerHashes
+      else
+        Layer.where(:id => layer_id).update(:import_status => 'all cleared')
       end
-      # end
 
       return 200, { 
         :status => 'success' 
