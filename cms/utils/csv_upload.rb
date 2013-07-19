@@ -14,7 +14,7 @@ class CSDK_CMS < Sinatra::Base
         :email          => session[:e],
         :passw          => session[:p],
         :originalfile   => @original_file,
-        :host => API_SERVER
+        :host => @apiServer
       }
       
       csv = CitySDK::Importer.new(pars)

@@ -38,7 +38,6 @@ enable :sessions
 
 class CSDK_CMS < Sinatra::Base
   
-  API_SERVER = 'test-api.citysdk.waag.org'
   set :views, Proc.new { File.join(root, "../views") }  
 
   # puts settings.root
@@ -54,7 +53,16 @@ class CSDK_CMS < Sinatra::Base
   end
 
   before do
-    puts request.url
+
+    case request.url
+    when /cms\-test/
+      @apiServer = 'test-api.citysdk.waag.org'
+    when /cms\.citysdk/
+      @apiServer = 'api.citysdk.waag.org'
+    else
+      @apiServer = 'api.dev'
+    end
+
     @oid = session? ? session[:oid] : nil
     # puts "request: #{request.env['PATH_INFO']}"
   end
@@ -268,7 +276,7 @@ class CSDK_CMS < Sinatra::Base
         end
         url += "?" + par.join("&") if par.length > 0
         begin
-          api = CitySDK::API.new(API_SERVER)
+          api = CitySDK::API.new(@apiServer)
           api.authenticate(session[:e],session[:p]) do
             api.delete(url)
           end
@@ -316,9 +324,7 @@ class CSDK_CMS < Sinatra::Base
     if Owner.validSession(session[:auth_key])
       @layer = Layer.new
       @layer.owner_id = @oid
-      
-      puts params
-      
+
       if( params['prefix'] && params['prefix'] != '' )
         @layer.name = params['prefix'] + '.' + params['name']
       elsif (params['prefixc']  && params['prefixc'] != '' )
@@ -348,7 +354,7 @@ class CSDK_CMS < Sinatra::Base
         erb :new_layer
       else
         @layer.save
-        api = CitySDK::API.new(API_SERVER)
+        api = CitySDK::API.new(@apiServer)
         api.get('/layers/reload__')
         getLayers
         erb :layers
@@ -396,7 +402,7 @@ class CSDK_CMS < Sinatra::Base
           erb :edit_layer
         else
           @layer.save
-          api = CitySDK::API.new(API_SERVER)
+          api = CitySDK::API.new(@apiServer)
           api.get('/layers/reload__')
           redirect '/'
         end
@@ -480,6 +486,8 @@ class CSDK_CMS < Sinatra::Base
       parameters.each do |k,v|
         parameters.delete(k) if v =~ /^<no\s+/
       end
+      
+      parameters[:host] = @apiServer
 
       system "ruby utils/import_file.rb '#{parameters.to_json}' >> log/import.log &"
       redirect "/get_layer_stats/#{parameters['layername']}"
