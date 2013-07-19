@@ -1,7 +1,7 @@
 
--- even very distant regions share features like coatslines, roads etc
--- duplicate id's are not allowed
--- pragmatical solution is to delete them
+-- even very distant regions share features like coastlines, roads etc
+-- duplicate id's are not allowed and will trip up the import
+-- pragmatical solution is to delete the duplicates
 delete from public.planet_osm_rels where id in (select id from osm.planet_osm_rels);
 delete from public.planet_osm_ways where id in (select id from osm.planet_osm_ways);
 delete from public.planet_osm_nodes where id in (select id from osm.planet_osm_nodes);
