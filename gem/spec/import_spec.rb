@@ -58,7 +58,7 @@ module CitySDK
       res = @importer.doImport[:not_added].should == 0
       res = @importer.api.get("/nodes?count&layer=test.rspec")
       res[:record_count].should == 5
-      puts JSON.pretty_generate(res)
+      # puts JSON.pretty_generate(res)
     end
 
 

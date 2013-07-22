@@ -218,8 +218,8 @@ module CitySDK
           @filereader.content.each do |rec|
             row = rec[:properties]
             
-            pc = row[@params[:postcode]]
-            hn = row[@params[:housenumber]]
+            pc = row[@params[:postcode]].to_s
+            hn = row[@params[:housenumber]].to_s
             qres = {}
             if not (pc.empty? or hn.empty?)
               pc = pc.downcase.gsub(/[^a-z0-9]/,'')

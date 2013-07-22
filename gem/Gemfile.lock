@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    citysdk (0.1.0)
+    citysdk (0.1.1.4)
       charlock_holmes (>= 0.6.9.4)
       dbf
       faraday (>= 0.8.5)
