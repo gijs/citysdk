@@ -319,51 +319,103 @@ class CSDK_CMS < Sinatra::Base
       CSDK_CMS.do_abort(401,"not authorized")
     end
   end
+  # 
+  # post '/layer/create' do
+  #   if Owner.validSession(session[:auth_key])
+  #     @layer = Layer.new
+  #     @layer.owner_id = @oid
+  # 
+  #     if( params['prefix'] && params['prefix'] != '' )
+  #       @layer.name = params['prefix'] + '.' + params['name']
+  #     elsif (params['prefixc']  && params['prefixc'] != '' )
+  #       @layer.name = params['prefixc'] + '.' + params['name']
+  #     else
+  #       @layer.name = params['name']
+  #     end
+  # 
+  #     params['validity_from'] = Time.now.strftime('%Y-%m-%d') if params['validity_from'].nil?
+  #     params['validity_to'] = Time.now.strftime('%Y-%m-%d') if params['validity_to'].nil?
+  # 
+  #     @layer.description = params['description']
+  #     @layer.update_rate = params['update_rate'].to_i
+  #     @layer.validity = "[#{params['validity_from']}, #{params['validity_to']}]"
+  #     @layer.realtime = params['realtime'] ? true : false;
+  #     @layer.data_sources = []
+  #     @layer.data_sources << params["data_sources_x"] if params["data_sources_x"] && params["data_sources_x"] != ''
+  #     @layer.organization = params['organization']
+  #     @layer.category = params['catprefix'] + '.' + params['category']
+  #     @layer.webservice = params['wsurl']
+  #     @layer.update_rate = params['update_rate']
+  # 
+  #     if !@layer.valid? 
+  #       @prefix = params['prefixc']
+  #       @layer.name = params['name']
+  #       @categories = @layer.cat_select
+  #       erb :new_layer
+  #     else
+  #       api = CitySDK::API.new(@apiServer)
+  #       api.authenticate(session[:e],session[:p]) do
+  #         begin
+  #           d = { :data => @layer.to_hash.to_json }
+  #           puts JSON.pretty_generate(d)
+  #           api.put('/layers',d)
+  #         rescue => e
+  #           puts e.message
+  #         end
+  #       end
+  #       getLayers
+  #       erb :layers
+  #     end
+  #   end
+  # end
+  
   
   post '/layer/create' do
     if Owner.validSession(session[:auth_key])
-      @layer = Layer.new
-      @layer.owner_id = @oid
+      @layer = {}
+      @layer[:owner_id] = @oid
 
       if( params['prefix'] && params['prefix'] != '' )
-        @layer.name = params['prefix'] + '.' + params['name']
+        @layer[:name] = params['prefix'] + '.' + params['name']
       elsif (params['prefixc']  && params['prefixc'] != '' )
-        @layer.name = params['prefixc'] + '.' + params['name']
+        @layer[:name] = params['prefixc'] + '.' + params['name']
       else
-        @layer.name = params['name']
+        @layer[:name] = params['name']
       end
 
       params['validity_from'] = Time.now.strftime('%Y-%m-%d') if params['validity_from'].nil?
       params['validity_to'] = Time.now.strftime('%Y-%m-%d') if params['validity_to'].nil?
 
-      @layer.description = params['description']
-      @layer.update_rate = params['update_rate'].to_i
-      @layer.validity = "[#{params['validity_from']}, #{params['validity_to']}]"
-      @layer.realtime = params['realtime'] ? true : false;
-      @layer.data_sources = []
-      @layer.data_sources << params["data_sources_x"] if params["data_sources_x"] && params["data_sources_x"] != ''
-      @layer.organization = params['organization']
-      @layer.category = params['catprefix'] + '.' + params['category']
-      @layer.webservice = params['wsurl']
-      @layer.update_rate = params['update_rate']
+      @layer[:description] = params['description']
+      @layer[:update_rate] = params['update_rate'].to_i
+      @layer[:validity] = "[#{params['validity_from']}, #{params['validity_to']}]"
+      @layer[:realtime] = params['realtime'] ? true : false;
+      @layer[:data_sources] = []
+      @layer[:data_sources] << params["data_sources_x"] if params["data_sources_x"] && params["data_sources_x"] != ''
+      @layer[:organization] = params['organization']
+      @layer[:category] = params['catprefix'] + '.' + params['category']
+      @layer[:webservice] = params['wsurl']
+      @layer[:update_rate] = params['update_rate']
 
-      if !@layer.valid? 
-        @prefix = params['prefixc']
-        @layer.name = params['name']
-        @categories = @layer.cat_select
-        erb :new_layer
-      else
-        @layer.save
-        api = CitySDK::API.new(@apiServer)
-        api.get('/layers/reload__')
-        getLayers
-        erb :layers
+      api = CitySDK::API.new(@apiServer)
+      api.authenticate(session[:e],session[:p]) do
+        begin
+          d = { :data => @layer }
+          puts JSON.pretty_generate(d)
+          api.put('/layers',d)
+        rescue => e
+          @prefix = params['prefixc']
+          @layer.name = params['name']
+          @categories = @layer.cat_select
+          erb :new_layer
+          return
+        end
       end
+      getLayers
+      erb :layers
     end
-    
+
   end
-  
-  
   
   post '/layer/edit/:layer_id' do |l|
     if Owner.validSession(session[:auth_key])
